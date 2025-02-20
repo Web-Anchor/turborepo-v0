@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Stock MAnager',
-  description: 'Stock Manager for your business',
+  title: 'SMART 📦',
+  description: 'Stock Manager and Reporting Tool',
 };
 
 export default function RootLayout({
