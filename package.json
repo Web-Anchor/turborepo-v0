@@ -4,6 +4,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "docs": "turbo run dev --filter=docs",
+    "web": "turbo run dev --filter=web",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "commit": "./commit.sh",
