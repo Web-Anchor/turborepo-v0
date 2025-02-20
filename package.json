@@ -6,7 +6,7 @@
     "dev": "turbo run dev",
     "docs": "turbo run dev --filter=docs",
     "web": "turbo run dev --filter=web",
-    "stock": "turbo run dev --filter=stock-manager",
+    "stock": "turbo run dev --filter=stock-manager -- --port=8080",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "commit": "./commit.sh",
