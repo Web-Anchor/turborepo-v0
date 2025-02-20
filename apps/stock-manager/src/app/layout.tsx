@@ -26,7 +26,7 @@ export default function RootLayout({
     process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
 
   return (
-    <html lang="en">
+    <html lang="en" className="h-full bg-gray-400">
       <head>
         {isDevEnvironment && (
           <script
@@ -36,7 +36,7 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       >
         {children}
       </body>
