@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "@repo/ui": "*",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@repo/ui": "*",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "next": "15.1.7",

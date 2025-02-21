@@ -1,6 +1,7 @@
 import { UserTable } from '@repo/ui/user-table';
 import { Filler } from '@repo/ui/filler';
 import { PageTitle, Paragraph } from '@repo/ui/document';
+import { BentoGridWrapper } from '@repo/ui/bento-grid';
 
 export default async function Home() {
   return (
@@ -13,6 +14,7 @@ export default async function Home() {
             title: 'Software Engineer',
             department: 'Engineering',
             email: 'john.doe@gmail.com',
+            role: 'Admin',
             image: 'https://picsum.photos/100',
           },
           {
@@ -20,11 +22,23 @@ export default async function Home() {
             title: 'Software Engineer',
             department: 'Engineering',
             email: 'ben.fFranklin@gmail.com',
+            role: 'User',
             image: 'https://picsum.photos/160',
           },
         ]}
       />
-      <Filler />
+      <BentoGridWrapper className="lg:grid-cols-6 lg:grid-rows-2">
+        <Filler className="lg:col-span-2" />
+        <Filler className="lg:col-span-2" />
+        <Filler className="lg:col-span-2" />
+        <Filler className="lg:col-span-3" />
+        <Filler className="lg:col-span-3" />
+        <Filler className="lg:col-span-4" />
+        <Filler className="lg:col-span-2" />
+
+        <Filler className="lg:col-span-3" />
+        <Filler className="lg:col-span-3" />
+      </BentoGridWrapper>
       <Paragraph text="Sunt magna elit cillum aliqua exercitation labore et adipisicing ullamco in." />
     </div>
   );

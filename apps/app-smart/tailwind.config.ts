@@ -1,12 +1,12 @@
 import type { Config } from 'tailwindcss';
 import sharedConfig from '@repo/tailwind-config';
 
-// This file is required for Tailwind CSS to work properly in Next.js.
 export default {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    '../../packages/ui/**/*.{js,ts,jsx,tsx}', // Include UI package for shared styles
   ],
   theme: {
     extend: {

@@ -8,7 +8,7 @@ export function PageTitle(props: ComponentTypes) {
   return (
     <h1
       className={classNames(
-        'mt-3 text-3xl font-extrabold tracking-tight text-slate-900',
+        'mt-3 text-3xl font-extrabold tracking-tight',
         props.className
       )}
     >
@@ -19,12 +19,7 @@ export function PageTitle(props: ComponentTypes) {
 
 export function Paragraph(props: ComponentTypes) {
   return (
-    <p
-      className={classNames(
-        'mt-2 max-w-lg text-sm/6 text-slate-500',
-        props.className
-      )}
-    >
+    <p className={classNames('mt-2 max-w-lg text-sm/6', props.className)}>
       {props.text}
     </p>
   );
