@@ -20,6 +20,7 @@ import {
   RowsPlusBottom,
   CalendarDots,
   CloudArrowUp,
+  ArrowsIn,
 } from '@phosphor-icons/react';
 import { classNames } from '../../../lib/helpers';
 import { usePathname } from 'next/navigation';
@@ -41,6 +42,7 @@ export default function RootLayout({
 }>) {
   const [state, setState] = useState<{
     sidebarOpen: boolean;
+    sidebarWidth?: string; // Sidebar width
   }>({
     sidebarOpen: false,
   });
@@ -144,7 +146,12 @@ export default function RootLayout({
       </Dialog>
 
       {/* Static sidebar for desktop */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col border-r border-gray-400">
+      <div
+        className={classNames(
+          'hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col border-r border-gray-400',
+          state?.sidebarWidth
+        )}
+      >
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
           <div className="flex h-16 shrink-0 items-center">
@@ -205,18 +212,41 @@ export default function RootLayout({
                 </ul>
               </li>
               <li className="-mx-6 mt-auto">
-                <a
-                  href="#"
-                  className="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white hover:bg-gray-800"
+                <section
+                  className={classNames(
+                    'flex flex-row items-center gap-x-4',
+                    state?.sidebarWidth && 'flex-col'
+                  )}
                 >
-                  <img
-                    alt=""
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    className="size-8 rounded-full bg-gray-800"
-                  />
-                  <span className="sr-only">Your profile</span>
-                  <span aria-hidden="true">Tom Cook</span>
-                </a>
+                  <a
+                    href="#"
+                    className="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white"
+                  >
+                    <img
+                      alt=""
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      className="size-8 rounded-full bg-gray-800"
+                    />
+                    <span className="sr-only">Your profile</span>
+                    <span aria-hidden="true">Tom Cook</span>
+                  </a>
+                  <button
+                    onClick={() =>
+                      setState((prev) => ({
+                        ...prev,
+                        sidebarWidth: prev?.sidebarWidth
+                          ? undefined
+                          : 'lg:w-44',
+                      }))
+                    }
+                    className="flex items-center gap-x-4 px-2 py-2 rounded-md cursor-pointer text-white ml-auto mr-4 hover:bg-gray-800"
+                  >
+                    <ArrowsIn
+                      aria-hidden="true"
+                      className="size-6 shrink-0 text-white justify-end hover:text-gray-200"
+                    />
+                  </button>
+                </section>
               </li>
             </ul>
           </nav>

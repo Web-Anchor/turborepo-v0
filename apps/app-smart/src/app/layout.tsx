@@ -26,7 +26,10 @@ export default function RootLayout({
     process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
 
   return (
-    <html lang="en" className="h-full bg-dark-gray text-lavender">
+    <html
+      lang="en"
+      className="h-full bg-dark-gray text-lavender transition-all duration-300"
+    >
       <head>
         {isDevEnvironment && (
           <script
