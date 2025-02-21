@@ -114,7 +114,7 @@ export function BentoGrid(props: ComponentTypes) {
 }
 
 type BentoGridWrapperTypes = {
-  gridSize?: '6x2' | '4x4' | '3x3' | '2x6';
+  gridSize?: '6x2' | '4x4' | '3x3' | '2x6' | '6x6';
 } & Defaults;
 
 export function BentoGridWrapper(props: BentoGridWrapperTypes) {
@@ -126,8 +126,8 @@ export function BentoGridWrapper(props: BentoGridWrapperTypes) {
   return (
     <section
       className={classNames(
-        'grid grid-cols-1 gap-4',
         gridToClassName(props.gridSize),
+        'grid grid-cols-1 gap-4',
         props.className
       )}
     >
@@ -147,6 +147,6 @@ function gridToClassName(grid?: string): string {
     case '2x6':
       return 'lg:grid-cols-2 lg:grid-rows-6';
     default:
-      return 'lg:grid-cols-6 lg:grid-rows-2';
+      return 'lg:grid-cols-6 lg:grid-rows-6';
   }
 }
