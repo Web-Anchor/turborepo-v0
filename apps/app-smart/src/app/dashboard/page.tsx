@@ -5,11 +5,17 @@ export default async function Home() {
   return (
     <div>
       <h1>Dashboard</h1>
-      <BentoGridWrapper>
-        <div className="min-w-[200px] h-[200px] rounded-lg bg-gradient-to-br from-gray-200 to-solver-400 border-2 border-gray-300 lg:col-span-2"></div>
-        <Filler />
-        <Filler />
+      <BentoGridWrapper className="lg:grid-cols-6 lg:grid-rows-2">
         <Filler className="lg:col-span-2" />
+        <Filler className="lg:col-span-2" />
+        <Filler className="lg:col-span-2" />
+        <Filler className="lg:col-span-3" />
+        <Filler className="lg:col-span-3" />
+        <Filler className="lg:col-span-4" />
+        <Filler className="lg:col-span-2" />
+
+        <Filler className="lg:col-span-3" />
+        <Filler className="lg:col-span-3" />
       </BentoGridWrapper>
     </div>
   );

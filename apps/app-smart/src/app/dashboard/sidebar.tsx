@@ -14,24 +14,56 @@ import {
   ChartPieIcon,
   DocumentDuplicateIcon,
   FolderIcon,
+  Bars3BottomLeftIcon,
   HomeIcon,
-  UsersIcon,
+  UserGroupIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { classNames } from '../../../lib/helpers';
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
+  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
+  {
+    name: 'Teams',
+    href: '/dashboard/teams',
+    icon: UserGroupIcon,
+    current: false,
+  },
+  {
+    name: 'Groups',
+    href: '/dashboard/groups',
+    icon: FolderIcon,
+    current: false,
+  },
+  {
+    name: 'Lists',
+    href: '/dashboard/lists',
+    icon: Bars3BottomLeftIcon,
+    current: false,
+  },
+  {
+    name: 'Maintenance',
+    href: '/dashboard/maintenance',
+    icon: CalendarIcon,
+    current: false,
+  },
+  {
+    name: 'Documents',
+    href: '/dashboard/documents',
+    icon: DocumentDuplicateIcon,
+    current: false,
+  },
+  {
+    name: 'Reports',
+    href: 'dashboard/reports',
+    icon: ChartPieIcon,
+    current: false,
+  },
 ];
 const teams = [
   { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
   { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-  { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
+  { id: 3, name: 'Workstation', href: '#', initial: 'W', current: false },
 ];
 
 export const metadata: Metadata = {
