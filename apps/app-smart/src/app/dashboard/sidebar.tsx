@@ -30,7 +30,7 @@ const navigation = [
     current: false,
   },
   {
-    name: 'Groups',
+    name: 'List Groups',
     href: '/dashboard/groups',
     icon: FolderIcon,
     current: false,
