@@ -10,56 +10,20 @@ import {
 } from '@headlessui/react';
 import {
   Bars3Icon,
-  CalendarIcon,
   ChartPieIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
   Bars3BottomLeftIcon,
-  HomeIcon,
   UserGroupIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
+import {
+  SelectionBackground,
+  RowsPlusBottom,
+  CalendarDots,
+  CloudArrowUp,
+} from '@phosphor-icons/react';
 import { classNames } from '../../../lib/helpers';
+import { usePathname } from 'next/navigation';
 
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
-  {
-    name: 'Teams',
-    href: '/dashboard/teams',
-    icon: UserGroupIcon,
-    current: false,
-  },
-  {
-    name: 'List Groups',
-    href: '/dashboard/groups',
-    icon: FolderIcon,
-    current: false,
-  },
-  {
-    name: 'Lists',
-    href: '/dashboard/lists',
-    icon: Bars3BottomLeftIcon,
-    current: false,
-  },
-  {
-    name: 'Maintenance',
-    href: '/dashboard/maintenance',
-    icon: CalendarIcon,
-    current: false,
-  },
-  {
-    name: 'Documents',
-    href: '/dashboard/documents',
-    icon: DocumentDuplicateIcon,
-    current: false,
-  },
-  {
-    name: 'Reports',
-    href: 'dashboard/reports',
-    icon: ChartPieIcon,
-    current: false,
-  },
-];
 const teams = [
   { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
   { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
@@ -80,6 +44,7 @@ export default function RootLayout({
   }>({
     sidebarOpen: false,
   });
+  const path = usePathname();
 
   return (
     <div>
@@ -125,12 +90,12 @@ export default function RootLayout({
                 <ul role="list" className="flex flex-1 flex-col gap-y-7">
                   <li>
                     <ul role="list" className="-mx-2 space-y-1">
-                      {navigation.map((item) => (
+                      {navigation().map((item) => (
                         <li key={item.name}>
                           <a
                             href={item.href}
                             className={classNames(
-                              item.current
+                              path === item.href
                                 ? 'bg-gray-800 text-white'
                                 : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                               'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
@@ -179,7 +144,7 @@ export default function RootLayout({
       </Dialog>
 
       {/* Static sidebar for desktop */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col border-r border-gray-400">
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
           <div className="flex h-16 shrink-0 items-center">
@@ -193,12 +158,12 @@ export default function RootLayout({
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
-                  {navigation.map((item) => (
+                  {navigation().map((item) => (
                     <li key={item.name}>
                       <a
                         href={item.href}
                         className={classNames(
-                          item.current
+                          path === item.href
                             ? 'bg-gray-800 text-white'
                             : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                           'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
@@ -285,4 +250,46 @@ export default function RootLayout({
       </main>
     </div>
   );
+}
+
+function navigation() {
+  const navigation = [
+    {
+      name: 'Dashboard',
+      href: '/dashboard',
+      icon: SelectionBackground,
+    },
+    {
+      name: 'Teams',
+      href: '/dashboard/teams',
+      icon: UserGroupIcon,
+    },
+    {
+      name: 'List Groups',
+      href: '/dashboard/groups',
+      icon: RowsPlusBottom,
+    },
+    {
+      name: 'Lists',
+      href: '/dashboard/lists',
+      icon: Bars3BottomLeftIcon,
+    },
+    {
+      name: 'Maintenance',
+      href: '/dashboard/maintenance',
+      icon: CalendarDots,
+    },
+    {
+      name: 'Documents',
+      href: '/dashboard/documents',
+      icon: CloudArrowUp,
+    },
+    {
+      name: 'Reports',
+      href: 'dashboard/reports',
+      icon: ChartPieIcon,
+    },
+  ];
+
+  return navigation;
 }
