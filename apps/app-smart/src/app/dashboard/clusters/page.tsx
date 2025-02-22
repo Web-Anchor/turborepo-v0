@@ -3,9 +3,13 @@
 import { PageTitle, Paragraph } from '@repo/ui/document';
 import { Button } from '@repo/ui/button';
 import { useRouter } from 'next/navigation';
+import { useGetClusters } from 'hooks/clusters';
 
 export default function Home() {
   const router = useRouter();
+
+  const { data } = useGetClusters({ userId: 1 });
+  console.log('DATA', data);
 
   function createCluster() {
     router.push('/dashboard/cluster/create');

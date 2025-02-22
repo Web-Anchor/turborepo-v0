@@ -8,7 +8,14 @@ export function fetcher(url?: string, body?: object) {
   if (!url) {
     return Promise.reject(new Error('Missing URL'));
   }
-  return axios.post(url, body).catch((error) => ({ error }));
+  return axios
+    .post(url, body, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch((error) => ({ error }));
 }
 
 const defaultOptions = {
@@ -25,12 +32,21 @@ const defaultOptions = {
   loadingTimeout: 3000,
 };
 
-// export swr wrapper functions
-export function useSWRWrapper(props: {
+type SWRWrapperProps = {
   url?: string;
   data: object;
   options?: object;
-}) {
+};
+
+type SWRResponseType = {
+  data: any;
+  isLoading: boolean;
+  error: any;
+  isValidating: boolean;
+  mutate: (data: any) => void;
+};
+
+export function useSWRWrapper(props: SWRWrapperProps): SWRResponseType {
   return useSWR(props.url, () => fetcher(props.url, props.data), {
     ...defaultOptions,
     ...props.options,

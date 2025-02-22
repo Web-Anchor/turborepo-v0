@@ -1,12 +1,14 @@
 import { useSWRWrapper } from 'hooks/utils';
 
 type HookTypes = {
-  userId?: string;
+  userId?: string | number;
 };
 
 export function useGetClusters(props: HookTypes) {
-  return useSWRWrapper({
-    url: '/api/clusters',
+  const { data, isLoading, error, isValidating } = useSWRWrapper({
+    url: '/api/v1/clusters/clusters',
     data: { userId: props.userId },
   });
+
+  return { data: data?.data, isLoading, error, isValidating };
 }
