@@ -25,6 +25,7 @@ import {
 import { classNames } from '../../../lib/utils';
 import { usePathname } from 'next/navigation';
 import Image from 'components/Wrappers/Image';
+import Link from 'components/Wrappers/LinkWrapper';
 
 const teams = [
   { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
@@ -96,7 +97,7 @@ export default function RootLayout({
                     <ul role="list" className="-mx-2 space-y-1">
                       {navigation().map((item) => (
                         <li key={item.name}>
-                          <a
+                          <Link
                             href={item.href}
                             className={classNames(
                               path === item.href
@@ -110,7 +111,7 @@ export default function RootLayout({
                               className="size-6 shrink-0"
                             />
                             {item.name}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -122,7 +123,7 @@ export default function RootLayout({
                     <ul role="list" className="-mx-2 mt-2 space-y-1">
                       {teams.map((team) => (
                         <li key={team.name}>
-                          <a
+                          <Link
                             href={team.href}
                             className={classNames(
                               team.current
@@ -135,7 +136,7 @@ export default function RootLayout({
                               {team.initial}
                             </span>
                             <span className="truncate">{team.name}</span>
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -170,7 +171,7 @@ export default function RootLayout({
                 <ul role="list" className="-mx-2 space-y-1">
                   {navigation().map((item) => (
                     <li key={item.name}>
-                      <a
+                      <Link
                         href={item.href}
                         className={classNames(
                           path === item.href
@@ -184,7 +185,7 @@ export default function RootLayout({
                           className="size-6 shrink-0"
                         />
                         {item.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -196,7 +197,7 @@ export default function RootLayout({
                 <ul role="list" className="-mx-2 mt-2 space-y-1">
                   {teams.map((team) => (
                     <li key={team.name}>
-                      <a
+                      <Link
                         href={team.href}
                         className={classNames(
                           team.current
@@ -209,7 +210,7 @@ export default function RootLayout({
                           {team.initial}
                         </span>
                         <span className="truncate">{team.name}</span>
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -221,7 +222,7 @@ export default function RootLayout({
                     state?.sidebarWidth && 'flex-col'
                   )}
                 >
-                  <a
+                  <Link
                     href="#"
                     className="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white"
                   >
@@ -233,7 +234,7 @@ export default function RootLayout({
                     />
                     <span className="sr-only">Your profile</span>
                     <span aria-hidden="true">Tom Cook</span>
-                  </a>
+                  </Link>
                   <button
                     onClick={() =>
                       setState((prev) => ({
@@ -269,7 +270,7 @@ export default function RootLayout({
         <div className="flex-1 text-sm/6 font-semibold text-white">
           Dashboard
         </div>
-        <a href="#">
+        <Link href="#">
           <span className="sr-only">Your profile</span>
           <Image
             src="https://picsum.photos/120"
@@ -277,7 +278,7 @@ export default function RootLayout({
             size="xSmall"
             className="h-8 w-8 rounded-full"
           />
-        </a>
+        </Link>
       </div>
 
       <main className="py-10 lg:pl-72">
