@@ -22,8 +22,9 @@ import {
   CloudArrowUp,
   ArrowsIn,
 } from '@phosphor-icons/react';
-import { classNames } from '../../../lib/helpers';
+import { classNames } from '../../../lib/utils';
 import { usePathname } from 'next/navigation';
+import Image from 'components/Wrappers/Image';
 
 const teams = [
   { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
@@ -155,10 +156,16 @@ export default function RootLayout({
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
           <div className="flex h-16 shrink-0 items-center">
-            <img
+            {/* <img
               alt="Your Company"
               src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
               className="h-8 w-auto"
+            /> */}
+            <Image
+              src="https://picsum.photos/100"
+              alt="Your Company"
+              size="xSmall"
+              className="h-10 w-10 rounded-md"
             />
           </div>
           <nav className="flex flex-1 flex-col">
