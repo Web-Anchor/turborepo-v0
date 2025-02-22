@@ -2,6 +2,7 @@ import { UserTable } from '@repo/ui/user-table';
 import { Filler } from '@repo/ui/filler';
 import { PageTitle, Paragraph } from '@repo/ui/document';
 import { BentoGridWrapper } from '@repo/ui/bento-grid';
+import Link from 'components/Wrappers/Link';
 
 export default async function Home() {
   return (
@@ -16,6 +17,8 @@ export default async function Home() {
             email: 'john.doe@gmail.com',
             role: 'Admin',
             image: 'https://picsum.photos/100',
+            editLink: '/dashboard/',
+            LinkComponent: Link,
           },
           {
             name: 'Ben Franklin',
@@ -23,6 +26,7 @@ export default async function Home() {
             department: 'Engineering',
             email: 'ben.fFranklin@gmail.com',
             role: 'User',
+            editLink: '/dashboard/',
             image: 'https://picsum.photos/160',
           },
         ]}
