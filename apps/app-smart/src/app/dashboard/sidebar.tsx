@@ -83,10 +83,11 @@ export default function RootLayout({
             {/* Sidebar component, swap this element with another sidebar if you like */}
             <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-2 ring-1 ring-white/10">
               <div className="flex h-16 shrink-0 items-center">
-                <img
+                <Image
+                  src="https://picsum.photos/100"
                   alt="Your Company"
-                  src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                  className="h-8 w-auto"
+                  size="xSmall"
+                  className="h-8 w-8 rounded-md"
                 />
               </div>
               <nav className="flex flex-1 flex-col">
@@ -156,11 +157,6 @@ export default function RootLayout({
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
           <div className="flex h-16 shrink-0 items-center">
-            {/* <img
-              alt="Your Company"
-              src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-              className="h-8 w-auto"
-            /> */}
             <Image
               src="https://picsum.photos/100"
               alt="Your Company"
@@ -229,10 +225,11 @@ export default function RootLayout({
                     href="#"
                     className="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white"
                   >
-                    <img
-                      alt=""
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      className="size-8 rounded-full bg-gray-800"
+                    <Image
+                      src="https://picsum.photos/120"
+                      alt="Your Company"
+                      size="xSmall"
+                      className="h-8 w-8 rounded-full"
                     />
                     <span className="sr-only">Your profile</span>
                     <span aria-hidden="true">Tom Cook</span>
@@ -274,10 +271,11 @@ export default function RootLayout({
         </div>
         <a href="#">
           <span className="sr-only">Your profile</span>
-          <img
-            alt=""
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            className="size-8 rounded-full bg-gray-800"
+          <Image
+            src="https://picsum.photos/120"
+            alt="Your Company"
+            size="xSmall"
+            className="h-8 w-8 rounded-full"
           />
         </a>
       </div>
