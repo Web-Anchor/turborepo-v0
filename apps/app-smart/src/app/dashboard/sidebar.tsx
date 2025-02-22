@@ -22,10 +22,10 @@ import {
   CloudArrowUp,
   ArrowsIn,
 } from '@phosphor-icons/react';
-import { classNames } from '../../../lib/utils';
+import { classNames } from 'lib/utils';
 import { usePathname } from 'next/navigation';
 import Image from 'components/Wrappers/Image';
-import Link from 'components/Wrappers/LinkWrapper';
+import Link from 'components/Wrappers/Link';
 
 const teams = [
   { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
