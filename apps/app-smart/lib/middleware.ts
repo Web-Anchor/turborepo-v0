@@ -1,7 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+export interface CustomNextApiRequest extends NextApiRequest {
+  data?: object;
+}
+
 export type NextApiMiddleware = (
-  req: NextApiRequest,
+  req: CustomNextApiRequest,
   res: NextApiResponse,
   next: (error?: any) => void
 ) => void;
@@ -26,7 +30,7 @@ export function composeMiddleware(handlers: NextApiMiddleware[]) {
       const handler = handlers[index++];
       return new Promise<void>((resolve, reject) => {
         try {
-          handler(req, res, (err?: any) => {
+          handler(req as CustomNextApiRequest, res, (err?: any) => {
             if (err) {
               reject(err);
             } else {
@@ -100,7 +104,7 @@ export function sessionCheck(session?: string) {
   ) => {
     // Use parsed cookies if available, otherwise parse the header.
     const cookies = req.cookies || parseCookies(req.headers.cookie);
-    const sessionName = session || process.env.SESSION_NAME || 'session';
+    const sessionName = session || process.env.SESSION_NAME || 'session'; // Default to 'session'
     if (!cookies[sessionName]) {
       res.status(401).json({ error: 'Unauthorized' });
       return;
