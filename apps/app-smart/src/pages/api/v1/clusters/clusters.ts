@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import {
   composeMiddleware,
   allowedMethods,
-  // sessionCheck,
+  sessionCheck,
 } from 'lib/middleware';
 import axios from 'axios';
 import { cmsRootUserLogin } from 'server/auth';
@@ -37,6 +37,6 @@ const handler = async (
 
 export default composeMiddleware([
   allowedMethods(['POST']),
-  // sessionCheck(),
+  sessionCheck(),
   handler,
 ]);

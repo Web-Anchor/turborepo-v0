@@ -76,7 +76,7 @@ export function allowedMethods(methods: string[]) {
 /**
  * A simple cookie parser that converts a cookie header string into an object.
  */
-function parseCookies(cookieHeader?: string): Record<string, string> {
+export function parseCookies(cookieHeader?: string): Record<string, string> {
   const list: Record<string, string> = {};
   if (!cookieHeader) return list;
   cookieHeader.split(';').forEach((cookie) => {
@@ -96,7 +96,7 @@ function parseCookies(cookieHeader?: string): Record<string, string> {
  * The cookie name is taken from process.env.SESSION_NAME (defaulting to 'session').
  * If the session cookie is missing, a 401 Unauthorized response is returned.
  */
-export function sessionCheck(session?: string) {
+export const sessionCheck = (session?: string) => {
   return (
     req: NextApiRequest,
     res: NextApiResponse,
@@ -104,7 +104,7 @@ export function sessionCheck(session?: string) {
   ) => {
     // Use parsed cookies if available, otherwise parse the header.
     const cookies = req.cookies || parseCookies(req.headers.cookie);
-    const sessionName = session || process.env.SESSION_NAME || 'session'; // Default to 'session'
+    const sessionName = session || process.env.AUTH_SESSION_NAME || 'session'; // Default to 'session'
     if (!cookies[sessionName]) {
       res.status(401).json({ error: 'Unauthorized' });
       return;
@@ -112,4 +112,4 @@ export function sessionCheck(session?: string) {
     // Optionally, you could add additional session validation logic here.
     return next();
   };
-}
+};
