@@ -10,6 +10,7 @@
     "dev:web": "turbo run dev --filter=web",
     "dev:app": "turbo run dev --filter=app-smart -- --port=8080",
     "dev:cms": "turbo run dev --filter=cms-smart -- --port=4321",
+    "dev:smart": "turbo run dev --filter=app-smart --filter=cms-smart",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "commit": "./commit.sh",
