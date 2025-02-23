@@ -4,30 +4,32 @@ import {
   allowedMethods,
   // sessionCheck,
 } from 'lib/middleware';
+import axios from 'axios';
 
 type ResponseData = {
-  message: string;
+  message?: string;
+  data?: object;
 };
 
-const handler = (req: NextApiRequest, res: NextApiResponse<ResponseData>) => {
-  // body of the API
-  // if (req.method !== 'POST') {
-  //   res.status(405).json({ message: 'Method Not Allowed' });
-  //   return;
-  // }
+const QUERY = `
+query Clusters {
+  clusters {
+    id
+    name
+    description
+  }
+}
+`;
 
-  // validate request body
-  // if (!req.body.userId) {
-  //   res.status(400).json({ message: 'Missing userId in request body' });
-  //   return;
-  // }
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseData>
+) => {
+  const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
+    query: QUERY,
+  });
 
-  // perform some operation with the userId
-  // ...
-  console.log('Request body:', req.body);
-
-  // return response
-  res.status(200).json({ message: 'User clusters fetched successfully' });
+  res.status(200).json({ data: data?.data?.clusters });
 };
 
 export default composeMiddleware([
