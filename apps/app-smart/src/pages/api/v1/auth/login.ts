@@ -5,7 +5,6 @@ import {
   // sessionCheck,
 } from 'lib/middleware';
 import axios from 'axios';
-import { cmsRootUserLogin } from 'server/auth';
 
 type ResponseData = {
   message?: string;
@@ -29,8 +28,6 @@ const handler = async (
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: QUERY,
   });
-
-  cmsRootUserLogin();
 
   res.status(200).json({ data: data?.data?.clusters });
 };
