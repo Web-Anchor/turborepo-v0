@@ -5,6 +5,7 @@ import {
   sessionCheck,
 } from 'lib/middleware';
 import axios from 'axios';
+import { errorCather } from 'server/utils';
 
 type ResponseData = {
   message?: string;
@@ -33,6 +34,7 @@ const handler = async (
       where: { id: req.body.id },
     },
   });
+  await errorCather({ data, res });
 
   res.status(200).json({ data: data?.data?.cluster });
 };

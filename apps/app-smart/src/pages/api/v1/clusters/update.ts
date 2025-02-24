@@ -34,9 +34,6 @@ const handler = async (
       data: formData,
     },
   });
-  console.log('✅ UPDATE form', formData, req.body);
-  console.log('✅ UPDATE RES', data);
-
   await errorCather({ data, res });
 
   res.status(200).json({ data: data?.data?.updateCluster });

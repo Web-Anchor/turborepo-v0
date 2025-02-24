@@ -5,6 +5,7 @@ import {
   sessionCheck,
 } from 'lib/middleware';
 import axios from 'axios';
+import { errorCather } from 'server/utils';
 
 type ResponseData = {
   message?: string;
@@ -30,6 +31,7 @@ const handler = async (
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: QUERY,
   });
+  await errorCather({ data, res });
 
   res.status(200).json({ data: data?.data?.clusters });
 };
