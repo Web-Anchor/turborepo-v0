@@ -53,7 +53,6 @@ export function Button({
     return (
       <LinkComponent
         href={href}
-        {...rest}
         className={classNames(classes, rest.className)}
       >
         {content}

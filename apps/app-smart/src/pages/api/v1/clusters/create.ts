@@ -11,14 +11,10 @@ type ResponseData = {
   data?: object;
 };
 
-const QUERY = `
-  query Clusters {
-    clusters {
+const MUTATION = `
+  mutation CreateCluster($data: ClusterCreateInput!){
+    createCluster(data: $data) {
       id
-      name
-      description
-      updatedAt
-      listsCount
     }
   }
 `;
@@ -28,10 +24,14 @@ const handler = async (
   res: NextApiResponse<ResponseData>
 ) => {
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
-    query: QUERY,
+    query: MUTATION,
+    variables: {
+      data: req.body,
+    },
   });
+  console.log(data);
 
-  res.status(200).json({ data: data?.data?.clusters });
+  res.status(200).json({ data: data?.data });
 };
 
 export default composeMiddleware([

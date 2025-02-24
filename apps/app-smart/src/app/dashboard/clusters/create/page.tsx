@@ -13,8 +13,6 @@ export default function Page() {
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
-      console.log(data);
-      // Validations
       if (!data.name) {
         throw new Error('Name is required');
       }
@@ -23,9 +21,8 @@ export default function Page() {
         ...data,
       });
       toast.success('You have successfully logged in.');
-      // router.push('/dashboard');
+      router.push('/dashboard/clusters');
     } catch (error) {
-      console.error(error);
       toast.error(
         (error as Error)?.message || 'An error occurred. Please try again.'
       );
