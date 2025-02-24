@@ -4,15 +4,25 @@ import { PageTitle, Paragraph } from '@repo/ui/document';
 import Link from 'components/Wrappers/Link';
 import { Button } from '@repo/ui/button';
 import { toast } from 'sonner';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
+  const router = useRouter();
+
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     try {
       event.preventDefault();
       const formData = new FormData(event.target as HTMLFormElement);
       const data = Object.fromEntries(formData.entries());
       console.log(data);
+
+      await axios.post('/api/v1/auth/login', {
+        email: data.email,
+        password: data.password,
+      });
       toast.success('Profile updated successfully.');
+      router.push('/dashboard');
     } catch (error) {
       console.error(error);
       toast.error('An error occurred. Please try again.');
