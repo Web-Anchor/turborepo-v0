@@ -7,8 +7,8 @@ export default function Home() {
         <Link className="text-3xl font-semibold text-center" href="/dashboard">
           Dashboard
         </Link>
-        <Link className="text-3xl font-semibold text-center" href="/dashboard">
-          Stock Manager
+        <Link className="text-3xl font-semibold text-center" href="/login">
+          login
         </Link>
       </header>
     </div>

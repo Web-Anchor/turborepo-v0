@@ -6,7 +6,7 @@ type ButtonProps = {
   children: React.ReactNode;
   href?: string;
   LinkComponent?: React.ElementType;
-  onClick?: () => void;
+  onClick?: () => void | Promise<void>;
   spinnerColor?: '#000000' | '#FFFFFF' | '#1B1A55';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any; // For additional props like onClick, type, etc.
@@ -27,7 +27,7 @@ export function Button({
     secondary:
       'text-gray-700 bg-gray-300 hover:bg-gray-400 focus:ring-gray-500',
     danger: 'text-white bg-red-600 hover:bg-red-700 focus:ring-red-500',
-    link: 'text-blue-600 hover:underline focus:ring-blue-500',
+    link: 'text-blue-600 hover:text-blue-400',
   };
 
   const classes = `${baseClasses} ${variantClasses[variant]}`;
