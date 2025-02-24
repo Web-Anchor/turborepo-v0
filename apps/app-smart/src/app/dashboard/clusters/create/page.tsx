@@ -21,7 +21,7 @@ export default function Page() {
         ...data,
       });
       toast.success('You have successfully logged in.');
-      router.push('/dashboard/clusters');
+      router.back();
     } catch (error) {
       toast.error(
         (error as Error)?.message || 'An error occurred. Please try again.'

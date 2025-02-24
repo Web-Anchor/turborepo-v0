@@ -18,3 +18,22 @@ export function useGetClusters(props: HookTypes) {
     isValidating,
   };
 }
+
+// cluster
+type ClusterProps = {
+  id?: string | number;
+};
+
+export function useGetCluster(props: ClusterProps) {
+  const { data, isLoading, error, isValidating } = useSWRWrapper({
+    url: `/api/v1/clusters/cluster?id=${props.id}`,
+    data: { id: props.id },
+  });
+
+  return {
+    data: data?.data?.data as Cluster,
+    isLoading,
+    error,
+    isValidating,
+  };
+}

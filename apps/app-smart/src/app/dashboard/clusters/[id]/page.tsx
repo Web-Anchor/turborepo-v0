@@ -7,22 +7,24 @@ import { toast } from 'sonner';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { FormWrapper, TextInput } from '@repo/ui/form';
+import { useGetCluster } from 'hooks/clusters';
 
 export default function Page() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
+  const { data } = useGetCluster({ id: params?.id });
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
       if (!params?.id) {
         throw new Error('Cluster ID is required');
       }
-
-      await axios.post('/api/v1/clusters/create', {
-        ...data,
-      });
+      console.log('DATA', data);
+      // await axios.post('/api/v1/clusters/update', {
+      //   ...data,
+      // });
       toast.success('You have successfully logged in.');
-      router.push('/dashboard/clusters');
+      // router.back();
     } catch (error) {
       toast.error(
         (error as Error)?.message || 'An error occurred. Please try again.'
@@ -43,11 +45,17 @@ export default function Page() {
             </p>
 
             <div className="mt-10 flex flex-col gap-8">
-              <TextInput name="name" label="Name" placeholder="Enter a name" />
+              <TextInput
+                name="name"
+                label="Name"
+                placeholder="Enter a name"
+                defaultValue={data?.name}
+              />
               <TextInput
                 name="description"
                 label="Description"
                 placeholder="Enter a description"
+                defaultValue={data?.description}
                 optional
               />
             </div>

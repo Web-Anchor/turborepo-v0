@@ -36,7 +36,7 @@ type InputTypes = {
   placeholder?: string;
   name: string;
   label?: string;
-  value?: string;
+  defaultValue?: string;
   // onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
   optional?: boolean;
 };
@@ -59,7 +59,7 @@ export function TextInput({ type = 'text', ...rest }: InputTypes) {
         <input
           name={rest.name}
           type={type}
-          value={rest.value}
+          defaultValue={rest.defaultValue}
           placeholder={rest.placeholder}
           aria-describedby={`${rest.name} input`}
           className={classNames(
