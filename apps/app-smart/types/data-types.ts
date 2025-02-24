@@ -11,6 +11,7 @@ export type User = {
   createdAt?: string;
   configuration?: string;
   updatedAt?: string;
+  items: Item[];
   from_Cluster_owner: Cluster[];
   from_Item_lastModifiedBy: Item[];
 };
@@ -68,6 +69,7 @@ export type Item = {
   lastModifiedById?: string | null;
   tags: Tag[];
   itemTags: ItemTag[];
+  owners: User[];
   createdAt?: string;
   updatedAt?: string;
 };

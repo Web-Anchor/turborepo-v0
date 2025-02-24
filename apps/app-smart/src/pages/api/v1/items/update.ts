@@ -12,29 +12,10 @@ type ResponseData = {
   data?: object;
 };
 
-const QUERY = `
-  query List($where: ListWhereUniqueInput!) {
-    list(where: $where) {
+const MUTATION = `
+  mutation UpdateList($where: ListWhereUniqueInput!, $data: ListUpdateInput!) {
+    updateList(where: $where, data: $data) {
       id
-      name
-      description
-      invitations {
-        id
-        email
-        status
-      }
-      tags {
-        name
-      }
-      clusters {
-        id
-        name
-      }
-      createdAt
-      updatedAt
-      accessesCount
-      itemsCount
-      invitationsCount
     }
   }
 `;
@@ -43,16 +24,19 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) => {
+  const formData = { ...req.body };
+  delete formData.id; // remove id from the form data
+
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
-    query: QUERY,
+    query: MUTATION,
     variables: {
       where: { id: req.body.id },
+      data: formData,
     },
   });
-
   await errorCather({ data, res });
 
-  res.status(200).json({ data: data?.data?.list });
+  res.status(200).json({ data: data?.data?.updateCluster });
 };
 
 export default composeMiddleware([

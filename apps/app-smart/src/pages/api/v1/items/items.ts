@@ -13,28 +13,27 @@ type ResponseData = {
 };
 
 const QUERY = `
-  query List($where: ListWhereUniqueInput!) {
-    list(where: $where) {
+  query QQ($where: ItemWhereInput, $take: Int, $skip: Int, $orderBy: [ItemOrderByInput!]) {
+    items(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
       id
       name
       description
-      invitations {
+      category
+      cost
+      price
+      unit
+      attributes
+      status
+      inventoryList {
         id
-        email
-        status
+        name
       }
       tags {
         name
       }
-      clusters {
-        id
-        name
-      }
+      isHidden
       createdAt
       updatedAt
-      accessesCount
-      itemsCount
-      invitationsCount
     }
   }
 `;
@@ -45,14 +44,10 @@ const handler = async (
 ) => {
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: QUERY,
-    variables: {
-      where: { id: req.body.id },
-    },
   });
-
   await errorCather({ data, res });
 
-  res.status(200).json({ data: data?.data?.list });
+  res.status(200).json({ data: data?.data?.items });
 };
 
 export default composeMiddleware([

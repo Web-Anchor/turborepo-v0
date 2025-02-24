@@ -12,29 +12,10 @@ type ResponseData = {
   data?: object;
 };
 
-const QUERY = `
-  query List($where: ListWhereUniqueInput!) {
-    list(where: $where) {
+const MUTATION = `
+  mutation CreateList($data: ListCreateInput!)  {
+    createList(data: $data) {
       id
-      name
-      description
-      invitations {
-        id
-        email
-        status
-      }
-      tags {
-        name
-      }
-      clusters {
-        id
-        name
-      }
-      createdAt
-      updatedAt
-      accessesCount
-      itemsCount
-      invitationsCount
     }
   }
 `;
@@ -44,15 +25,14 @@ const handler = async (
   res: NextApiResponse<ResponseData>
 ) => {
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
-    query: QUERY,
+    query: MUTATION,
     variables: {
-      where: { id: req.body.id },
+      data: req.body,
     },
   });
-
   await errorCather({ data, res });
 
-  res.status(200).json({ data: data?.data?.list });
+  res.status(200).json({ data: data?.data?.createCluster });
 };
 
 export default composeMiddleware([

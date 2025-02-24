@@ -13,28 +13,27 @@ type ResponseData = {
 };
 
 const QUERY = `
-  query List($where: ListWhereUniqueInput!) {
-    list(where: $where) {
+  query Item($where: ItemWhereUniqueInput!) {
+    item(where: $where) {
       id
       name
       description
-      invitations {
+      category
+      cost
+      price
+      unit
+      attributes
+      status
+      inventoryList {
         id
-        email
-        status
+        name
       }
       tags {
         name
       }
-      clusters {
-        id
-        name
-      }
+      isHidden
       createdAt
       updatedAt
-      accessesCount
-      itemsCount
-      invitationsCount
     }
   }
 `;
