@@ -20,7 +20,7 @@ export default function Page() {
       await axios.post('/api/v1/clusters/create', {
         ...data,
       });
-      toast.success('You have successfully logged in.');
+      toast.success('Your cluster has been created.');
       router.back();
     } catch (error) {
       toast.error(

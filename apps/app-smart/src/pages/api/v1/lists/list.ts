@@ -13,13 +13,28 @@ type ResponseData = {
 };
 
 const QUERY = `
-  query Q($where: ClusterWhereUniqueInput!) {
-    cluster(where: $where) {
+  query List($where: ListWhereUniqueInput!) {
+    list(where: $where) {
       id
       name
       description
+      invitations {
+        id
+        email
+        status
+      }
+      tags {
+        name
+      }
+      clusters {
+        id
+        name
+      }
+      createdAt
       updatedAt
-      listsCount
+      accessesCount
+      itemsCount
+      invitationsCount
     }
   }
 `;
@@ -34,9 +49,11 @@ const handler = async (
       where: { id: req.body.id },
     },
   });
+  console.log('list', data);
+
   await errorCather({ data, res });
 
-  res.status(200).json({ data: data?.data?.cluster });
+  res.status(200).json({ data: data?.data?.list });
 };
 
 export default composeMiddleware([

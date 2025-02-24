@@ -16,7 +16,7 @@ export default function Page() {
         <PageTitle text="Inventory Lists" />
         <Button
           variant="primary"
-          href="/dashboard/clusters/create"
+          href="/dashboard/lists/create"
           LinkComponent={Link}
         >
           Create List
@@ -32,7 +32,8 @@ export default function Page() {
             name={item.name}
             itemCount={item.itemsCount}
             LinkComponent={Link}
-            href={`/dashboard/clusters/${item.id}`}
+            tags={item.tags.map((tag) => tag.name)}
+            href={`/dashboard/lists/${item.id}`}
             type={'secondary'}
           />
         ))}

@@ -26,12 +26,12 @@ export function CollectionCard({
   return (
     <div
       className={classNames(
-        'rounded-lg border border-white shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl',
+        'flex flex-col justify-between rounded-lg border border-white shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl',
         mergeIf(type === 'secondary', 'border-tertiary')
       )}
     >
-      <div className="p-6">
-        <div className="flex justify-between items-start mb-4">
+      <div className="flex flex-col gap-4 p-6">
+        <div className="flex justify-between items-start">
           <h3
             className={classNames(
               'text-xl font-semibold truncate',
@@ -42,7 +42,7 @@ export function CollectionCard({
           </h3>
           <span
             className={classNames(
-              'bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full',
+              'text-nowrap bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full',
               mergeIf(type === 'secondary', 'bg-tertiary text-primary')
             )}
           >
@@ -51,7 +51,7 @@ export function CollectionCard({
         </div>
         <p
           className={classNames(
-            'text-gray-400 mb-4 line-clamp-2',
+            'text-gray-400 line-clamp-4',
             mergeIf(type === 'secondary', 'text-lavender')
           )}
         >
@@ -59,7 +59,7 @@ export function CollectionCard({
         </p>
         <div
           className={classNames(
-            'flex items-center text-gray-500 text-sm mb-4 gap-2',
+            'flex items-center text-gray-500 text-sm gap-2',
             mergeIf(type === 'secondary', 'text-lavender')
           )}
         >
@@ -80,31 +80,33 @@ export function CollectionCard({
             </span>
           </section>
         </div>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {tags?.map((tag, index) => (
-            <span
-              key={index}
-              className={classNames(
-                'bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full flex items-center gap-2',
-                mergeIf(type === 'secondary', 'text-lavender')
-              )}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                fill="currentColor"
-                viewBox="0 0 256 256"
-                className="inline-block h-3 w-3"
+        {!!tags?.length && (
+          <div className="flex flex-wrap gap-2">
+            {tags?.map((tag, index) => (
+              <span
+                key={index}
+                className={classNames(
+                  'bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full flex items-center gap-2',
+                  mergeIf(type === 'secondary', 'text-tertiary')
+                )}
               >
-                <path d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63Zm-96,96L48,132.69V48h84.69L232,147.31ZM96,84A12,12,0,1,1,84,72,12,12,0,0,1,96,84Z"></path>
-              </svg>
-              {tag}
-            </span>
-          ))}
-        </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  fill="currentColor"
+                  viewBox="0 0 256 256"
+                  className="inline-block h-3 w-3"
+                >
+                  <path d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63Zm-96,96L48,132.69V48h84.69L232,147.31ZM96,84A12,12,0,1,1,84,72,12,12,0,0,1,96,84Z"></path>
+                </svg>
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
-      <div className="bg-gray-700 px-6 py-3 flex gap-2 justify-between items-center">
+      <div className="bg-gray-700 px-4 py-3 flex gap-2 justify-between items-center">
         <Button
           className={classNames(
             'flex gap-2 items-center text-gray-400 p-0 hoover:text-red-600',

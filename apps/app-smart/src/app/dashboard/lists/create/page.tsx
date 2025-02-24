@@ -17,10 +17,10 @@ export default function Page() {
         throw new Error('Name is required');
       }
 
-      await axios.post('/api/v1/clusters/create', {
+      await axios.post('/api/v1/lists/create', {
         ...data,
       });
-      toast.success('You have successfully logged in.');
+      toast.success('Your list has been created.');
       router.back();
     } catch (error) {
       toast.error(
@@ -31,16 +31,15 @@ export default function Page() {
 
   return (
     <section className="max-w-3xl mx-auto px-6 py-12 space-y-12">
-      <PageTitle>User Logon Page</PageTitle>
+      <PageTitle>Create List</PageTitle>
       <FormWrapper onSubmit={submit}>
         <div className="space-y-12">
           <div className="border-b border-white/10 pb-12">
             <h2 className="text-base/7 font-semibold text-white">
-              List Groups
+              List Information
             </h2>
             <p className="mt-1 text-sm/6 text-gray-400">
-              This information will be displayed publicly so be careful what you
-              share.
+              Labore ullamco labore commodo commodo sit.
             </p>
 
             <div className="mt-10 flex flex-col gap-8">
@@ -71,7 +70,7 @@ export default function Page() {
         </div>
       </FormWrapper>
       <Paragraph>
-        *This is a logon page for the user to enter their username and password.
+        Elit elit id voluptate consectetur aute ipsum id ipsum dolore est sint.
       </Paragraph>
     </section>
   );

@@ -7,23 +7,23 @@ import { toast } from 'sonner';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { FormWrapper, TextInput } from '@repo/ui/form';
-import { useGetCluster } from 'hooks/clusters';
+import { useGetList } from 'hooks/lists';
 
 export default function Page() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  const { data, mutate } = useGetCluster({ id: params?.id });
+  const { data, mutate } = useGetList({ id: params?.id });
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
       if (!params?.id) {
-        throw new Error('Cluster ID is required');
+        throw new Error('List ID is required');
       }
-      await axios.post('/api/v1/clusters/update', {
+      await axios.post('/api/v1/lists/update', {
         ...data,
         id: params?.id,
       });
-      toast.success('You have successfully updated the cluster.');
+      toast.success('You have successfully updated the list.');
       mutate();
       router.back();
     } catch (error) {
@@ -69,7 +69,7 @@ export default function Page() {
             variant="link"
             className="text-sm/6 font-semibold text-white"
             LinkComponent={Link}
-            href="/dashboard/clusters"
+            href="/dashboard/lists"
           >
             Cancel
           </Button>

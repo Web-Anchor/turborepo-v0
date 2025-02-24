@@ -13,8 +13,8 @@ type ResponseData = {
 };
 
 const MUTATION = `
-  mutation UpdateCluster($where: ClusterWhereUniqueInput!, $data: ClusterUpdateInput!) {
-    updateCluster(where: $where, data: $data) {
+  mutation UpdateList($where: ListWhereUniqueInput!, $data: ListUpdateInput!) {
+    updateList(where: $where, data: $data) {
       id
     }
   }
