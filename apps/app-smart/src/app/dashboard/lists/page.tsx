@@ -33,6 +33,7 @@ export default function Page() {
             itemCount={item.itemsCount}
             LinkComponent={Link}
             tags={item.tags.map((tag) => tag.name)}
+            updatedAt={item.updatedAt}
             href={`/dashboard/lists/${item.id}`}
             type={'secondary'}
           />
