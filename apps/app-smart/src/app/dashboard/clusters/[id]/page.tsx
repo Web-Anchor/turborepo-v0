@@ -12,19 +12,20 @@ import { useGetCluster } from 'hooks/clusters';
 export default function Page() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  const { data } = useGetCluster({ id: params?.id });
+  const { data, mutate } = useGetCluster({ id: params?.id });
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
       if (!params?.id) {
         throw new Error('Cluster ID is required');
       }
-      console.log('DATA', data);
-      // await axios.post('/api/v1/clusters/update', {
-      //   ...data,
-      // });
-      toast.success('You have successfully logged in.');
-      // router.back();
+      await axios.post('/api/v1/clusters/update', {
+        ...data,
+        id: params?.id,
+      });
+      toast.success('You have successfully updated the cluster.');
+      mutate();
+      router.back();
     } catch (error) {
       toast.error(
         (error as Error)?.message || 'An error occurred. Please try again.'
@@ -73,7 +74,7 @@ export default function Page() {
             Cancel
           </Button>
           <Button type="submit" variant="primary">
-            Create
+            Update
           </Button>
         </div>
       </FormWrapper>

@@ -33,7 +33,6 @@ const handler = async (
       where: { id: req.body.id },
     },
   });
-  console.log(data);
 
   res.status(200).json({ data: data?.data?.cluster });
 };

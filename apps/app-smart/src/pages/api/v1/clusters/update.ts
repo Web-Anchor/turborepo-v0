@@ -5,6 +5,7 @@ import {
   sessionCheck,
 } from 'lib/middleware';
 import axios from 'axios';
+import { errorCather } from 'server/utils';
 
 type ResponseData = {
   message?: string;
@@ -12,8 +13,8 @@ type ResponseData = {
 };
 
 const MUTATION = `
-  mutation CreateCluster($data: ClusterCreateInput!){
-    createCluster(data: $data) {
+  mutation UpdateCluster($where: ClusterWhereUniqueInput!, $data: ClusterUpdateInput!) {
+    updateCluster(where: $where, data: $data) {
       id
     }
   }
@@ -23,14 +24,22 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) => {
+  const formData = { ...req.body };
+  delete formData.id; // remove id from the form data
+
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: MUTATION,
     variables: {
-      data: req.body,
+      where: { id: req.body.id },
+      data: formData,
     },
   });
+  console.log('✅ UPDATE form', formData, req.body);
+  console.log('✅ UPDATE RES', data);
 
-  res.status(200).json({ data: data?.data?.createCluster });
+  await errorCather({ data, res });
+
+  res.status(200).json({ data: data?.data?.updateCluster });
 };
 
 export default composeMiddleware([

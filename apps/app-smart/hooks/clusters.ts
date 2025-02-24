@@ -1,4 +1,5 @@
 import { useSWRWrapper } from 'hooks/utils';
+import { mutate } from 'swr';
 import { Cluster } from 'types/data-types';
 
 type HookTypes = {
@@ -25,8 +26,9 @@ type ClusterProps = {
 };
 
 export function useGetCluster(props: ClusterProps) {
+  const url = `/api/v1/clusters/cluster?id=${props.id}`;
   const { data, isLoading, error, isValidating } = useSWRWrapper({
-    url: `/api/v1/clusters/cluster?id=${props.id}`,
+    url,
     data: { id: props.id },
   });
 
@@ -35,5 +37,6 @@ export function useGetCluster(props: ClusterProps) {
     isLoading,
     error,
     isValidating,
+    mutate: () => mutate(url),
   };
 }
