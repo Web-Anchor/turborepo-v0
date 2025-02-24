@@ -8,8 +8,8 @@ type ButtonProps = {
   LinkComponent?: React.ElementType;
   onClick?: () => void | Promise<void>;
   spinnerColor?: '#000000' | '#FFFFFF' | '#1B1A55';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any; // For additional props like onClick, type, etc.
+  className?: string;
+  disabled?: boolean;
 };
 
 export function Button({
@@ -50,7 +50,7 @@ export function Button({
 
   if (href) {
     return (
-      <LinkComponent href={href} {...rest} className={classes}>
+      <LinkComponent href={href} className={classes} {...rest}>
         {content}
       </LinkComponent>
     );
@@ -58,10 +58,10 @@ export function Button({
 
   return (
     <button
-      {...rest}
       className={classes}
       disabled={isLoading || rest.disabled}
       onClick={rest.onClick}
+      {...rest}
     >
       {content}
     </button>

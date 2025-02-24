@@ -73,6 +73,7 @@ export default function Image({
         src={src}
         alt={alt}
         fill
+        sizes="(max-width: 768px) 100vw, 33vw"
         className={classNames(imageFit)}
         quality={75}
         onError={handleError}

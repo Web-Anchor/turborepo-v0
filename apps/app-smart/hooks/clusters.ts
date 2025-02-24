@@ -10,5 +10,5 @@ export function useGetClusters(props: HookTypes) {
     data: { userId: props.userId },
   });
 
-  return { data: data?.data, isLoading, error, isValidating };
+  return { data: data?.data?.data, isLoading, error, isValidating };
 }
