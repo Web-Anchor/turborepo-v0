@@ -13,14 +13,28 @@ type ResponseData = {
 };
 
 const QUERY = `
-  query Clusters {
-    clusters {
+  query Lists {
+    lists {
       id
       name
       description
-      updatedAt
+      invitations {
+        id
+        email
+        status
+      }
+      tags {
+        name
+      }
+      clusters {
+        id
+        name
+      }
       createdAt
-      listsCount
+      updatedAt
+      accessesCount
+      itemsCount
+      invitationsCount
     }
   }
 `;
@@ -34,7 +48,7 @@ const handler = async (
   });
   await errorCather({ data, res });
 
-  res.status(200).json({ data: data?.data?.clusters });
+  res.status(200).json({ data: data?.data?.lists });
 };
 
 export default composeMiddleware([

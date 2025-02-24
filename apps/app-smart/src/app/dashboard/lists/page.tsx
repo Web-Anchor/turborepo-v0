@@ -1,13 +1,13 @@
 'use client';
 
-import { useGetClusters } from 'hooks/clusters';
+import { useGetLists } from 'hooks/lists';
 import { PageTitle, Paragraph } from '@repo/ui/document';
 import { Button } from '@repo/ui/button';
 import { CollectionCard } from '@repo/ui/card';
 import Link from 'components/Wrappers/Link';
 
 export default function Page() {
-  const { data } = useGetClusters({ userId: 1 });
+  const { data } = useGetLists({ userId: 1 });
   console.log('DATA', data);
 
   return (
@@ -25,12 +25,14 @@ export default function Page() {
       <Paragraph text="Id ex dolor nostrud amet qui officia reprehenderit nulla sint nulla incididunt labore." />
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {data?.map((cluster, index) => (
+        {data?.map((item, index) => (
           <CollectionCard
             key={index}
-            {...cluster}
+            description={item.description}
+            name={item.name}
+            itemCount={item.itemsCount}
             LinkComponent={Link}
-            href={`/dashboard/clusters/${cluster.id}`}
+            href={`/dashboard/clusters/${item.id}`}
             type={'secondary'}
           />
         ))}

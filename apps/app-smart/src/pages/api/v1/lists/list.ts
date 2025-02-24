@@ -13,13 +13,12 @@ type ResponseData = {
 };
 
 const QUERY = `
-  query Clusters {
-    clusters {
+  query Q($where: ClusterWhereUniqueInput!) {
+    cluster(where: $where) {
       id
       name
       description
       updatedAt
-      createdAt
       listsCount
     }
   }
@@ -31,10 +30,13 @@ const handler = async (
 ) => {
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: QUERY,
+    variables: {
+      where: { id: req.body.id },
+    },
   });
   await errorCather({ data, res });
 
-  res.status(200).json({ data: data?.data?.clusters });
+  res.status(200).json({ data: data?.data?.cluster });
 };
 
 export default composeMiddleware([

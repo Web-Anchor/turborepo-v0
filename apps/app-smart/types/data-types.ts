@@ -25,6 +25,9 @@ export type Cluster = {
   accesses?: Access[];
   lists?: List[];
   invitations?: Invitation[];
+  accessesCount?: number;
+  listsCount?: number;
+  invitationsCount?: number;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -39,6 +42,9 @@ export type List = {
   items: Item[];
   accesses: Access[];
   invitations: Invitation[];
+  itemsCount?: number;
+  accessesCount?: number;
+  invitationsCount?: number;
   createdAt?: string;
   updatedAt?: string;
 };
