@@ -30,7 +30,7 @@ export default function Home() {
             key={cluster.id}
             {...cluster}
             LinkComponent={Link}
-            href={`/dashboard/cluster/${cluster.id}`}
+            href={`/dashboard/clusters/${cluster.id}`}
           />
         ))}
       </section>

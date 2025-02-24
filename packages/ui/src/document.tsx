@@ -20,7 +20,7 @@ export function PageTitle(props: ComponentTypes) {
 
 export function Paragraph(props: ComponentTypes) {
   return (
-    <p className={classNames('mt-2 max-w-lg text-sm/6', props.className)}>
+    <p className={classNames('mt-2 text-sm/6', props.className)}>
       {props.text || props.children}
     </p>
   );
