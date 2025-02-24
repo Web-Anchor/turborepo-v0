@@ -21,7 +21,7 @@ export default function Page() {
         email: data.email,
         password: data.password,
       });
-      toast.success('Profile updated successfully.');
+      toast.success('You have successfully logged in.');
       router.push('/dashboard');
     } catch (error) {
       console.error(error);
@@ -99,7 +99,7 @@ export default function Page() {
             variant="secondary"
             className="text-sm/6 font-semibold text-white"
           >
-            Save
+            Login
           </Button>
         </div>
       </form>
