@@ -94,11 +94,7 @@ export default function Page() {
           >
             Cancel
           </Button>
-          <Button
-            type="submit"
-            variant="secondary"
-            className="text-sm/6 font-semibold text-white"
-          >
+          <Button type="submit" variant="secondary">
             Login
           </Button>
         </div>

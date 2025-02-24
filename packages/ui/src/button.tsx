@@ -10,6 +10,7 @@ type ButtonProps = {
   spinnerColor?: '#000000' | '#FFFFFF' | '#1B1A55';
   className?: string;
   disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 };
 
 export function Button({
@@ -50,7 +51,11 @@ export function Button({
 
   if (href) {
     return (
-      <LinkComponent href={href} className={classes} {...rest}>
+      <LinkComponent
+        href={href}
+        {...rest}
+        className={classNames(classes, rest.className)}
+      >
         {content}
       </LinkComponent>
     );
@@ -58,10 +63,10 @@ export function Button({
 
   return (
     <button
-      className={classes}
       disabled={isLoading || rest.disabled}
       onClick={rest.onClick}
       {...rest}
+      className={classNames(classes, rest.className)}
     >
       {content}
     </button>
