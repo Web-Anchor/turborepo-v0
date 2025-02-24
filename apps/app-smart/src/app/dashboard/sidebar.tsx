@@ -17,6 +17,7 @@ import {
 } from '@heroicons/react/24/outline';
 import {
   SelectionBackground,
+  Nut,
   RowsPlusBottom,
   CalendarDots,
   CloudArrowUp,
@@ -310,6 +311,11 @@ function navigation() {
       name: 'Lists',
       href: '/dashboard/lists',
       icon: Bars3BottomLeftIcon,
+    },
+    {
+      name: 'Items',
+      href: '/dashboard/items',
+      icon: Nut,
     },
     {
       name: 'Maintenance',
