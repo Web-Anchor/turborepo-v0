@@ -27,10 +27,11 @@ export default function Home() {
       </Button>
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {data?.map((cluster: any) => (
+        {data?.map((cluster) => (
           <GroupCard
             key={cluster.id}
             {...cluster}
+            updatedAt={cluster.updatedAt}
             LinkComponent={Link}
             href={`/dashboard/cluster/${cluster.id}`}
           />

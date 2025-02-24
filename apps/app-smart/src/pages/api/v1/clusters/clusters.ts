@@ -18,6 +18,8 @@ query Clusters {
     id
     name
     description
+    updatedAt
+    listsCount
   }
 }
 `;
