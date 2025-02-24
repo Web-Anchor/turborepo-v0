@@ -8,7 +8,7 @@ export function Filler(props: ComponentTypes) {
   return (
     <div
       className={classNames(
-        'overflow-hidden bg-gray-50 sm:rounded-lg',
+        'overflow-hidden bg-gray-50 sm:rounded-lg text-slate-800',
         props.className
       )}
     >

@@ -4,7 +4,7 @@ import { PageTitle, Paragraph } from '@repo/ui/document';
 import { BentoGridWrapper } from '@repo/ui/bento-grid';
 import Link from 'components/Wrappers/Link';
 
-export default async function Home() {
+export default async function Page() {
   return (
     <div className="flex flex-col gap-4">
       <PageTitle text="Teams" />

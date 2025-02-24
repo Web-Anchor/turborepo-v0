@@ -3,10 +3,10 @@
 import { useGetClusters } from 'hooks/clusters';
 import { PageTitle, Paragraph } from '@repo/ui/document';
 import { Button } from '@repo/ui/button';
-import { GroupCard } from '@repo/ui/card';
+import { CollectionCard } from '@repo/ui/card';
 import Link from 'components/Wrappers/Link';
 
-export default function Home() {
+export default function Page() {
   const { data } = useGetClusters({ userId: 1 });
   console.log('DATA', data);
 
@@ -25,8 +25,8 @@ export default function Home() {
       <Paragraph text='Add list new list clusters to your account. Group your lists together to organize your item lists. For more information, see the "Lists" section in the documentation.' />
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {data?.map((cluster: any) => (
-          <GroupCard
+        {data?.map((cluster) => (
+          <CollectionCard
             key={cluster.id}
             {...cluster}
             LinkComponent={Link}

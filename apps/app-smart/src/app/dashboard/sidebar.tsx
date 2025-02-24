@@ -146,7 +146,7 @@ export default function RootLayout({
       {/* ✅ Static sidebar for desktop */}
       <div
         className={classNames(
-          'hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col border-r border-gray-400',
+          'hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col border-r border-tertiary',
           state?.sidebarWidth
         )}
       >

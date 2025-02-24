@@ -2,7 +2,7 @@ import { BentoGridWrapper } from '@repo/ui/bento-grid';
 import { Filler } from '@repo/ui/filler';
 import { PageTitle, Paragraph } from '@repo/ui/document';
 
-export default async function Home() {
+export default async function Page() {
   return (
     <div className="flex flex-col gap-4">
       <PageTitle text="Dashboard" />

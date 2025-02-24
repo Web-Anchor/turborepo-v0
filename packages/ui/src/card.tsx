@@ -1,7 +1,8 @@
+import { classNames, mergeIf } from 'dist/helpers';
 import { Button } from './button';
 import { dateToFormattedString } from 'lib/utils';
 
-type GroupCardTypes = {
+type CollectionCardTypes = {
   name?: string;
   description?: string;
   itemCount?: number | string;
@@ -9,9 +10,10 @@ type GroupCardTypes = {
   tags?: string[];
   LinkComponent?: React.ElementType;
   href?: string;
+  type?: 'primary' | 'secondary';
 };
 
-export function GroupCard({
+export function CollectionCard({
   name,
   description,
   itemCount = 0,
@@ -19,20 +21,48 @@ export function GroupCard({
   tags,
   LinkComponent,
   href = '#',
-}: GroupCardTypes) {
+  type = 'primary',
+}: CollectionCardTypes) {
   return (
-    <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl">
+    <div
+      className={classNames(
+        'rounded-lg border border-white shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl',
+        mergeIf(type === 'secondary', 'border-tertiary')
+      )}
+    >
       <div className="p-6">
         <div className="flex justify-between items-start mb-4">
-          <h3 className="text-xl font-semibold text-blue-400 truncate">
+          <h3
+            className={classNames(
+              'text-xl font-semibold truncate',
+              mergeIf(type === 'secondary', 'text-tertiary')
+            )}
+          >
             {name}
           </h3>
-          <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+          <span
+            className={classNames(
+              'bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full',
+              mergeIf(type === 'secondary', 'bg-tertiary text-primary')
+            )}
+          >
             {itemCount} items
           </span>
         </div>
-        <p className="text-gray-400 mb-4 line-clamp-2">{description}</p>
-        <div className="flex items-center text-gray-500 text-sm mb-4 gap-2">
+        <p
+          className={classNames(
+            'text-gray-400 mb-4 line-clamp-2',
+            mergeIf(type === 'secondary', 'text-lavender')
+          )}
+        >
+          {description}
+        </p>
+        <div
+          className={classNames(
+            'flex items-center text-gray-500 text-sm mb-4 gap-2',
+            mergeIf(type === 'secondary', 'text-lavender')
+          )}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -54,7 +84,10 @@ export function GroupCard({
           {tags?.map((tag, index) => (
             <span
               key={index}
-              className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full flex items-center gap-2"
+              className={classNames(
+                'bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full flex items-center gap-2',
+                mergeIf(type === 'secondary', 'text-lavender')
+              )}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +106,10 @@ export function GroupCard({
       </div>
       <div className="bg-gray-700 px-6 py-3 flex gap-2 justify-between items-center">
         <Button
-          className="flex gap-2 items-center text-gray-400"
+          className={classNames(
+            'flex gap-2 items-center text-gray-400 p-0 hoover:text-red-600',
+            mergeIf(type === 'secondary', 'text-tertiary')
+          )}
           variant="link"
           LinkComponent={LinkComponent}
           href={href}
@@ -84,7 +120,7 @@ export function GroupCard({
             height="32"
             fill="currentColor"
             viewBox="0 0 256 256"
-            className="inline-block h-6 w-6"
+            className="inline-block h-4 w-4"
           >
             <path d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z"></path>
           </svg>

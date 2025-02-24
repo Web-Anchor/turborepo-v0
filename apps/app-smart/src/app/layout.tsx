@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="h-full bg-dark-gray text-lavender transition-all duration-300"
+      className="h-full bg-dark-gray text-white transition-all duration-300"
     >
       <head>
         {isDevEnvironment && (
