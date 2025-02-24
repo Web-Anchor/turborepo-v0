@@ -7,7 +7,7 @@ import { Button } from '@repo/ui/button';
 import Link from 'components/Wrappers/Link';
 
 export default function Page() {
-  const { data } = useGetItems({ userId: 1 });
+  const { data } = useGetItems({ userId: 'cm7g46yzc00004sftmvfxky2f' });
   console.log('DATA', data);
 
   return (

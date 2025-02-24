@@ -31,6 +31,11 @@ const QUERY = `
       tags {
         name
       }
+      owners {
+        id
+        name
+        email
+      }
       isHidden
       createdAt
       updatedAt
