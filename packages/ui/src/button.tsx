@@ -1,4 +1,4 @@
-import { classNames } from 'lib/utils';
+import { classNames } from '../dist/utils';
 
 type ButtonProps = {
   variant?: 'primary' | 'secondary' | 'danger' | 'link';

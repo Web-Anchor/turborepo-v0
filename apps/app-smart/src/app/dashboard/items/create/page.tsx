@@ -8,6 +8,14 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { FormWrapper, SelectInput, TextInput } from '@repo/ui/form';
 
+const STATUS_OPTIONS = [
+  { label: 'Active', value: 'ACTIVE' },
+  { label: 'Inactive', value: 'INACTIVE' },
+  { label: 'Damaged', value: 'DAMAGED' },
+  { label: 'Under Maintenance', value: 'UNDER_MAINTENANCE' },
+  { label: 'Discontinued', value: 'DISCONTINUED' },
+];
+
 export default function Page() {
   const router = useRouter();
 
@@ -74,11 +82,8 @@ export default function Page() {
                 name="status"
                 optional
                 label="Status"
-                defaultValue="active"
-                options={[
-                  { value: 'active', label: 'Active' },
-                  { value: 'inactive', label: 'Inactive' },
-                ]}
+                defaultValue="ACTIVE"
+                options={STATUS_OPTIONS}
               />
             </div>
           </div>

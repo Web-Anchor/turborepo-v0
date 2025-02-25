@@ -2,7 +2,7 @@
   "name": "turborepo-saas",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --no-cache",
     "build:cms": "NEXT_SKIP_STATIC_EXPORT_CHECK=true turbo run build --filter=cms-smart",
     "build:app": "turbo run build --filter=app-smart",
     "dev": "turbo run dev",
