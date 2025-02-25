@@ -72,8 +72,9 @@ export default function Page() {
               />
               <SelectInput
                 name="status"
+                optional
                 label="Status"
-                multiple
+                defaultValue="active"
                 options={[
                   { value: 'active', label: 'Active' },
                   { value: 'inactive', label: 'Inactive' },
