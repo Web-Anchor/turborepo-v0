@@ -52,15 +52,23 @@ type InputTypes = {
 export function TextInput({ type = 'text', ...rest }: InputTypes) {
   return (
     <div className={classNames('flex flex-1 flex-col', rest.className)}>
-      <div className="flex justify-between">
+      <div className="flex flex-row gap-2">
         <label
           htmlFor={rest.name}
-          className="text-sm/6 font-medium flex self-end"
+          className="text-sm/6 font-medium flex self-end mr-auto"
         >
           {rest.label}
         </label>
         {rest.optional && (
           <span className="text-sm/6 font-medium flex self-end">Optional</span>
+        )}
+        {type === 'number' && (
+          <>
+            {rest.optional && (
+              <span className="text-sm/6 font-medium flex self-end">|</span>
+            )}
+            <span className="text-sm/6 font-medium flex self-end">Number</span>
+          </>
         )}
       </div>
       <div className="mt-2 flex flex-1">
@@ -73,6 +81,7 @@ export function TextInput({ type = 'text', ...rest }: InputTypes) {
           className={classNames(
             'block min-w-0 grow bg-white/5 px-3 py-1.5 text-base text-white placeholder:text-gray-500 focus:outline focus:outline-0 sm:text-sm/6',
             'border border-slate-700 rounded-md',
+            'appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none', // Remove number input arrows
             mergeIf(type === 'number', 'appearance-none'), // Remove number input arrows
             rest.inputClassName
           )}
