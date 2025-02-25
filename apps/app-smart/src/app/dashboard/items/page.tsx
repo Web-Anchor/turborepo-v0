@@ -16,10 +16,10 @@ export default function Page() {
         <PageTitle text="Inventory Lists" />
         <Button
           variant="primary"
-          href="/dashboard/lists/create"
+          href="/dashboard/items/create"
           LinkComponent={Link}
         >
-          Create List
+          Create Item
         </Button>
       </section>
       <Paragraph text="Id ex dolor nostrud amet qui officia reprehenderit nulla sint nulla incididunt labore." />

@@ -21,6 +21,7 @@ const QUERY = `
       category
       cost
       price
+      quantity
       unit
       attributes
       status

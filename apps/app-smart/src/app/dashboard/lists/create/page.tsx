@@ -60,7 +60,7 @@ export default function Page() {
             variant="link"
             className="text-sm/6 font-semibold text-white"
             LinkComponent={Link}
-            href="/dashboard/clusters"
+            href="/dashboard/lists"
           >
             Cancel
           </Button>

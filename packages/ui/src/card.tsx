@@ -1,4 +1,4 @@
-import { classNames, mergeIf } from 'dist/helpers';
+import { classNames, mergeIf } from 'lib/utils';
 import { Button } from './button';
 import { dateToFormattedString } from 'lib/utils';
 

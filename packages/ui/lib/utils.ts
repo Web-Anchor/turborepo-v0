@@ -10,3 +10,21 @@ export function dateToFormattedString(date?: string) {
     return (err as Error)?.message || 'Invalid date';
   }
 }
+
+import { twMerge } from 'tailwind-merge';
+
+export function classNames(...classes: (string | undefined)[]): string {
+  // --------------------------------------------------------------------------------
+  // 📌  Tailwind css merge handler
+  // --------------------------------------------------------------------------------
+  const merged = classes?.filter(Boolean).join(' ');
+
+  return twMerge(merged);
+}
+
+export function mergeIf(
+  condition: boolean,
+  ...classes: (string | undefined)[]
+): string {
+  return condition ? classNames(...classes) : '';
+}

@@ -6,7 +6,7 @@ import { Button } from '@repo/ui/button';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { FormWrapper, TextInput } from '@repo/ui/form';
+import { FormWrapper, SelectInput, TextInput } from '@repo/ui/form';
 
 export default function Page() {
   const router = useRouter();
@@ -31,12 +31,12 @@ export default function Page() {
 
   return (
     <section className="max-w-3xl mx-auto px-6 py-12 space-y-12">
-      <PageTitle>Create List</PageTitle>
+      <PageTitle>Create Item</PageTitle>
       <FormWrapper onSubmit={submit}>
         <div className="space-y-12">
           <div className="border-b border-white/10 pb-12">
             <h2 className="text-base/7 font-semibold text-white">
-              List Information
+              Item Information
             </h2>
             <p className="mt-1 text-sm/6 text-gray-400">
               Labore ullamco labore commodo commodo sit.
@@ -50,6 +50,35 @@ export default function Page() {
                 placeholder="Enter a description"
                 optional
               />
+              <TextInput
+                name="category"
+                label="Category"
+                placeholder="Enter a category"
+                optional
+              />
+              <TextInput
+                name="cost"
+                label="Cost"
+                placeholder="Enter a cost"
+                type="number"
+                optional
+              />
+              <TextInput
+                name="quantity"
+                label="Quantity"
+                placeholder="Enter a quantity"
+                type="number"
+                optional
+              />
+              <SelectInput
+                name="status"
+                label="Status"
+                multiple
+                options={[
+                  { value: 'active', label: 'Active' },
+                  { value: 'inactive', label: 'Inactive' },
+                ]}
+              />
             </div>
           </div>
         </div>
@@ -60,7 +89,7 @@ export default function Page() {
             variant="link"
             className="text-sm/6 font-semibold text-white"
             LinkComponent={Link}
-            href="/dashboard/clusters"
+            href="/dashboard/items"
           >
             Cancel
           </Button>
