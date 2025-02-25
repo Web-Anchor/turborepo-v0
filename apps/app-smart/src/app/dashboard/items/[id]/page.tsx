@@ -6,8 +6,10 @@ import { Button } from '@repo/ui/button';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
-import { FormWrapper, TextInput } from '@repo/ui/form';
+import { FormWrapper, SelectInput, TextInput } from '@repo/ui/form';
 import { useGetItem } from 'hooks/items';
+import { STATUS_OPTIONS } from '../create/page';
+import { objKeysToNumber } from 'lib/utils';
 
 export default function Page() {
   const router = useRouter();
@@ -16,15 +18,15 @@ export default function Page() {
     id: params?.id,
     userId: 'cm7g46yzc00004sftmvfxky2f',
   });
-  console.log('DATA', data);
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
       if (!params?.id) {
         throw new Error('List ID is required');
       }
+
       await axios.post('/api/v1/items/update', {
-        ...data,
+        ...objKeysToNumber(['quantity', 'cost', 'price'], data),
         id: params?.id,
       });
       toast.success('You have successfully updated the list.');
@@ -62,6 +64,44 @@ export default function Page() {
                 placeholder="Enter a description"
                 defaultValue={data?.description}
                 optional
+              />
+              <TextInput
+                name="category"
+                label="Category"
+                placeholder="Enter a category"
+                defaultValue={data?.category}
+                optional
+              />
+              <TextInput
+                name="quantity"
+                label="Quantity"
+                placeholder="Enter a quantity"
+                type="number"
+                defaultValue={data?.quantity?.toString()}
+                optional
+              />
+              <TextInput
+                name="cost"
+                label="Cost"
+                placeholder="Enter a cost"
+                type="number"
+                defaultValue={data?.cost?.toString()}
+                optional
+              />
+              <TextInput
+                name="price"
+                label="Price"
+                placeholder="Enter a price"
+                type="number"
+                defaultValue={data?.price?.toString()}
+                optional
+              />
+              <SelectInput
+                name="status"
+                optional
+                label="Status"
+                defaultValue={data?.status || 'ACTIVE'}
+                options={STATUS_OPTIONS}
               />
             </div>
           </div>

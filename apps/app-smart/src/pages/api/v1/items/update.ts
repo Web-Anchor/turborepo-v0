@@ -13,8 +13,8 @@ type ResponseData = {
 };
 
 const MUTATION = `
-  mutation UpdateList($where: ListWhereUniqueInput!, $data: ListUpdateInput!) {
-    updateList(where: $where, data: $data) {
+  mutation M($where: ItemWhereUniqueInput!, $data: ItemUpdateInput!) {
+    updateItem(where: $where, data: $data) {
       id
     }
   }

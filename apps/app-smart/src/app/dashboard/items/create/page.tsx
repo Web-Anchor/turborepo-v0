@@ -10,7 +10,7 @@ import { FormWrapper, SelectInput, TextInput } from '@repo/ui/form';
 import { objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
 
-const STATUS_OPTIONS = [
+export const STATUS_OPTIONS = [
   { label: 'Active', value: 'ACTIVE' },
   { label: 'Inactive', value: 'INACTIVE' },
   { label: 'Damaged', value: 'DAMAGED' },

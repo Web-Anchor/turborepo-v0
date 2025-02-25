@@ -158,6 +158,14 @@ export function SelectInput({ options, ...rest }: SelectInputTypes) {
             <span className="flex justify-start truncate">
               {selected.label || rest.placeholder}
             </span>
+
+            {/* FORM hidden input to store the selected value */}
+            <input
+              type="hidden"
+              name={rest.name}
+              value={selected.value || rest.defaultValue}
+              aria-describedby={`${rest.name} input`}
+            />
           </ListboxButton>
           <ListboxOptions className="absolute z-10 mt-4 max-h-60 w-full overflow-auto rounded-md bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
             {options.map((option) => {
