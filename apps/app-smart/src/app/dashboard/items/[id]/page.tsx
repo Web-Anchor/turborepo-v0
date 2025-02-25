@@ -7,19 +7,23 @@ import { toast } from 'sonner';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { FormWrapper, TextInput } from '@repo/ui/form';
-import { useGetList } from 'hooks/lists';
+import { useGetItem } from 'hooks/items';
 
 export default function Page() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  const { data, mutate } = useGetList({ id: params?.id });
+  const { data, mutate } = useGetItem({
+    id: params?.id,
+    userId: 'cm7g46yzc00004sftmvfxky2f',
+  });
+  console.log('DATA', data);
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
       if (!params?.id) {
         throw new Error('List ID is required');
       }
-      await axios.post('/api/v1/lists/update', {
+      await axios.post('/api/v1/items/update', {
         ...data,
         id: params?.id,
       });
@@ -69,7 +73,7 @@ export default function Page() {
             variant="link"
             className="text-sm/6 font-semibold text-white"
             LinkComponent={Link}
-            href="/dashboard/lists"
+            href="/dashboard/items"
           >
             Cancel
           </Button>

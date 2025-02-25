@@ -5,6 +5,7 @@ import { PageTitle, Paragraph } from '@repo/ui/document';
 import { Button } from '@repo/ui/button';
 // import { CollectionCard } from '@repo/ui/card';
 import Link from 'components/Wrappers/Link';
+import ItemTable from '@repo/ui/tables';
 
 export default function Page() {
   const { data } = useGetItems({ userId: 'cm7g46yzc00004sftmvfxky2f' });
@@ -24,6 +25,27 @@ export default function Page() {
       </section>
       <Paragraph text="Id ex dolor nostrud amet qui officia reprehenderit nulla sint nulla incididunt labore." />
 
+      <ItemTable
+        items={data?.map((item) => ({
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          category: item.category,
+          quantity: item.quantity,
+          price: item.price,
+          status: item.status,
+          updatedAt: item.updatedAt,
+          action: (
+            <Button
+              LinkComponent={Link}
+              href={`/dashboard/items/${item.id}`}
+              variant="secondary"
+            >
+              Edit
+            </Button>
+          ),
+        }))}
+      />
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {data?.map((item, index) => {
           return <p key={index}>{item.id}</p>;

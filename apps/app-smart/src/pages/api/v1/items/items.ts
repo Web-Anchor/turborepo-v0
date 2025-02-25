@@ -13,7 +13,7 @@ type ResponseData = {
 };
 
 const QUERY = `
-  query QQ($where: ItemWhereInput, $take: Int, $skip: Int, $orderBy: [ItemOrderByInput!]) {
+  query Items($where: ItemWhereInput, $take: Int, $skip: Int, $orderBy: [ItemOrderByInput!]) {
     items(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
       id
       name

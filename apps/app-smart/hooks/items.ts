@@ -27,7 +27,7 @@ export function useGetItem(props: HookTypes) {
   const url = `/api/v1/items/item?id=${props.id}`;
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
-    data: { id: props.id },
+    data: { ...props },
   });
 
   return {
