@@ -13,8 +13,8 @@ type ResponseData = {
 };
 
 const MUTATION = `
-  mutation CreateList($data: ListCreateInput!)  {
-    createList(data: $data) {
+  mutation CreateItem($data: ItemCreateInput!) {
+    createItem(data: $data) {
       id
     }
   }

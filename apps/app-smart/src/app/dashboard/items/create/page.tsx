@@ -7,6 +7,8 @@ import { toast } from 'sonner';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { FormWrapper, SelectInput, TextInput } from '@repo/ui/form';
+import { objKeysToNumber } from 'lib/utils';
+import { mutate } from 'swr';
 
 const STATUS_OPTIONS = [
   { label: 'Active', value: 'ACTIVE' },
@@ -25,10 +27,12 @@ export default function Page() {
         throw new Error('Name is required');
       }
 
-      await axios.post('/api/v1/lists/create', {
-        ...data,
+      await axios.post('/api/v1/items/create', {
+        ...objKeysToNumber(['quantity', 'cost', 'price'], data),
+        owners: { connect: { id: 'cm7g46yzc00004sftmvfxky2f' } },
       });
-      toast.success('Your list has been created.');
+      toast.success('Your item has been created.');
+      mutate('/api/v1/items/items');
       router.back();
     } catch (error) {
       toast.error(
@@ -65,6 +69,13 @@ export default function Page() {
                 optional
               />
               <TextInput
+                name="quantity"
+                label="Quantity"
+                placeholder="Enter a quantity"
+                type="number"
+                optional
+              />
+              <TextInput
                 name="cost"
                 label="Cost"
                 placeholder="Enter a cost"
@@ -72,9 +83,9 @@ export default function Page() {
                 optional
               />
               <TextInput
-                name="quantity"
-                label="Quantity"
-                placeholder="Enter a quantity"
+                name="price"
+                label="Price"
+                placeholder="Enter a price"
                 type="number"
                 optional
               />
