@@ -2,33 +2,30 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  role?: string;
+  role?: string; // defaults to "USER"
   password: string;
   assignedClusters: Cluster[];
   tags: Tag[];
+  orders: Order[];
   listAccesses: Access[];
+  items: Item[];
   listInvitations: Invitation[];
   createdAt?: string;
-  configuration?: string;
+  permissions?: string; // defaults to "ALL"
+  configuration?: string; // defaults to "{}"
   updatedAt?: string;
-  items: Item[];
-  from_Cluster_owner: Cluster[];
-  from_Item_lastModifiedBy: Item[];
 };
 
 export type Cluster = {
   id: string;
-  name?: string;
-  description?: string;
-  owner?: User | null;
-  ownerId?: string | null;
-  assignedUsers?: User[];
-  accesses?: Access[];
-  lists?: List[];
-  invitations?: Invitation[];
-  accessesCount?: number;
-  listsCount?: number;
-  invitationsCount?: number;
+  name: string;
+  description: string;
+  owner?: User;
+  ownerId?: string;
+  assignedUsers: User[];
+  accesses: Access[];
+  lists: List[];
+  invitations: Invitation[];
   createdAt?: string;
   updatedAt?: string;
 };
@@ -38,14 +35,12 @@ export type List = {
   name: string;
   description: string;
   tags: Tag[];
-  clusters?: Cluster | null;
-  clustersId?: string | null;
+  clusters?: Cluster;
+  clustersId?: string;
   items: Item[];
   accesses: Access[];
   invitations: Invitation[];
   itemsCount?: number;
-  accessesCount?: number;
-  invitationsCount?: number;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -60,27 +55,32 @@ export type Item = {
   price?: number;
   reorderLevel?: number;
   unit: string;
-  attributes?: string;
-  status?: string;
+  sku: string;
+  barcode: string;
+  supplier: string;
+  leadTime?: number;
+  attributes?: string; // defaults to "{}"
+  status?: string; // defaults to "ACTIVE"
+  owners: User[];
+  orders: Order[];
   isHidden: boolean;
-  inventoryList?: List | null;
-  inventoryListId?: string | null;
-  lastModifiedBy?: User | null;
-  lastModifiedById?: string | null;
+  inventoryList?: List;
+  inventoryListId?: string;
+  lastModifiedBy?: User;
+  lastModifiedById?: string;
   tags: Tag[];
   itemTags: ItemTag[];
-  owners: User[];
   createdAt?: string;
   updatedAt?: string;
 };
 
 export type Access = {
   id: string;
-  user?: User | null;
-  userId?: string | null;
+  user?: User;
+  userId?: string;
   inventoryLists: List[];
   clusters: Cluster[];
-  permission?: string;
+  permission?: string; // defaults to "VIEW"
   createdAt?: string;
   updatedAt?: string;
 };
@@ -88,12 +88,38 @@ export type Access = {
 export type Invitation = {
   id: string;
   email: string;
-  status?: string;
+  status?: string; // defaults to "PENDING"
   token: string;
   inventoryLists: List[];
   clusters: Cluster[];
-  user?: User | null;
-  userId?: string | null;
+  user?: User;
+  userId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type Order = {
+  id: string;
+  orderNumber: string;
+  status?: string; // defaults to "PENDING"
+  owners: User[];
+  items: Item[];
+  source: string;
+  totalAmount?: number;
+  total: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type Integration = {
+  id: string;
+  user?: User;
+  userId?: string;
+  integrationType: string;
+  storeUrl: string;
+  apiKey: string;
+  shopId: string;
+  status?: string; // defaults to "PENDING"
   createdAt?: string;
   updatedAt?: string;
 };
@@ -109,6 +135,6 @@ export type Tag = {
 export type ItemTag = {
   id: string;
   name: string;
-  inventoryItem?: Item | null;
-  inventoryItemId?: string | null;
+  inventoryItem?: Item;
+  inventoryItemId?: string;
 };
