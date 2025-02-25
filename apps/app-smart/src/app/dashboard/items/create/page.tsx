@@ -9,14 +9,7 @@ import { useRouter } from 'next/navigation';
 import { FormWrapper, SelectInput, TextInput } from '@repo/ui/form';
 import { objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
-
-export const STATUS_OPTIONS = [
-  { label: 'Active', value: 'ACTIVE' },
-  { label: 'Inactive', value: 'INACTIVE' },
-  { label: 'Damaged', value: 'DAMAGED' },
-  { label: 'Under Maintenance', value: 'UNDER_MAINTENANCE' },
-  { label: 'Discontinued', value: 'DISCONTINUED' },
-];
+import { statusListOptions } from 'lib/list-options';
 
 export default function Page() {
   const router = useRouter();
@@ -94,7 +87,7 @@ export default function Page() {
                 optional
                 label="Status"
                 defaultValue="ACTIVE"
-                options={STATUS_OPTIONS}
+                options={statusListOptions}
               />
             </div>
           </div>

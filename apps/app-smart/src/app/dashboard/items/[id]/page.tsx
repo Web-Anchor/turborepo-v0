@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { FormWrapper, SelectInput, TextInput } from '@repo/ui/form';
 import { useGetItem } from 'hooks/items';
-import { STATUS_OPTIONS } from '../create/page';
+import { statusListOptions } from 'lib/list-options';
 import { objKeysToNumber } from 'lib/utils';
 
 export default function Page() {
@@ -101,7 +101,7 @@ export default function Page() {
                 optional
                 label="Status"
                 defaultValue={data?.status || 'ACTIVE'}
-                options={STATUS_OPTIONS}
+                options={statusListOptions}
               />
             </div>
           </div>
