@@ -3,7 +3,6 @@
 import { useGetItems } from 'hooks/items';
 import { PageTitle, Paragraph } from '@repo/ui/document';
 import { Button } from '@repo/ui/button';
-// import { CollectionCard } from '@repo/ui/card';
 import Link from 'components/Wrappers/Link';
 import ItemTable from '@repo/ui/tables';
 

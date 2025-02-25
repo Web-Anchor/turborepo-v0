@@ -21,16 +21,21 @@ interface ItemTableProps {
   items?: Item[];
   headers?: TableHeader[];
   theme?: 'light' | 'dark' | 'custom';
+  className?: string;
 }
 
 function themeStatus(status?: string): string {
   switch (status) {
-    case 'Active':
+    case 'ACTIVE':
       return 'bg-green-100 text-green-800';
-    case 'Inactive':
+    case 'INACTIVE':
       return 'bg-red-100 text-red-800';
-    case 'Pending':
+    case 'DAMAGED':
       return 'bg-yellow-100 text-yellow-800';
+    case 'UNDER_MAINTENANCE':
+      return 'bg-blue-100 text-blue-800';
+    case 'DISCONTINUED':
+      return 'bg-gray-100 text-gray-800';
     default:
       return 'bg-gray-100 text-gray-800';
   }
@@ -56,12 +61,17 @@ export default function ItemTable({
   items,
   headers = defaultHeaders,
   theme = 'light',
+  ...rest
 }: ItemTableProps) {
   return (
     <div
-      className={`container mx-auto px-4 sm:px-6 lg:px-8 py-8 ${themes[theme]}`}
+      className={classNames(
+        `container mx-auto px-4 sm:px-6 lg:px-8 py-8`,
+        themes[theme],
+        rest.className
+      )}
     >
-      <div className="mt-8 overflow-hidden sm:rounded-lg">
+      <div className="overflow-hidden sm:rounded-lg">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-opacity-50">
@@ -103,8 +113,16 @@ export default function ItemTable({
                     {item.price ? `$${item.price.toFixed(2)}` : 'N/A'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
-                    <span
+                    {/* <span
                       className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-sm ${themeStatus(item.status)}`}
+                    >
+                      {item.status}
+                    </span> */}
+                    <span
+                      className={classNames(
+                        'inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20',
+                        themeStatus(item.status)
+                      )}
                     >
                       {item.status}
                     </span>
