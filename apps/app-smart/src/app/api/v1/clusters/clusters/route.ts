@@ -1,8 +1,4 @@
-import {
-  composeMiddleware,
-  sessionCheck,
-  MiddlewareTypes,
-} from 'lib/middleware';
+import { composeMiddleware, sessionAuth } from 'lib/middleware';
 import axios from 'axios';
 
 const QUERY = `
@@ -35,17 +31,13 @@ interface ClustersResponse {
   clusters: Cluster[];
 }
 
-const handler = async ({ context }: MiddlewareTypes): Promise<Response> => {
-  context = context || {};
+const handler = async (): Promise<Response> => {
   const { data } = await axios.post<GraphQLResponse<ClustersResponse>>(
     process.env.NEXT_PUBLIC_GRAPHQL_URL!,
-    {
-      query: QUERY,
-    }
+    { query: QUERY }
   );
-  console.log('✅ RESPONSE', context);
 
   return Response.json({ data: data?.data?.clusters });
 };
 
-export const POST = composeMiddleware([sessionCheck, handler]);
+export const POST = composeMiddleware([sessionAuth, handler]);

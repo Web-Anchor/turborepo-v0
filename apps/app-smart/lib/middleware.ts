@@ -2,15 +2,15 @@ import { auth } from '@clerk/nextjs/server';
 
 type ContextType = Record<string, any>;
 export type MiddlewareTypes = {
-  request: Request;
-  response: Response;
+  req: Request;
+  res: Response;
   next: () => Promise<Response>;
   context: ContextType; // middleware context
 };
 export type Middleware = (params: MiddlewareTypes) => Promise<Response>;
 
 export function composeMiddleware(handlers: Middleware[]) {
-  return async (request: Request): Promise<Response> => {
+  return async (req: Request): Promise<Response> => {
     const context: ContextType = {};
     let index = -1;
 
@@ -27,11 +27,11 @@ export function composeMiddleware(handlers: Middleware[]) {
         }) as Response;
       }
 
-      const response = new Response() as Response;
+      const res = new Response() as Response;
       const handler = handlers[i];
       const params: MiddlewareTypes = {
-        request,
-        response,
+        req,
+        res,
         next: () => dispatch(i + 1),
         context,
       };
@@ -48,8 +48,7 @@ export function composeMiddleware(handlers: Middleware[]) {
   };
 }
 
-// sessionCheck middleware
-export const sessionCheck = async ({ next, context }: MiddlewareTypes) => {
+export const sessionAuth = async ({ next, context }: MiddlewareTypes) => {
   const { userId } = await auth();
 
   if (!userId) {
