@@ -52,19 +52,19 @@ export function composeMiddleware(handlers: Middleware[]) {
 export const sessionAuth = async ({ next, context }: MiddlewareTypes) => {
   const { userId } = await auth();
 
-  if (!userId) {
-    console.log('❌ auth handler - user session not fount!');
-    return Response.json({ message: 'Unauthorized' }, { status: 401 });
-  }
   const { user } = await getUserByClerkId(userId);
 
+  if (!user) {
+    console.log('❌ auth handler - user not found!');
+    return Response.json({ message: 'Unauthorized' }, { status: 401 });
+  }
   context.clerkId = userId;
   context.user = user;
 
   return await next();
 };
 
-export async function getUserByClerkId(clerkId: string) {
+export async function getUserByClerkId(clerkId: string | null) {
   const QUERY = `
     query Users($where: UserWhereInput!) {
       users(where: $where) {

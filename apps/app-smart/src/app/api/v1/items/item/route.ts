@@ -36,8 +36,11 @@ const QUERY = `
   }
 `;
 
-const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
-  const { id, userId } = await req.json();
+const handler = async ({
+  req,
+  context,
+}: MiddlewareTypes): Promise<Response> => {
+  const { id } = await req.json();
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: QUERY,
     variables: {
@@ -50,7 +53,7 @@ const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
             owners: {
               some: {
                 id: {
-                  equals: userId,
+                  equals: context?.userId,
                 },
               },
             },

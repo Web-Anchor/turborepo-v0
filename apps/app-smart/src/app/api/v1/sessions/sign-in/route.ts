@@ -1,4 +1,4 @@
-import { composeMiddleware, sessionCheck } from 'lib/middleware';
+import { composeMiddleware, sessionAuth } from 'lib/middleware';
 import { auth } from '@clerk/nextjs/server';
 
 const handler = async () => {
@@ -7,11 +7,11 @@ const handler = async () => {
 
   if (!userId) {
     console.log('❌ sing-in auth handler userId:', userId);
-    return res.redirect(303, '/sign-in').end();
+    return Response.redirect('/sign-in');
   }
   console.log('✅ sing-in auth handler userId:', userId);
 
-  res.redirect(303, '/dashboard').end();
+  return Response.redirect('/dashboard');
 };
 
-export default composeMiddleware([sessionCheck, handler]);
+export default composeMiddleware([sessionAuth, handler]);
