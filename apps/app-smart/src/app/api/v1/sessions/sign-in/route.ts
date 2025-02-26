@@ -1,7 +1,7 @@
-import { composeMiddleware, sessionAuth } from 'lib/middleware';
+import { composeMiddleware } from 'lib/middleware';
 import { auth } from '@clerk/nextjs/server';
 
-const handler = async () => {
+const handler = async (): Promise<Response> => {
   const { userId } = await auth();
   console.log('✅ sing-in auth handler triggered');
 
@@ -14,4 +14,4 @@ const handler = async () => {
   return Response.redirect('/dashboard');
 };
 
-export default composeMiddleware([sessionAuth, handler]);
+export const GET = composeMiddleware([handler]);

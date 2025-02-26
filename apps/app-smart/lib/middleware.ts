@@ -84,10 +84,21 @@ export async function getUserByClerkId(clerkId: string | null) {
     variables: {
       where: { clerkId: { equals: clerkId } },
     },
-    headers: {
-      'cache-control': 'public, max-age=3600', // cache for 1 hour
-    },
+    cache: false,
   });
 
   return { user: data?.data?.users?.[0] };
+}
+
+// parseCookies . takes in req : Request type and session name
+export function parseCookies(req: Request): Record<string, string> {
+  const cookies = req.headers.get('cookie')?.split('; ') || [];
+  const parsedCookies: Record<string, string> = {};
+
+  cookies.forEach((cookie) => {
+    const [key, value] = cookie.split('=');
+    parsedCookies[key] = decodeURIComponent(value);
+  });
+
+  return parsedCookies;
 }

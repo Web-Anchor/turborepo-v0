@@ -2,7 +2,6 @@
 
 import { parseCookies } from 'lib/middleware';
 import axios from 'axios';
-import { NextApiRequest } from 'next';
 
 const QUERY = `
 mutation UserLogin($email: String!, $password: String!) {
@@ -28,16 +27,11 @@ export async function cmsRootUserLogin() {
   };
 }
 
-export async function getSession(props: {
-  req: NextApiRequest;
-  session?: string;
-}) {
+export async function getSession(props: { req: Request; session?: string }) {
   try {
     const sessionName =
       props.session || process.env.AUTH_SESSION_NAME || 'session'; // Default to 'session'
-    const session =
-      props.req.cookies?.[sessionName] ||
-      parseCookies(props.req.headers.cookie)[sessionName];
+    const session = parseCookies(props.req)[sessionName];
 
     return { session };
   } catch (error) {
