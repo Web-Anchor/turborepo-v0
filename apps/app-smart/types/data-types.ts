@@ -2,17 +2,15 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  role?: string; // defaults to "USER"
+  role?: string; // default "USER"
   password: string;
-  assignedClusters: Cluster[];
   tags: Tag[];
   orders: Order[];
-  listAccesses: Access[];
   items: Item[];
   listInvitations: Invitation[];
   createdAt?: string;
-  permissions?: string; // defaults to "ALL"
-  configuration?: string; // defaults to "{}"
+  permissions?: string; // default "ALL"
+  configuration?: string; // default "{}"
   updatedAt?: string;
 };
 
@@ -20,10 +18,7 @@ export type Cluster = {
   id: string;
   name: string;
   description: string;
-  owner?: User;
-  ownerId?: string;
-  assignedUsers: User[];
-  accesses: Access[];
+  users: User[];
   lists: List[];
   invitations: Invitation[];
   createdAt?: string;
@@ -35,10 +30,8 @@ export type List = {
   name: string;
   description: string;
   tags: Tag[];
-  clusters?: Cluster;
-  clustersId?: string;
+  clusters: Cluster[];
   items: Item[];
-  accesses: Access[];
   invitations: Invitation[];
   itemsCount?: number;
   createdAt?: string;
@@ -59,13 +52,12 @@ export type Item = {
   barcode: string;
   supplier: string;
   leadTime?: number;
-  attributes?: string; // defaults to "{}"
-  status?: string; // defaults to "ACTIVE"
-  owners: User[];
+  attributes?: string; // default "{}"
+  status?: string; // default "ACTIVE"
+  users: User[];
   orders: Order[];
   isHidden: boolean;
-  inventoryList?: List;
-  inventoryListId?: string;
+  lists: List[];
   lastModifiedBy?: User;
   lastModifiedById?: string;
   tags: Tag[];
@@ -74,23 +66,12 @@ export type Item = {
   updatedAt?: string;
 };
 
-export type Access = {
-  id: string;
-  user?: User;
-  userId?: string;
-  inventoryLists: List[];
-  clusters: Cluster[];
-  permission?: string; // defaults to "VIEW"
-  createdAt?: string;
-  updatedAt?: string;
-};
-
 export type Invitation = {
   id: string;
   email: string;
-  status?: string; // defaults to "PENDING"
+  status?: string; // default "PENDING"
   token: string;
-  inventoryLists: List[];
+  lists: List[];
   clusters: Cluster[];
   user?: User;
   userId?: string;
@@ -101,12 +82,12 @@ export type Invitation = {
 export type Order = {
   id: string;
   orderNumber: string;
-  status?: string; // defaults to "PENDING"
-  owners: User[];
+  status?: string; // default "PENDING"
+  users: User[];
   items: Item[];
   source: string;
-  totalAmount?: number;
-  total: string;
+  amount?: number;
+  currency: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -119,7 +100,7 @@ export type Integration = {
   storeUrl: string;
   apiKey: string;
   shopId: string;
-  status?: string; // defaults to "PENDING"
+  status?: string; // default "PENDING"
   createdAt?: string;
   updatedAt?: string;
 };
@@ -135,6 +116,6 @@ export type Tag = {
 export type ItemTag = {
   id: string;
   name: string;
-  inventoryItem?: Item;
-  inventoryItemId?: string;
+  item?: Item;
+  itemId?: string;
 };
