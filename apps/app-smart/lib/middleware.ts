@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server';
+import axios from 'axios';
 
 type ContextType = Record<string, any>;
 export type MiddlewareTypes = {
@@ -55,7 +56,38 @@ export const sessionAuth = async ({ next, context }: MiddlewareTypes) => {
     console.log('❌ auth handler - user session not fount!');
     return Response.json({ message: 'Unauthorized' }, { status: 401 });
   }
+  const { user } = await getUserByClerkId(userId);
+
   context.clerkId = userId;
+  context.user = user;
 
   return await next();
 };
+
+export async function getUserByClerkId(clerkId: string) {
+  const QUERY = `
+    query Users($where: UserWhereInput!) {
+      users(where: $where) {
+        id
+        email
+        name
+        role
+        clerkId
+        createdAt
+        updatedAt
+      }
+    }
+  `;
+
+  const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
+    query: QUERY,
+    variables: {
+      where: { clerkId: { equals: clerkId } },
+    },
+    headers: {
+      'cache-control': 'public, max-age=3600', // cache for 1 hour
+    },
+  });
+
+  return { user: data?.data?.users?.[0] };
+}

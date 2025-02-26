@@ -6,7 +6,7 @@ import {
 import axios from 'axios';
 
 const QUERY = `
-  query Q($where: ClusterWhereUniqueInput!) {
+  query Cluster($where: ClusterWhereUniqueInput!) {
     cluster(where: $where) {
       id
       name
