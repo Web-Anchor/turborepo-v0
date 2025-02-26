@@ -136,13 +136,20 @@ function setCache<T>(key: string | null, data: T, ttl: number): void {
 
 // Function to get a cache entry if it's still valid
 function getCache<T>(key: string): T | null {
-  const entry = localCache.get(key);
-  if (!entry) return null;
+  // First, clean up all expired entries
+  revalidateCache();
 
-  // Check if the entry is expired
-  if (Date.now() > entry.expires) {
-    localCache.delete(key);
-    return null;
+  // Then, check for the requested key
+  const entry = localCache.get(key);
+  return entry ? entry.data : null;
+}
+
+// Revalidate the entire cache by removing expired entries
+function revalidateCache() {
+  const now = Date.now();
+  for (const [key, entry] of localCache.entries()) {
+    if (now > entry.expires) {
+      localCache.delete(key);
+    }
   }
-  return entry.data;
 }
