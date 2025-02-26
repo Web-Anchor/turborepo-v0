@@ -223,19 +223,21 @@ export default function RootLayout({ children, user }: SidebarTypes) {
                   )}
                 >
                   <Link
-                    href="#"
-                    className="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white"
+                    href="/settings"
+                    className="flex flex-1 gap-x-4 px-4 py-3 text-sm/6 font-semibold"
                   >
-                    <Image
-                      src={user?.imageUrl}
-                      alt={user?.firstName || 'Anonymous'}
-                      size="xSmall"
-                      className="h-8 w-8 rounded-full"
-                    />
-                    <span className="sr-only">Your profile</span>
-                    <span aria-hidden="true">
-                      {user?.firstName || user?.lastName || 'Anonymous'}
-                    </span>
+                    <section className="flex flex-row gap-4 items-center rounded-md px-2 py-1 flex-1 text-white hover:bg-slate-400 hover:text-slate-700 transition-all duration-300">
+                      <Image
+                        src={user?.imageUrl}
+                        alt={user?.firstName || 'Anonymous'}
+                        size="xSmall"
+                        className="h-8 w-8 rounded-full"
+                      />
+                      <span className="sr-only">Your profile</span>
+                      <span aria-hidden="true">
+                        {user?.firstName || user?.lastName || 'Anonymous'}
+                      </span>
+                    </section>
                   </Link>
                   <button
                     onClick={() =>
@@ -344,9 +346,7 @@ function navigation() {
 
 function secondaryMenu() {
   const teams = [
-    { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-    { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-    { id: 3, name: 'Workstation', href: '#', initial: 'W', current: false },
+    { id: 1, name: 'Setting', href: '/settings', initial: 'S', current: false },
   ];
 
   return teams;
