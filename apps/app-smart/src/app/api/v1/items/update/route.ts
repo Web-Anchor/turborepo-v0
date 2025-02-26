@@ -22,7 +22,7 @@ const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
     },
   });
 
-  return Response.json({ data: data?.data?.cluster });
+  return Response.json({ data: data?.data?.updateItem });
 };
 
 export const POST = composeMiddleware([sessionAuth, handler]);
