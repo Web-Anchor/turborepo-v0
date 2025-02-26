@@ -1,29 +1,16 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
-export function middleware(req: NextRequest) {
-  const response = NextResponse.next();
-  const cookie = req.cookies.get(process.env.AUTH_SESSION_NAME || 'session'); // Getting cookies from the request using the `RequestCookies` API
+const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
 
-  if (!cookie) {
-    // redirect to login page if no session cookie is present
-    console.log('🤖 No session found. Redirecting to login!');
-    return NextResponse.redirect(new URL('/login', req.nextUrl).toString());
-    // Setting cookies on the response using the `ResponseCookies` API
-  }
-
-  return response;
-}
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) await auth.protect();
+});
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
-     */
-    '/dashboard/:path*',
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
   ],
 };
