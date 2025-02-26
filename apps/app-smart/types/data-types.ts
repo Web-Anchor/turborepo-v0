@@ -15,6 +15,17 @@ export type User = {
   updatedAt?: string;
 };
 
+export type ClerkUser = {
+  id: string;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  imageUrl?: string;
+  lastActiveAt?: string;
+  updatedAt?: string;
+  createdAt?: string;
+};
+
 export type Cluster = {
   id: string;
   name: string;

@@ -53,10 +53,19 @@ export default function Image({
           imageSize[size],
           className
         )}
-        style={{ width: '100%', height: '100%' }}
       >
-        {fallback === 'profile-icon' && <User size={48} weight="duotone" />}
-        {fallback === 'error' && <ImageBroken size={48} weight="duotone" />}
+        {fallback === 'profile-icon' && (
+          <User
+            weight="duotone"
+            className={classNames(imageSize[size], className)}
+          />
+        )}
+        {fallback === 'error' && (
+          <ImageBroken
+            weight="duotone"
+            className={classNames(imageSize[size], className)}
+          />
+        )}
       </section>
     );
   }

@@ -28,16 +28,18 @@ import { classNames } from 'lib/utils';
 import { usePathname } from 'next/navigation';
 import Image from 'components/Wrappers/Image';
 import Link from 'components/Wrappers/Link';
+import { ClerkUser } from 'types/data-types';
 
 export const metadata: Metadata = {
   title: 'Dashboard 📦',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+type SidebarTypes = {
   children: React.ReactNode;
-}>) {
+  user?: ClerkUser | null;
+};
+
+export default function RootLayout({ children, user }: SidebarTypes) {
   const [state, setState] = useState<{
     sidebarOpen: boolean;
     sidebarWidth?: string; // Sidebar width
@@ -45,6 +47,7 @@ export default function RootLayout({
     sidebarOpen: false,
   });
   const path = usePathname();
+  console.log('user_data', user);
 
   return (
     <div>
@@ -224,13 +227,15 @@ export default function RootLayout({
                     className="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white"
                   >
                     <Image
-                      src="https://picsum.photos/120"
-                      alt="Your Company"
+                      src={user?.imageUrl}
+                      alt={user?.firstName || 'Anonymous'}
                       size="xSmall"
                       className="h-8 w-8 rounded-full"
                     />
                     <span className="sr-only">Your profile</span>
-                    <span aria-hidden="true">Tom Cook</span>
+                    <span aria-hidden="true">
+                      {user?.firstName || user?.lastName || 'Anonymous'}
+                    </span>
                   </Link>
                   <button
                     onClick={() =>
