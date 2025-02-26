@@ -223,7 +223,7 @@ export default function RootLayout({ children, user }: SidebarTypes) {
                   )}
                 >
                   <Link
-                    href="/settings"
+                    href="/dashboard/settings"
                     className="flex flex-1 gap-x-4 px-4 py-3 text-sm/6 font-semibold"
                   >
                     <section className="flex flex-row gap-4 items-center rounded-md px-2 py-1 flex-1 text-white hover:bg-slate-400 hover:text-slate-700 transition-all duration-300">
@@ -346,7 +346,13 @@ function navigation() {
 
 function secondaryMenu() {
   const teams = [
-    { id: 1, name: 'Setting', href: '/settings', initial: 'S', current: false },
+    {
+      id: 1,
+      name: 'Setting',
+      href: '/dashboard/settings',
+      initial: 'S',
+      current: false,
+    },
   ];
 
   return teams;
