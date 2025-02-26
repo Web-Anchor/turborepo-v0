@@ -1,6 +1,12 @@
 import { auth } from '@clerk/nextjs/server';
 import axios from 'axios';
 
+interface CacheEntry<T> {
+  data: T;
+  expires: number;
+}
+const localCache = new Map<string, CacheEntry<any>>();
+
 type ContextType = Record<string, any>;
 export type MiddlewareTypes = {
   req: Request;
@@ -78,14 +84,25 @@ export async function getUserByClerkId(clerkId: string | null) {
       }
     }
   `;
+  const cache = getCache(clerkId!);
+  if (cache) {
+    console.log('🚧 cached data served from cache!');
+
+    return { user: cache };
+  }
 
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: QUERY,
     variables: {
       where: { clerkId: { equals: clerkId } },
     },
-    cache: false,
   });
+  const user = data?.data?.users?.[0];
+  setCache(
+    clerkId,
+    user,
+    60 * 60 * 1000 // 1 hour
+  );
 
   return { user: data?.data?.users?.[0] };
 }
@@ -101,4 +118,31 @@ export function parseCookies(req: Request): Record<string, string> {
   });
 
   return parsedCookies;
+}
+
+function setCache<T>(key: string | null, data: T, ttl: number): void {
+  if (typeof key === 'string' && ttl > 0) {
+    // Create a new cache entry with the provided data and expiration time
+    // Add the entry to the local cache with the provided key and expiration time
+    // If the key already exists, update its data and expiration time with the new data and expiration time
+    // If the key does not exist, create a new entry with the provided key, data, and expiration time
+    // The cache entries will be automatically removed when their expiration time is reached
+    console.log('📦 caching data:', data);
+
+    const expires = Date.now() + ttl;
+    localCache.set(key, { data, expires });
+  }
+}
+
+// Function to get a cache entry if it's still valid
+function getCache<T>(key: string): T | null {
+  const entry = localCache.get(key);
+  if (!entry) return null;
+
+  // Check if the entry is expired
+  if (Date.now() > entry.expires) {
+    localCache.delete(key);
+    return null;
+  }
+  return entry.data;
 }

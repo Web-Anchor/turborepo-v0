@@ -4,13 +4,13 @@ import { parseCookies } from 'lib/middleware';
 import axios from 'axios';
 
 const QUERY = `
-mutation UserLogin($email: String!, $password: String!) {
-  authenticateUserWithPassword(email: $email, password: $password) {
-    ... on UserAuthenticationWithPasswordSuccess {
-      sessionToken
+  mutation UserLogin($email: String!, $password: String!) {
+    authenticateUserWithPassword(email: $email, password: $password) {
+      ... on UserAuthenticationWithPasswordSuccess {
+        sessionToken
+      }
     }
   }
-}
 `;
 
 export async function cmsRootUserLogin() {
