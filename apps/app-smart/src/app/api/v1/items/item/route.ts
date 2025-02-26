@@ -1,16 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import {
   composeMiddleware,
-  allowedMethods,
-  sessionCheck,
+  MiddlewareTypes,
+  sessionAuth,
 } from 'lib/middleware';
 import axios from 'axios';
-import { errorCather } from 'server/utils';
-
-type ResponseData = {
-  message?: string;
-  data?: object;
-};
 
 const QUERY = `
   query Items($where: ItemWhereInput, $take: Int, $skip: Int, $orderBy: [ItemOrderByInput!]) {
@@ -43,15 +36,8 @@ const QUERY = `
   }
 `;
 
-const handler = async (
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
-) => {
-  if (!req.body.userId) {
-    res.status(400).json({ message: 'User ID is required' });
-    return;
-  }
-
+const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
+  const { id, userId } = await req.json();
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: QUERY,
     variables: {
@@ -59,12 +45,12 @@ const handler = async (
         AND: [
           {
             id: {
-              equals: req.body.id,
+              equals: id,
             },
             owners: {
               some: {
                 id: {
-                  equals: req.body.userId,
+                  equals: userId,
                 },
               },
             },
@@ -73,13 +59,8 @@ const handler = async (
       },
     },
   });
-  await errorCather({ data, res });
 
-  res.status(200).json({ data: data?.data?.items?.[0] });
+  return Response.json({ data: data?.data?.items?.[0] });
 };
 
-export default composeMiddleware([
-  allowedMethods(['POST']),
-  sessionCheck(),
-  handler,
-]);
+export const POST = composeMiddleware([sessionAuth, handler]);
