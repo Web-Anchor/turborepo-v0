@@ -1,0 +1,21 @@
+import { list } from '@keystone-6/core';
+import { allowAll } from '@keystone-6/core/access';
+import { relationship, text, timestamp } from '@keystone-6/core/fields';
+
+export const Cluster: any = list({
+  // WARNING
+  //   for this starter project, anyone can create, query, update and delete anything
+  //   if you want to prevent random people on the internet from accessing your data,
+  //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
+  access: allowAll,
+
+  fields: {
+    name: text({ validation: { isRequired: true } }),
+    description: text(),
+    users: relationship({ ref: 'User', many: true }),
+    lists: relationship({ ref: 'List.clusters', many: true }),
+    invitations: relationship({ ref: 'Invitation.clusters', many: true }),
+    createdAt: timestamp({ defaultValue: { kind: 'now' } }),
+    updatedAt: timestamp({ db: { updatedAt: true } }),
+  },
+});

@@ -1,0 +1,9 @@
+node_modules
+.keystone/
+keystone.db
+*.db
+*.log
+
+# environment
+.env
+.env.*
