@@ -1,5 +1,6 @@
 'use client';
 
+import { SignIn } from '@clerk/nextjs';
 import { PageTitle, Paragraph } from '@repo/ui/document';
 import Link from 'components/Wrappers/Link';
 import { Button } from '@repo/ui/button';
@@ -32,6 +33,12 @@ export default function Page() {
   return (
     <section className="max-w-3xl mx-auto px-6 py-12 space-y-12">
       <PageTitle>User Logon Page</PageTitle>
+      <SignIn />
+
+      <Button type="button" variant="secondary" LinkComponent={Link} href="/">
+        Back to Home
+      </Button>
+
       <form onSubmit={submit}>
         <div className="space-y-12">
           <div className="border-b border-white/10 pb-12">

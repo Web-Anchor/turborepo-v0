@@ -1,14 +1,13 @@
-import { NextApiResponse } from 'next';
+import { CustomNextApiResponse } from 'lib/middleware';
 
 export async function errorCather({
   errors,
   data,
-  res,
 }: {
   errors?: Error[];
   data?: any;
-  res: NextApiResponse;
-}): Promise<void> {
+  res: CustomNextApiResponse;
+}) {
   /**
    * @description Next JS error catcher
    * @date 2025-02-24
@@ -18,6 +17,6 @@ export async function errorCather({
     const messages = (errors || data?.errors)?.map((e: Error) => e.message);
     console.log('❌ API ERROR', messages);
 
-    res.status(400).json({ errors: errors || data?.errors, messages });
+    return Response.json({ message: messages.join(', ') }, { status: 500 });
   }
 }

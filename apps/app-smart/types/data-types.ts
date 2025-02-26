@@ -1,5 +1,6 @@
 export type User = {
   id: string;
+  clerkId: string;
   name: string;
   email: string;
   role?: string; // default "USER"

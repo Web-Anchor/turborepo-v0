@@ -1,115 +1,62 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { auth } from '@clerk/nextjs/server';
 
-export interface CustomNextApiRequest extends NextApiRequest {
-  data?: object;
-}
+type ContextType = Record<string, any>;
+export type MiddlewareTypes = {
+  request: Request;
+  response: Response;
+  next: () => Promise<Response>;
+  context: ContextType; // middleware context
+};
+export type Middleware = (params: MiddlewareTypes) => Promise<Response>;
 
-export type NextApiMiddleware = (
-  req: CustomNextApiRequest,
-  res: NextApiResponse,
-  next: (error?: any) => void
-) => void;
+export function composeMiddleware(handlers: Middleware[]) {
+  return async (request: Request): Promise<Response> => {
+    const context: ContextType = {};
+    let index = -1;
 
-/**
- * Compose an array of Express-style middleware functions into a single Next.js API handler.
- * If any middleware passes an error to next() or throws an error,
- * a 500 response is sent (unless the response is already finished).
- */
-export function composeMiddleware(handlers: NextApiMiddleware[]) {
-  return async (req: NextApiRequest, res: NextApiResponse) => {
-    let index = 0;
-
-    const next = (error?: any): Promise<void> => {
-      if (error) {
-        return Promise.reject(error);
+    const dispatch = async (i: number): Promise<Response> => {
+      if (i <= index) {
+        throw new Error('next() called multiple times');
       }
-      // If the response is already finished, stop processing.
-      if (res.writableEnded) return Promise.resolve();
-      if (index >= handlers.length) return Promise.resolve();
+      index = i;
 
-      const handler = handlers[index++];
-      return new Promise<void>((resolve, reject) => {
-        try {
-          handler(req as CustomNextApiRequest, res, (err?: any) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(next());
-            }
-          });
-        } catch (err) {
-          reject(err);
-        }
-      });
+      // When all middleware have been called, return a default response:
+      if (i === handlers.length) {
+        return new Response('Not Found', {
+          status: 404,
+        }) as Response;
+      }
+
+      const response = new Response() as Response;
+      const handler = handlers[i];
+      const params: MiddlewareTypes = {
+        request,
+        response,
+        next: () => dispatch(i + 1),
+        context,
+      };
+
+      return handler(params);
     };
 
     try {
-      await next();
-    } catch (error: any) {
-      if (!res.writableEnded) {
-        res
-          .status(500)
-          .json({ error: error.message || 'Internal Server Error' });
-      }
+      return await dispatch(0);
+    } catch (error) {
+      console.error('❌ Error in middleware:', (error as Error).message);
+      return Response.json({ error }, { status: 500 });
     }
   };
 }
 
-/**
- * Checks if the request's method is one of the allowed methods.
- * If not, returns a 405 response with an 'Allow' header.
- */
-export function allowedMethods(methods: string[]) {
-  return (
-    req: NextApiRequest,
-    res: NextApiResponse,
-    next: (error?: any) => void
-  ) => {
-    if (req.method && methods.includes(req.method)) {
-      return next();
-    }
-    res.setHeader('Allow', methods.join(', '));
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  };
-}
+// sessionCheck middleware
+export const sessionCheck = async ({ next, context }: MiddlewareTypes) => {
+  const { userId } = await auth();
 
-/**
- * A simple cookie parser that converts a cookie header string into an object.
- */
-export function parseCookies(cookieHeader?: string): Record<string, string> {
-  const list: Record<string, string> = {};
-  if (!cookieHeader) return list;
-  cookieHeader.split(';').forEach((cookie) => {
-    let [name, ...rest] = cookie.split('=');
-    name = name?.trim();
-    if (!name) return;
-    const value = rest.join('=').trim();
-    if (value) {
-      list[name] = decodeURIComponent(value);
-    }
-  });
-  return list;
-}
+  if (!userId) {
+    console.log('❌ auth handler - user session not fount!');
+    return Response.json({ message: 'Unauthorized' }, { status: 401 });
+  }
+  context.clerkId = userId;
 
-/**
- * Checks that a session cookie exists.
- * The cookie name is taken from process.env.SESSION_NAME (defaulting to 'session').
- * If the session cookie is missing, a 401 Unauthorized response is returned.
- */
-export const sessionCheck = (session?: string) => {
-  return (
-    req: NextApiRequest,
-    res: NextApiResponse,
-    next: (error?: any) => void
-  ) => {
-    // Use parsed cookies if available, otherwise parse the header.
-    const cookies = req.cookies || parseCookies(req.headers.cookie);
-    const sessionName = session || process.env.AUTH_SESSION_NAME || 'session'; // Default to 'session'
-    if (!cookies[sessionName]) {
-      res.status(401).json({ error: 'Unauthorized' });
-      return;
-    }
-    // Optionally, you could add additional session validation logic here.
-    return next();
-  };
+  return await next();
 };

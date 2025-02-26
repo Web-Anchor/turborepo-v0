@@ -26,7 +26,7 @@ export function Button({
   const variantClasses = {
     primary: 'text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-500',
     secondary:
-      'text-gray-700 bg-gray-300 hover:bg-gray-400 focus:ring-gray-500',
+      'text-gray-800 bg-gray-300 hover:bg-gray-100 focus:ring-gray-500',
     danger: 'text-white bg-red-600 hover:bg-red-700 focus:ring-red-500',
     link: 'text-blue-600 focus:ring-blue-500 focus:text-white',
   };

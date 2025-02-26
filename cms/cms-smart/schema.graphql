@@ -4,6 +4,7 @@
 type User {
   id: ID!
   name: String
+  clerkId: String
   email: String
   role: String
   password: PasswordState
@@ -38,6 +39,7 @@ input UserWhereInput {
   NOT: [UserWhereInput!]
   id: IDFilter
   name: StringFilter
+  clerkId: StringFilter
   email: StringFilter
   role: StringNullableFilter
   tags: TagManyRelationFilter
@@ -140,6 +142,7 @@ input DateTimeNullableFilter {
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  clerkId: OrderDirection
   email: OrderDirection
   role: OrderDirection
   createdAt: OrderDirection
@@ -154,6 +157,7 @@ enum OrderDirection {
 
 input UserUpdateInput {
   name: String
+  clerkId: String
   email: String
   role: String
   password: String
@@ -202,6 +206,7 @@ input UserUpdateArgs {
 
 input UserCreateInput {
   name: String
+  clerkId: String
   email: String
   role: String
   password: String
