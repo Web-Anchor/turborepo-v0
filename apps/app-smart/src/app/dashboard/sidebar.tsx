@@ -22,6 +22,7 @@ import {
   CalendarDots,
   CloudArrowUp,
   ArrowsIn,
+  ListPlus,
   CardsThree,
 } from '@phosphor-icons/react';
 import { classNames } from 'lib/utils';
@@ -292,6 +293,11 @@ function navigation() {
       name: 'Dashboard',
       href: '/dashboard',
       icon: SelectionBackground,
+    },
+    {
+      name: 'Orders',
+      href: '/dashboard/orders',
+      icon: ListPlus,
     },
     {
       name: 'Clusters',
