@@ -14,7 +14,7 @@ import {
 } from '@repo/ui/form';
 import { objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
-import { statusListOptions } from 'lib/list-options';
+import { colorsOptions, statusListOptions } from 'lib/list-options';
 
 export default function Page() {
   const router = useRouter();
@@ -24,6 +24,8 @@ export default function Page() {
       if (!data.name) {
         throw new Error('Name is required');
       }
+
+      return console.log(data);
 
       await axios.post('/api/v1/items/create', {
         ...objKeysToNumber(['quantity', 'cost', 'price', 'reorderLevel'], data),
@@ -98,6 +100,13 @@ export default function Page() {
                 label="Status"
                 defaultValue="ACTIVE"
                 options={statusListOptions}
+              />
+              <SelectInput
+                name="colour"
+                label="Colour"
+                placeholder="Select a colour"
+                options={colorsOptions}
+                optional
               />
             </div>
           </div>
