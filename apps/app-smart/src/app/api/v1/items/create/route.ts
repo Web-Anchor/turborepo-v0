@@ -13,12 +13,18 @@ const MUTATION = `
   }
 `;
 
-const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
-  const { id } = await req.json();
+const handler = async ({
+  req,
+  context,
+}: MiddlewareTypes): Promise<Response> => {
+  const body = await req.json();
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: MUTATION,
     variables: {
-      where: { id },
+      data: {
+        ...body,
+        users: { connect: [{ id: context?.user?.id }] }, // User ID owning the item
+      },
     },
   });
 

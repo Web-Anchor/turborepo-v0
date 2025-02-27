@@ -17,16 +17,17 @@ const QUERY = `
       unit
       attributes
       status
-      inventoryList {
+      lists {
         id
         name
       }
       tags {
         name
       }
-      owners {
+      users {
         id
-        name
+        firstName
+        lastName
         email
       }
       isHidden
@@ -50,7 +51,7 @@ const handler = async ({
             id: {
               equals: id,
             },
-            owners: {
+            users: {
               some: {
                 id: {
                   equals: context?.userId,

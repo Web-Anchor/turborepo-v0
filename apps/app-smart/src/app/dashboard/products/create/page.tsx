@@ -27,7 +27,6 @@ export default function Page() {
 
       await axios.post('/api/v1/items/create', {
         ...objKeysToNumber(['quantity', 'cost', 'price'], data),
-        owners: { connect: { id: 'cm7g46yzc00004sftmvfxky2f' } },
       });
       toast.success('Your item has been created.');
       mutate('/api/v1/items/items');
