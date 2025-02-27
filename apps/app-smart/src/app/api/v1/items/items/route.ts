@@ -53,7 +53,7 @@ const handler = async ({
       },
       take,
       skip,
-      orderBy,
+      orderBy: orderBy || { id: 'desc' },
     },
   });
 
