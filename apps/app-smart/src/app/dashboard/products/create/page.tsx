@@ -99,7 +99,7 @@ export default function Page() {
             variant="link"
             className="text-sm/6 font-semibold text-white"
             LinkComponent={Link}
-            href="/dashboard/items"
+            href="/dashboard/products"
           >
             Cancel
           </Button>

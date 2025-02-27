@@ -16,7 +16,7 @@ export default function Page() {
         <PageTitle text="Inventory Lists" />
         <Button
           variant="primary"
-          href="/dashboard/items/create"
+          href="/dashboard/products/create"
           LinkComponent={Link}
         >
           Create Item
@@ -37,7 +37,7 @@ export default function Page() {
           action: (
             <Button
               LinkComponent={Link}
-              href={`/dashboard/items/${item.id}`}
+              href={`/dashboard/products/${item.id}`}
               variant="link"
             >
               Edit
