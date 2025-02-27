@@ -16,8 +16,8 @@ export default function Page() {
   const params = useParams<{ id: string }>();
   const { data, mutate } = useGetItem({
     id: params?.id,
-    userId: 'cm7g46yzc00004sftmvfxky2f',
   });
+  console.log(data);
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {

@@ -14,11 +14,12 @@ const MUTATION = `
 `;
 
 const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
-  const { id } = await req.json();
+  const { id, ...body } = await req.json();
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: MUTATION,
     variables: {
       where: { id },
+      data: body,
     },
   });
 

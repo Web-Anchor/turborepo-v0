@@ -8,6 +8,7 @@ import ItemTable from '@repo/ui/tables';
 
 export default function Page() {
   const { data } = useGetItems({});
+  console.log('DATA', data);
 
   return (
     <div className="flex flex-col gap-4">

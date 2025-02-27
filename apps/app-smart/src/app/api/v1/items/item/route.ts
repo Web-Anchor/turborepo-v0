@@ -17,6 +17,8 @@ const QUERY = `
       unit
       attributes
       status
+      cost
+      quantity
       lists {
         id
         name

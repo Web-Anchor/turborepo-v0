@@ -12,11 +12,12 @@ const QUERY = `
       name
       description
       category
-      cost
       price
       unit
       attributes
       status
+      cost
+      quantity
       lists {
         id
         name
