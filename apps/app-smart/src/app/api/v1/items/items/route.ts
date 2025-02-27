@@ -36,13 +36,17 @@ const QUERY = `
   }
 `;
 
-const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
-  const { userId, take, skip, orderBy } = await req.json();
+const handler = async ({
+  req,
+  context,
+}: MiddlewareTypes): Promise<Response> => {
+  const { take, skip, orderBy } = await req.json();
+
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: QUERY,
     variables: {
       where: {
-        owners: { some: { id: { equals: userId } } }, // User ID owning items
+        owners: { some: { id: { equals: context?.user?.id } } }, // User ID owning items
       },
       take,
       skip,

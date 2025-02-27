@@ -3,7 +3,6 @@ import { mutate } from 'swr';
 import { Item } from 'types/data-types';
 
 type HookTypes = {
-  userId?: string | number;
   id?: string | number;
 };
 
@@ -11,7 +10,7 @@ export function useGetItems(props: HookTypes) {
   const url = '/api/v1/items/items';
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
-    data: { userId: props.userId },
+    data: { ...props },
   });
 
   return {

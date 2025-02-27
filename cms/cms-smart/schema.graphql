@@ -448,6 +448,7 @@ type Item {
   quantity: Int
   cost: Float
   price: Float
+  taxRate: Float
   reorderLevel: Int
   unit: String
   sku: String
@@ -487,6 +488,7 @@ input ItemWhereInput {
   quantity: IntNullableFilter
   cost: FloatNullableFilter
   price: FloatNullableFilter
+  taxRate: FloatNullableFilter
   reorderLevel: IntNullableFilter
   unit: StringFilter
   sku: StringFilter
@@ -546,6 +548,7 @@ input ItemOrderByInput {
   quantity: OrderDirection
   cost: OrderDirection
   price: OrderDirection
+  taxRate: OrderDirection
   reorderLevel: OrderDirection
   unit: OrderDirection
   sku: OrderDirection
@@ -565,6 +568,7 @@ input ItemUpdateInput {
   quantity: Int
   cost: Float
   price: Float
+  taxRate: Float
   reorderLevel: Int
   unit: String
   sku: String
@@ -609,6 +613,7 @@ input ItemCreateInput {
   quantity: Int
   cost: Float
   price: Float
+  taxRate: Float
   reorderLevel: Int
   unit: String
   sku: String

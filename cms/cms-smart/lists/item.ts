@@ -29,8 +29,8 @@ export const InventoryItem: any = list({
     description: text(),
     category: text(), // e.g. "construction", "retail", etc.
     quantity: integer({ defaultValue: 0 }),
-    cost: float(),
-    price: float(),
+    cost: float(), // cost price
+    price: float(), // selling price
     taxRate: float({ defaultValue: 0 }),
     reorderLevel: integer({ defaultValue: 0 }),
     unit: text(), // e.g. "pcs", "kg", "meters"

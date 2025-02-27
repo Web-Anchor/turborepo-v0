@@ -7,8 +7,7 @@ import Link from 'components/Wrappers/Link';
 import ItemTable from '@repo/ui/tables';
 
 export default function Page() {
-  const { data } = useGetItems({ userId: 'cm7g46yzc00004sftmvfxky2f' });
-  console.log('DATA', data);
+  const { data } = useGetItems({});
 
   return (
     <div className="flex flex-col gap-4">

@@ -51,7 +51,12 @@ export function composeMiddleware(handlers: Middleware[]) {
     try {
       return await dispatch(0);
     } catch (error) {
-      console.error('❌ Error in middleware:', (error as Error).message);
+      console.error(`❌ Error in middleware:`, (error as Error).message);
+      const msgs = (error as any)?.response?.data?.errors?.map(
+        (e: { message: string }) => e.message
+      );
+      console.log(msgs);
+
       return Response.json({ error }, { status: 500 });
     }
   };

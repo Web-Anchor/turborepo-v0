@@ -74,10 +74,9 @@ export default function Page() {
                 optional
               />
               <TextInput
-                name="cost"
-                label="Cost"
-                placeholder="Enter a cost"
-                type="number"
+                name="sku"
+                label="SKU"
+                placeholder="Enter a SKU"
                 optional
               />
               <TextInput
