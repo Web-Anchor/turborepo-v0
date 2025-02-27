@@ -21,8 +21,14 @@ export const User: any = list({
   fields: {
     // by adding isRequired, we enforce that every User should have a name
     //   if no name is provided, an error will be displayed
-    name: text({ validation: { isRequired: true } }),
-    clerkId: text({ validation: { isRequired: true } }),
+    firstName: text(),
+    lastName: text(),
+    phoneNumbers: text(),
+    clerkId: text({
+      // by adding isIndexed: 'unique', we're saying that no user can have the same
+      // clerkId as another user - this may or may not be a good idea for your project
+      isIndexed: 'unique',
+    }),
     email: text({
       validation: { isRequired: true },
       // by adding isIndexed: 'unique', we're saying that no user can have the same

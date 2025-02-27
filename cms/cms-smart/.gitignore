@@ -3,6 +3,7 @@ node_modules
 keystone.db
 *.db
 *.log
+migrations/
 
 # environment
 .env

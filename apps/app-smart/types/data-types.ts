@@ -1,8 +1,10 @@
 export type User = {
   id: string;
   clerkId: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
+  phoneNumber?: string;
   role?: string; // default "USER"
   password: string;
   tags: Tag[];

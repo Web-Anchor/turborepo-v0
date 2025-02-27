@@ -6,8 +6,9 @@
     "dev": "keystone dev",
     "commit": "./commit.sh",
     "build": "keystone build",
-    "db:reset": "keystone prisma db push --force-reset",
-    "db:migrate": "keystone prisma migrate dev --name rename-lists",
+    "db:reset": "npx prisma db push --force-reset",
+    "db:migrate": "npx prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
     "start": "keystone start --with-migrations",
     "lint": "eslint . --ext .ts,.tsx",
     "check-types": "tsc --noEmit"

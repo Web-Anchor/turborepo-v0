@@ -29,5 +29,8 @@
     "apps/*",
     "cms/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "prisma": "latest"
+  }
 }
