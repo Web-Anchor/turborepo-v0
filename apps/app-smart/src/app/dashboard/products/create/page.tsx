@@ -6,7 +6,12 @@ import { Button } from '@repo/ui/button';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { FormWrapper, SelectInput, TextInput } from '@repo/ui/form';
+import {
+  FormWrapper,
+  SelectInput,
+  TextAreaInput,
+  TextInput,
+} from '@repo/ui/form';
 import { objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
 import { statusListOptions } from 'lib/list-options';
@@ -49,7 +54,7 @@ export default function Page() {
 
             <div className="mt-10 flex flex-col gap-8">
               <TextInput name="name" label="Name" placeholder="Enter a name" />
-              <TextInput
+              <TextAreaInput
                 name="description"
                 label="Description"
                 placeholder="Enter a description"

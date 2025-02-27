@@ -25,8 +25,8 @@ export default function Page() {
       <Paragraph text="Id ex dolor nostrud amet qui officia reprehenderit nulla sint nulla incididunt labore." />
 
       <ItemTable
+        headers={headers()}
         items={data?.map((item) => ({
-          id: item.id,
           name: item.name,
           description: item.description,
           category: item.category,
@@ -46,7 +46,32 @@ export default function Page() {
         }))}
       />
 
-      <Paragraph text="Sunt magna elit cillum aliqua exercitation labore et adipisicing ullamco in." />
+      <Paragraph>
+        Tempor sit aliqua qui ipsum nisi commodo et adipisicing mollit
+        reprehenderit sint cillum eiusmod. Nostrud ea sunt qui officia officia
+        magna qui laborum. Culpa velit exercitation velit do incididunt velit
+        sit nostrud nostrud ea cillum commodo et ad. Aliqua enim id nulla
+        laboris Lorem laboris commodo ut cupidatat. Ad dolore eu excepteur
+        proident sunt est cupidatat irure amet id consequat exercitation
+        consectetur. Anim ea pariatur dolor nisi veniam. Consequat et dolore
+        fugiat reprehenderit officia sint aliquip qui laborum. Ullamco enim
+        aliqua nulla in dolore officia ut laboris eiusmod in. Exercitation
+        voluptate sit non ullamco excepteur ex.
+      </Paragraph>
     </div>
   );
+}
+
+function headers() {
+  const defaultHeaders = [
+    { name: 'Name', className: '' },
+    { name: 'Category', className: 'hidden sm:table-cell' },
+    { name: 'Quantity', className: '' },
+    { name: 'Price', className: '' },
+    { name: 'Status', className: 'hidden sm:table-cell' },
+    { name: 'Last Updated', className: 'hidden lg:table-cell' },
+    { name: 'Actions', className: '' },
+  ];
+
+  return defaultHeaders;
 }

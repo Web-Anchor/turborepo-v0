@@ -31,6 +31,10 @@ export const InventoryItem: any = list({
     quantity: integer({ defaultValue: 0 }),
     cost: float(),
     price: float(),
+    taxRate: float({ defaultValue: 0 }),
+    discountRate: float({ defaultValue: 0 }),
+    discountAmount: float({ defaultValue: 0 }),
+    discountedPrice: float({ defaultValue: 0 }),
     reorderLevel: integer({ defaultValue: 0 }),
     unit: text(), // e.g. "pcs", "kg", "meters"
     sku: text(), // Stock Keeping Unit

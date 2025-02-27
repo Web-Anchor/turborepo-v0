@@ -1,7 +1,6 @@
 import { classNames, dateToFormattedString } from '../dist/utils';
 
 interface Item {
-  id: string;
   name?: string;
   description?: string;
   category?: string;
@@ -41,16 +40,6 @@ function themeStatus(status?: string): string {
   }
 }
 
-const defaultHeaders: TableHeader[] = [
-  { name: 'Name', className: '' },
-  { name: 'Category', className: 'hidden sm:table-cell' },
-  { name: 'Quantity', className: '' },
-  { name: 'Price', className: '' },
-  { name: 'Status', className: 'hidden sm:table-cell' },
-  { name: 'Last Updated', className: 'hidden lg:table-cell' },
-  { name: 'Actions', className: '' },
-];
-
 const themes = {
   light: 'bg-white text-gray-900',
   dark: 'bg-gray-800 text-white',
@@ -59,14 +48,13 @@ const themes = {
 
 export default function ItemTable({
   items,
-  headers = defaultHeaders,
   theme = 'light',
   ...rest
 }: ItemTableProps) {
   return (
     <div
       className={classNames(
-        `container mx-auto px-4 sm:px-6 lg:px-8 py-8`,
+        `container mx-auto px-2 sm:px-4 lg:px-6 py-2 rounded-lg shadow-md border border-gray-200`,
         themes[theme],
         rest.className
       )}
@@ -76,11 +64,11 @@ export default function ItemTable({
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-opacity-50">
               <tr>
-                {headers.map((header, index) => (
+                {rest?.headers?.map((header, index) => (
                   <th
                     key={index}
                     scope="col"
-                    className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${header.className}`}
+                    className={`py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0 text-nowrap ${header.className}`}
                   >
                     {header.name}
                   </th>
@@ -88,9 +76,9 @@ export default function ItemTable({
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-opacity-50">
-              {items?.map((item) => (
+              {items?.map((item, index) => (
                 <tr
-                  key={item.id}
+                  key={index}
                   className="hover:bg-opacity-75 transition-colors duration-200"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -113,11 +101,6 @@ export default function ItemTable({
                     {item.price ? `$${item.price.toFixed(2)}` : 'N/A'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
-                    {/* <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-sm ${themeStatus(item.status)}`}
-                    >
-                      {item.status}
-                    </span> */}
                     <span
                       className={classNames(
                         'inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20',

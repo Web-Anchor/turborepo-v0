@@ -91,6 +91,48 @@ export function TextInput({ type = 'text', ...rest }: InputTypes) {
   );
 }
 
+// textarea input
+type TextAreaTypes = {
+  className?: string;
+  inputClassName?: string;
+  placeholder?: string;
+  name: string;
+  label?: string;
+  defaultValue?: string;
+  optional?: boolean;
+};
+
+export function TextAreaInput({ ...rest }: TextAreaTypes) {
+  return (
+    <div className={classNames('flex flex-1 flex-col', rest.className)}>
+      <div className="flex flex-row gap-2">
+        <label
+          htmlFor={rest.name}
+          className="text-sm/6 font-medium flex self-end mr-auto"
+        >
+          {rest.label}
+        </label>
+        {rest.optional && (
+          <span className="text-sm/6 font-medium flex self-end">Optional</span>
+        )}
+      </div>
+      <div className="mt-2 flex flex-1">
+        <textarea
+          name={rest.name}
+          defaultValue={rest.defaultValue}
+          placeholder={rest.placeholder}
+          aria-describedby={`${rest.name} input`}
+          className={classNames(
+            'block min-w-0 grow bg-white/5 px-3 py-1.5 text-base text-white placeholder:text-gray-500 focus:outline focus:outline-0 sm:text-sm/6',
+            'border border-slate-700 rounded-md',
+            rest.inputClassName
+          )}
+        />
+      </div>
+    </div>
+  );
+}
+
 export interface Option {
   label: string;
   value: string;
