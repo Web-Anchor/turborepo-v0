@@ -12,7 +12,7 @@ import {
   TextAreaInput,
   TextInput,
 } from '@repo/ui/form';
-import { objKeysToNumber } from 'lib/utils';
+import { filterFormObject, objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
 import { colorsOptions, statusListOptions } from 'lib/list-options';
 
@@ -22,13 +22,15 @@ export default function Page() {
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
       if (!data.name) {
-        throw new Error('Name is required');
+        throw new Error('Name is required'); // TODO: Add more validation
       }
-
-      return console.log(data);
+      const customKeys = ['colour'];
+      const attributes = filterFormObject(data, customKeys);
+      customKeys.forEach((key) => delete data[key]); // delete custom keys from data
 
       await axios.post('/api/v1/items/create', {
         ...objKeysToNumber(['quantity', 'cost', 'price', 'reorderLevel'], data),
+        attributes,
       });
       toast.success('Your item has been created.');
       mutate('/api/v1/items/items');

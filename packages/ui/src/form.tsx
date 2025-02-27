@@ -158,14 +158,13 @@ export function SelectInput({ options, ...rest }: SelectInputTypes) {
 
   const [selected, setSelected] = useState<Option>(defaultOption);
   const isOtherSelected = selected.value === 'OTHER';
-  console.log('selected', selected);
 
   return (
     <div className={classNames('flex flex-1 flex-col', rest.className)}>
       <div className="mt-2 relative">
         {!isOtherSelected && (
           <Listbox
-            value={selected.value}
+            value={selected.value || ''}
             onChange={(value: string) => {
               const newOption = options.find(
                 (option) => option.value === value
@@ -213,7 +212,7 @@ export function SelectInput({ options, ...rest }: SelectInputTypes) {
               <input
                 type="hidden"
                 name={rest.name}
-                value={selected.value || rest.defaultValue}
+                value={selected.value || rest.defaultValue || ''}
                 aria-describedby={`${rest.name} input`}
               />
             </ListboxButton>
