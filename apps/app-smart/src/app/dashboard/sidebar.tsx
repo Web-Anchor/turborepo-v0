@@ -47,7 +47,6 @@ export default function RootLayout({ children, user }: SidebarTypes) {
     sidebarOpen: false,
   });
   const path = usePathname();
-  console.log('user_data', user);
 
   return (
     <div>

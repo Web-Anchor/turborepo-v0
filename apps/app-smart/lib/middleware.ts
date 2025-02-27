@@ -13,8 +13,9 @@ export type MiddlewareTypes = {
   res: Response;
   next: () => Promise<Response>;
   context: ContextType; // middleware context
+  validateDbUser?: boolean;
 };
-export type Middleware = (params: MiddlewareTypes) => Promise<Response>;
+export type Middleware = (params: MiddlewareTypes) => Promise<Response | void>;
 
 export function composeMiddleware(handlers: Middleware[]) {
   return async (req: Request): Promise<Response> => {
@@ -43,7 +44,8 @@ export function composeMiddleware(handlers: Middleware[]) {
         context,
       };
 
-      return handler(params);
+      const result = await handler(params);
+      return result || new Response('Not Found', { status: 404 });
     };
 
     try {
@@ -55,17 +57,24 @@ export function composeMiddleware(handlers: Middleware[]) {
   };
 }
 
-export const sessionAuth = async ({ next, context }: MiddlewareTypes) => {
+export const sessionAuth = async ({
+  next,
+  context,
+  validateDbUser = true,
+}: MiddlewareTypes) => {
   const { userId } = await auth();
 
-  const { user } = await getUserByClerkId(userId);
+  if (validateDbUser) {
+    const { user } = await getUserByClerkId(userId);
 
-  if (!user) {
-    console.log('❌ auth handler - user not found!');
-    return Response.json({ message: 'Unauthorized' }, { status: 401 });
+    if (!user) {
+      console.log('❌ auth handler - user not found!');
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+    context.user = user;
   }
+
   context.clerkId = userId;
-  context.user = user;
 
   return await next();
 };
@@ -76,7 +85,8 @@ export async function getUserByClerkId(clerkId: string | null) {
       users(where: $where) {
         id
         email
-        name
+        firstName
+        lastName
         role
         clerkId
         createdAt
@@ -86,7 +96,7 @@ export async function getUserByClerkId(clerkId: string | null) {
   `;
   const cache = getCache(clerkId!);
   if (cache) {
-    console.log('🚧 cached data served from cache!');
+    console.log('🚧 sore data served from cache!');
 
     return { user: cache };
   }

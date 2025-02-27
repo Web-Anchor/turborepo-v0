@@ -15,15 +15,24 @@ const MUTATION = `
 
 const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
   const body = await req.json();
+  console.log('🤖 adding new User record to db', body);
+
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: MUTATION,
     variables: {
       data: body,
     },
   });
-  console.log('🤖 user created:', data);
 
   return Response.json({ data: data?.data?.createUser });
 };
 
-export const POST = composeMiddleware([sessionAuth, handler]);
+const cSessionCheck = async ({
+  ...rest
+}: MiddlewareTypes): Promise<Response> => {
+  await sessionAuth({ ...rest, validateDbUser: false });
+
+  return new Response();
+};
+
+export const POST = composeMiddleware([cSessionCheck, handler]);

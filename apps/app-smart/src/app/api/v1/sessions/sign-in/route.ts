@@ -1,31 +1,32 @@
-import { composeMiddleware, getUserByClerkId } from 'lib/middleware';
-import { auth, currentUser } from '@clerk/nextjs/server';
+import {
+  composeMiddleware,
+  getUserByClerkId,
+  MiddlewareTypes,
+  sessionAuth,
+} from 'lib/middleware';
+import { currentUser } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 
-const handler = async (): Promise<Response> => {
-  const { userId } = await auth();
-  console.log('🤖 auth user logon action checks');
-  const { user } = await getUserByClerkId(userId);
+const handler = async ({ context }: MiddlewareTypes): Promise<Response> => {
+  console.log('🤖 auth logon action. Clerk ID:', context);
+  const { user } = await getUserByClerkId(context?.userId);
 
-  if (user) {
-    console.log(
-      '❌ sing-in auth handler could not find uer with clerkId:',
-      userId
-    );
+  if (!user && context?.userId) {
+    console.log('❌ sing-in auth handler - user not found!');
+    console.log('🤖 creating user from clerk user:', context?.userId);
+
     const clerkUser = await currentUser();
-    const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
-      data: {
-        clerkId: clerkUser?.id,
-        firstName: clerkUser?.firstName,
-        lastName: clerkUser?.lastName,
-        role: 'USER',
-        permissions: 'ALL',
-        email: clerkUser?.emailAddresses?.[0]?.emailAddress,
-        phoneNumbers: clerkUser?.phoneNumbers?.[0]?.phoneNumber,
-      },
+    await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users/create`, {
+      clerkId: clerkUser?.id,
+      firstName: clerkUser?.firstName,
+      lastName: clerkUser?.lastName,
+      role: 'USER',
+      permissions: 'ALL',
+      email: clerkUser?.emailAddresses?.[0]?.emailAddress,
+      phoneNumbers: clerkUser?.phoneNumbers?.[0]?.phoneNumber,
+      password: Math.random().toString(36).slice(-12), // random password
     });
-    console.log('🤖 user created:', data);
   }
 
   return NextResponse.redirect(
@@ -33,4 +34,11 @@ const handler = async (): Promise<Response> => {
   );
 };
 
-export const GET = composeMiddleware([handler]);
+const cSessionCheck = async ({
+  next,
+  ...rest
+}: MiddlewareTypes): Promise<void> => {
+  await sessionAuth({ ...rest, next, validateDbUser: false });
+};
+
+export const GET = composeMiddleware([cSessionCheck, handler]);
