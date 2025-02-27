@@ -189,21 +189,21 @@ export default function RootLayout({ children, user }: SidebarTypes) {
                   Your teams
                 </div>
                 <ul role="list" className="-mx-2 mt-2 space-y-1">
-                  {secondaryMenu().map((team) => (
-                    <li key={team.name}>
+                  {secondaryMenu().map((item, index) => (
+                    <li key={index}>
                       <Link
-                        href={team.href}
+                        href={item.href}
                         className={classNames(
-                          team.current
+                          path === item.href
                             ? 'bg-gray-800 text-white'
                             : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                           'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
                         )}
                       >
                         <span className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
-                          {team.initial}
+                          {item.initial}
                         </span>
-                        <span className="truncate">{team.name}</span>
+                        <span className="truncate">{item.name}</span>
                       </Link>
                     </li>
                   ))}
@@ -341,7 +341,18 @@ function navigation() {
 function secondaryMenu() {
   const teams = [
     {
-      id: 1,
+      name: 'Reports',
+      href: '/dashboard/reports',
+      initial: 'R',
+      current: false,
+    },
+    {
+      name: 'Integrations',
+      href: '/dashboard/integrations',
+      initial: 'I',
+      current: false,
+    },
+    {
       name: 'Setting',
       href: '/dashboard/settings',
       initial: 'S',
