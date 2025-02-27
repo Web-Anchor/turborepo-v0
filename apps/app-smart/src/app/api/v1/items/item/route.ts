@@ -18,6 +18,7 @@ const QUERY = `
       attributes
       status
       cost
+      reorderLevel
       quantity
       lists {
         id

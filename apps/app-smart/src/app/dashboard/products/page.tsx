@@ -33,6 +33,7 @@ export default function Page() {
           quantity: item.quantity,
           price: item.price,
           status: item.status,
+          reorderLevel: item.reorderLevel,
           updatedAt: item.updatedAt,
           action: (
             <Button
@@ -69,6 +70,7 @@ function headers() {
     { name: 'Quantity', className: '' },
     { name: 'Price', className: '' },
     { name: 'Status', className: 'hidden sm:table-cell' },
+    { name: 'Reorder level', className: 'hidden sm:table-cell' },
     { name: 'Last Updated', className: 'hidden lg:table-cell' },
     { name: 'Actions', className: '' },
   ];

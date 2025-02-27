@@ -26,7 +26,7 @@ export default function Page() {
       }
 
       await axios.post('/api/v1/items/create', {
-        ...objKeysToNumber(['quantity', 'cost', 'price'], data),
+        ...objKeysToNumber(['quantity', 'cost', 'price', 'reorderLevel'], data),
       });
       toast.success('Your item has been created.');
       mutate('/api/v1/items/items');
@@ -82,6 +82,13 @@ export default function Page() {
                 name="price"
                 label="Price"
                 placeholder="Enter a price"
+                type="number"
+                optional
+              />
+              <TextInput
+                name="reorderLevel"
+                label="Reorder Level"
+                placeholder="Enter a reorder level"
                 type="number"
                 optional
               />

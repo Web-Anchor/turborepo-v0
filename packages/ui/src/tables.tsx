@@ -8,6 +8,7 @@ interface Item {
   price?: number;
   status?: string;
   action?: React.ReactNode;
+  reorderLevel?: number;
   updatedAt?: string;
 }
 
@@ -68,7 +69,7 @@ export default function ItemTable({
                   <th
                     key={index}
                     scope="col"
-                    className={`py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0 text-nowrap ${header.className}`}
+                    className={`py-3.5 pl-4 px-3 text-left text-sm font-semibold text-gray-900 sm:pl-0 text-nowrap ${header.className}`}
                   >
                     {header.name}
                   </th>
@@ -109,6 +110,9 @@ export default function ItemTable({
                     >
                       {item.status}
                     </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm hidden lg:table-cell">
+                    {item.reorderLevel}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm hidden lg:table-cell">
                     {dateToFormattedString(item.updatedAt)}

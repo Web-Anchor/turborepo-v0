@@ -18,6 +18,7 @@ const QUERY = `
       status
       cost
       quantity
+      reorderLevel
       lists {
         id
         name

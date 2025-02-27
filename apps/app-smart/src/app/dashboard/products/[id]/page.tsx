@@ -26,7 +26,7 @@ export default function Page() {
       }
 
       await axios.post('/api/v1/items/update', {
-        ...objKeysToNumber(['quantity', 'cost', 'price'], data),
+        ...objKeysToNumber(['quantity', 'cost', 'price', 'reorderLevel'], data),
         id: params?.id,
       });
       toast.success('You have successfully updated the list.');
@@ -94,6 +94,14 @@ export default function Page() {
                 placeholder="Enter a price"
                 type="number"
                 defaultValue={data?.price?.toString()}
+                optional
+              />
+              <TextInput
+                name="reorderLevel"
+                label="Reorder Level"
+                placeholder="Enter a reorder level"
+                type="number"
+                defaultValue={data?.reorderLevel?.toString()}
                 optional
               />
               <SelectInput
