@@ -82,12 +82,7 @@ export default function RootLayout({ children, user }: SidebarTypes) {
             {/* Sidebar component, swap this element with another sidebar if you like */}
             <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-2 ring-1 ring-white/10">
               <div className="flex h-16 shrink-0 items-center">
-                <Image
-                  src="https://picsum.photos/100"
-                  alt="Your Company"
-                  size="xSmall"
-                  className="h-8 w-8 rounded-md"
-                />
+                <UserImageWrapper user={user} />
               </div>
               <nav className="flex flex-1 flex-col">
                 <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -225,15 +220,10 @@ export default function RootLayout({ children, user }: SidebarTypes) {
                     href="/dashboard/settings"
                     className="flex flex-1 gap-x-4 px-4 py-3 text-sm/6 font-semibold"
                   >
-                    <section className="flex flex-row gap-4 items-center rounded-md px-2 py-1 flex-1 text-white hover:bg-slate-400 hover:text-slate-700 transition-all duration-300">
-                      <Image
-                        src={user?.imageUrl}
-                        alt={user?.firstName || 'Anonymous'}
-                        size="xSmall"
-                        className="h-8 w-8 rounded-full"
-                      />
+                    <section className="flex flex-row gap-3 items-center rounded-md px-3 py-2 flex-1 text-white hover:bg-[#33415580] hover:text-slate-400 transition-all duration-300">
+                      <UserImageWrapper user={user} />
                       <span className="sr-only">Your profile</span>
-                      <span aria-hidden="true">
+                      <span aria-hidden="true" className="line-clamp-1">
                         {user?.firstName || user?.lastName || 'Anonymous'}
                       </span>
                     </section>
@@ -275,12 +265,7 @@ export default function RootLayout({ children, user }: SidebarTypes) {
         </div>
         <Link href="#">
           <span className="sr-only">Your profile</span>
-          <Image
-            src="https://picsum.photos/120"
-            alt="Your Company"
-            size="xSmall"
-            className="h-8 w-8 rounded-full"
-          />
+          <UserImageWrapper user={user} />
         </Link>
       </div>
 
@@ -288,6 +273,16 @@ export default function RootLayout({ children, user }: SidebarTypes) {
         <div className="px-4 sm:px-6 lg:px-8">{children}</div>
       </main>
     </div>
+  );
+}
+function UserImageWrapper({ user }: { user?: ClerkUser | null }) {
+  return (
+    <Image
+      src={user?.imageUrl}
+      alt={user?.firstName || 'Anonymous'}
+      size="xSmall"
+      className="h-8 w-8 rounded-full min-w-8"
+    />
   );
 }
 
