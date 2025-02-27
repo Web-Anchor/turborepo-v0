@@ -1,20 +1,15 @@
-import {
-  composeMiddleware,
-  MiddlewareTypes,
-  sessionAuth,
-} from 'lib/middleware';
+import { composeMiddleware, requireAuth } from 'lib/middleware';
 import { currentUser } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 
-const handler = async ({ context }: MiddlewareTypes): Promise<Response> => {
-  console.log('🤖 auth logon action. Clerk ID:', context);
+const handler = async (): Promise<Response> => {
+  console.log('🤖 auth User sing-up');
+  const clerkUser = await currentUser();
 
-  if (!context?.user && context?.clerkId) {
-    console.log('❌ sing-in auth handler - user not found!');
-    console.log('🤖 creating user from clerk user:', context?.clerkId);
+  if (clerkUser) {
+    console.log('🤖 creating user from clerk user:', clerkUser);
 
-    const clerkUser = await currentUser();
     await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users/create`, {
       clerkId: clerkUser?.id,
       firstName: clerkUser?.firstName,
@@ -32,4 +27,4 @@ const handler = async ({ context }: MiddlewareTypes): Promise<Response> => {
   );
 };
 
-export const GET = composeMiddleware([sessionAuth, handler]);
+export const GET = composeMiddleware([requireAuth, handler]);

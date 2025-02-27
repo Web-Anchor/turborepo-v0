@@ -1,8 +1,4 @@
-import {
-  composeMiddleware,
-  sessionAuth,
-  MiddlewareTypes,
-} from 'lib/middleware';
+import { composeMiddleware, MiddlewareTypes } from 'lib/middleware';
 import axios from 'axios';
 
 const MUTATION = `
@@ -27,12 +23,4 @@ const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
   return Response.json({ data: data?.data?.createUser });
 };
 
-const cSessionCheck = async ({
-  ...rest
-}: MiddlewareTypes): Promise<Response> => {
-  await sessionAuth({ ...rest, validateDbUser: false });
-
-  return new Response();
-};
-
-export const POST = composeMiddleware([cSessionCheck, handler]);
+export const POST = composeMiddleware([handler]);

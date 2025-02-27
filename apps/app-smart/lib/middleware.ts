@@ -108,6 +108,10 @@ export async function getUserByClerkId(clerkId: string | null) {
     },
   });
   const user = data?.data?.users?.[0];
+  if (!user) {
+    throw new Error('User not found with clerkId: ' + clerkId);
+  }
+
   setCache(
     clerkId,
     user,
@@ -137,7 +141,7 @@ function setCache<T>(key: string | null, data: T, ttl: number): void {
     // If the key already exists, update its data and expiration time with the new data and expiration time
     // If the key does not exist, create a new entry with the provided key, data, and expiration time
     // The cache entries will be automatically removed when their expiration time is reached
-    console.log('📦 caching data:', data);
+    console.log('📦 caching data to store:', data);
 
     const expires = Date.now() + ttl;
     localCache.set(key, { data, expires });
@@ -163,3 +167,15 @@ function revalidateCache() {
     }
   }
 }
+
+export const requireAuth = async ({ next, context }: MiddlewareTypes) => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return Response.json({ message: 'Unauthorized' }, { status: 401 });
+  }
+
+  context.clerkId = userId;
+
+  return await next();
+};
