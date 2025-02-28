@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, memo } from 'react';
 import NextImage from 'next/image';
 import { toast } from 'sonner';
 import { User, ImageBroken } from '@phosphor-icons/react';
@@ -27,7 +27,7 @@ const imageSize = {
   large: 'h-32 w-32',
 };
 
-export default function Image({
+export function Image({
   src,
   alt = 'EUH Portal',
   className,
@@ -90,3 +90,5 @@ export default function Image({
     </section>
   );
 }
+
+export default memo(Image);

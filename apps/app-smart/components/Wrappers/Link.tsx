@@ -1,7 +1,7 @@
 'use client';
 
 import NextLink from 'next/link';
-import { ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 import { classNames } from 'lib/utils';
 
 interface CustomLinkProps {
@@ -13,7 +13,7 @@ interface CustomLinkProps {
   // Allow additional props, but limit their use
 }
 
-export default function Link({
+export function Link({
   href,
   children,
   className,
@@ -33,3 +33,5 @@ export default function Link({
     </NextLink>
   );
 }
+
+export default memo(Link);
