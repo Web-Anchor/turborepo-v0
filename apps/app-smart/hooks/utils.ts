@@ -34,7 +34,7 @@ const defaultOptions = {
 
 type SWRWrapperProps = {
   url?: string;
-  data: object;
+  data?: object;
   options?: object;
 };
 
@@ -46,8 +46,11 @@ type SWRResponseType = {
   mutate: (data: any) => void;
 };
 
-export function useSWRWrapper(props: SWRWrapperProps): SWRResponseType {
-  return useSWR(props.url, () => fetcher(props.url, props.data), {
+export function useSWRWrapper({
+  data = {},
+  ...props
+}: SWRWrapperProps): SWRResponseType {
+  return useSWR(props.url, () => fetcher(props.url, data), {
     ...defaultOptions,
     ...props.options,
   });

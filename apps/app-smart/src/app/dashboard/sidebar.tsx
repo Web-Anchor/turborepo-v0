@@ -30,6 +30,7 @@ import { usePathname } from 'next/navigation';
 import Image from 'components/Wrappers/Image';
 import Link from 'components/Wrappers/Link';
 import { ClerkUser } from 'types/data-types';
+import { useWhoIAm } from 'hooks/users';
 
 export const metadata: Metadata = {
   title: 'Dashboard 📦',
@@ -37,10 +38,9 @@ export const metadata: Metadata = {
 
 type SidebarTypes = {
   children: React.ReactNode;
-  user?: ClerkUser | null;
 };
 
-export default function RootLayout({ children, user }: SidebarTypes) {
+export default function RootLayout({ children }: SidebarTypes) {
   const [state, setState] = useState<{
     sidebarOpen: boolean;
     sidebarWidth?: string; // Sidebar width
@@ -48,6 +48,7 @@ export default function RootLayout({ children, user }: SidebarTypes) {
     sidebarOpen: false,
   });
   const path = usePathname();
+  const { data: user } = useWhoIAm();
 
   return (
     <div>
