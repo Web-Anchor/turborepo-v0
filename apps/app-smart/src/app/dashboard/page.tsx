@@ -1,11 +1,26 @@
+'use client';
+
 import { BentoGridWrapper } from '@repo/ui/bento-grid';
 import { Filler } from '@repo/ui/filler';
 import { PageTitle, Paragraph } from '@repo/ui/document';
+import { useWhoIAm } from 'hooks/users';
+import { getGreeting } from 'lib/utils';
 
-export default async function Page() {
+export default function Page() {
+  const { data: user } = useWhoIAm();
+
   return (
     <div className="flex flex-col gap-4">
       <PageTitle text="Dashboard" />
+      <Paragraph>
+        <span className="font-bold">
+          {getGreeting()} {user?.firstName || user?.lastName}
+        </span>
+      </Paragraph>
+      <Paragraph>
+        Welcome to the dashboard! Here you can view a summary of your
+        store&#39;s performance and recent activity.
+      </Paragraph>
       <BentoGridWrapper className="lg:grid-cols-6 lg:grid-rows-2">
         <Filler className="lg:col-span-2">OverviewCard/Redirect</Filler>
         <Filler className="lg:col-span-2">OverviewCard/Redirect</Filler>

@@ -58,3 +58,33 @@ export function filterFormObject(
     return data;
   }
 }
+
+export function getGreeting(date = new Date()) {
+  /**
+   * Returns a greeting message based on the provided time (or current local time).
+   * @param {string} userName - The user's name.
+   * @param {Date} [date=new Date()] - Optional Date object. Defaults to current local time.
+   * @returns {string} A greeting message.
+   * @throws Will throw an error if the provided date is invalid.
+   */
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    throw new Error('Invalid date object provided.');
+  }
+
+  // Get the current hour (0-23)
+  const hour = date.getHours();
+  let greeting;
+
+  // Define greeting based on time of day
+  if (hour >= 5 && hour < 12) {
+    greeting = 'Good morning';
+  } else if (hour >= 12 && hour < 18) {
+    greeting = 'Good afternoon';
+  } else if (hour >= 18 && hour < 22) {
+    greeting = 'Good evening';
+  } else {
+    greeting = 'Good night';
+  }
+
+  return greeting;
+}
