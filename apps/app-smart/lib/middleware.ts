@@ -146,7 +146,7 @@ function setCache<T>(key: string | null, data: T, ttl: number): void {
     // If the key already exists, update its data and expiration time with the new data and expiration time
     // If the key does not exist, create a new entry with the provided key, data, and expiration time
     // The cache entries will be automatically removed when their expiration time is reached
-    console.log('📦 caching data to store:', data);
+    console.log('📦 store data caching. Key:', key);
 
     const expires = Date.now() + ttl;
     localCache.set(key, { data, expires });
