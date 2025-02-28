@@ -31,6 +31,7 @@ import Image from 'components/Wrappers/Image';
 import Link from 'components/Wrappers/Link';
 import { ClerkUser } from 'types/data-types';
 import { useWhoIAm } from 'hooks/users';
+import MemoWrapper from 'components/Wrappers/MemoWrapper';
 
 export const metadata: Metadata = {
   title: 'Dashboard 📦',
@@ -40,11 +41,13 @@ type SidebarTypes = {
   children: React.ReactNode;
 };
 
+type SidebarState = {
+  sidebarOpen: boolean;
+  sidebarWidth?: string; // Sidebar width
+};
+
 export default function RootLayout({ children }: SidebarTypes) {
-  const [state, setState] = useState<{
-    sidebarOpen: boolean;
-    sidebarWidth?: string; // Sidebar width
-  }>({
+  const [state, setState] = useState<SidebarState>({
     sidebarOpen: false,
   });
   const path = usePathname();
@@ -271,12 +274,15 @@ export default function RootLayout({ children }: SidebarTypes) {
         </Link>
       </div>
 
-      <main className="py-10 lg:pl-72">
-        <div className="px-4 sm:px-6 lg:px-8">{children}</div>
-      </main>
+      <MemoWrapper>
+        <main className="py-10 lg:pl-72">
+          <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+        </main>
+      </MemoWrapper>
     </div>
   );
 }
+
 function UserImageWrapper({ user }: { user?: ClerkUser | null }) {
   return (
     <Image
