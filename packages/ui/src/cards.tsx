@@ -1,5 +1,5 @@
 import { classNames, conditionalReturn } from '../dist/utils';
-import { Button } from './button';
+import { Button } from './buttons';
 import { dateToFormattedString } from '../dist/utils';
 
 type CollectionCardTypes = {

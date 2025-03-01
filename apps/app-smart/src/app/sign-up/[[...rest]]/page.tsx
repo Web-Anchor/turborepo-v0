@@ -1,9 +1,9 @@
 'use client';
 
 import { SignUp, useAuth } from '@clerk/nextjs';
-import { PageTitle, Paragraph } from '@repo/ui/document';
+import { PageTitle, Paragraph } from '@repo/ui/documents';
 import Link from 'components/Wrappers/Link';
-import { Button } from '@repo/ui/button';
+import { Button } from '@repo/ui/buttons';
 import { ClerkCard } from '@repo/ui/placeholders';
 
 export default function Page() {

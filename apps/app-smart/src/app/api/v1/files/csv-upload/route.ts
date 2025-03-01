@@ -110,7 +110,7 @@ function readStream(fileStream: ReadableStream) {
   return nodeStream;
 }
 
-export async function addProductList(products: (Item | any)[], userId: string) {
+async function addProductList(products: (Item | any)[], userId: string) {
   if (products.length === 0 || !userId) {
     throw new Error('No products or user ID provided');
   }

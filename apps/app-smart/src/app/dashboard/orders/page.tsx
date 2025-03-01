@@ -1,6 +1,6 @@
 'use client';
 
-import { PageTitle, Paragraph } from '@repo/ui/document';
+import { PageTitle, Paragraph } from '@repo/ui/documents';
 
 export default function Page() {
   return (

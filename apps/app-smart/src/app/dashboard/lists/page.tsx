@@ -1,9 +1,9 @@
 'use client';
 
 import { useGetLists } from 'hooks/lists';
-import { PageTitle, Paragraph } from '@repo/ui/document';
-import { Button } from '@repo/ui/button';
-import { CollectionCard } from '@repo/ui/card';
+import { PageTitle, Paragraph } from '@repo/ui/documents';
+import { Button } from '@repo/ui/buttons';
+import { CollectionCard } from '@repo/ui/cards';
 import Link from 'components/Wrappers/Link';
 
 export default function Page() {

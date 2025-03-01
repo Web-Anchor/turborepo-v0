@@ -1,8 +1,8 @@
 'use client';
 
 import { useGetItems } from 'hooks/items';
-import { PageTitle, Paragraph } from '@repo/ui/document';
-import { Button } from '@repo/ui/button';
+import { PageTitle, Paragraph } from '@repo/ui/documents';
+import { Button } from '@repo/ui/buttons';
 import Link from 'components/Wrappers/Link';
 import ItemTable from '@repo/ui/tables';
 import { useRef } from 'react';

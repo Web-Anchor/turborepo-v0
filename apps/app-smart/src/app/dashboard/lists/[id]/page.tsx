@@ -1,12 +1,12 @@
 'use client';
 
-import { PageTitle, Paragraph } from '@repo/ui/document';
+import { PageTitle, Paragraph } from '@repo/ui/documents';
 import Link from 'components/Wrappers/Link';
-import { Button } from '@repo/ui/button';
+import { Button } from '@repo/ui/buttons';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
-import { FormWrapper, TextInput } from '@repo/ui/form';
+import { FormWrapper, TextInput } from '@repo/ui/forms';
 import { useGetList } from 'hooks/lists';
 
 export default function Page() {

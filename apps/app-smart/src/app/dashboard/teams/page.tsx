@@ -1,7 +1,7 @@
-import { UserTable } from '@repo/ui/user-table';
-import { Filler } from '@repo/ui/filler';
-import { PageTitle, Paragraph } from '@repo/ui/document';
-import { BentoGridWrapper } from '@repo/ui/bento-grid';
+import { UserTable } from '@repo/ui/tables';
+import { Filler } from '@repo/ui/fillers';
+import { PageTitle, Paragraph } from '@repo/ui/documents';
+import { BentoGridWrapper } from '@repo/ui/grids';
 import Link from 'components/Wrappers/Link';
 
 export default async function Page() {

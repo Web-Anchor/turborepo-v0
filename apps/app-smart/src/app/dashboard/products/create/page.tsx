@@ -1,8 +1,8 @@
 'use client';
 
-import { PageTitle, Paragraph } from '@repo/ui/document';
+import { PageTitle, Paragraph } from '@repo/ui/documents';
 import Link from 'components/Wrappers/Link';
-import { Button } from '@repo/ui/button';
+import { Button } from '@repo/ui/buttons';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -11,7 +11,7 @@ import {
   SelectInput,
   TextAreaInput,
   TextInput,
-} from '@repo/ui/form';
+} from '@repo/ui/forms';
 import { filterFormObject, objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
 import { colorsOptions, statusListOptions } from 'lib/list-options';
