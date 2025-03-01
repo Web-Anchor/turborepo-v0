@@ -8,6 +8,8 @@ import ItemTable from '@repo/ui/tables';
 import { useRef } from 'react';
 import { toast } from 'sonner';
 import axios from 'axios';
+import { downloadCSV } from 'lib/utils';
+import { Item } from 'types/data-types';
 
 export default function Page() {
   const { data, mutate } = useGetItems({});
@@ -37,27 +39,38 @@ export default function Page() {
   async function downloadAsCsv() {
     try {
       const { data } = await axios.post('/api/v1/items/all-items', {});
-      console.log(data);
-
-      toast.success('CSV downloaded successfully');
+      const items: Item[] = data?.data;
+      const csvData = items.map((item) => ({
+        name: item.name,
+        description: item.description,
+        category: item.category,
+        quantity: item.quantity,
+        price: item.price,
+        status: item.status,
+        reorderLevel: item.reorderLevel,
+        unit: item.unit,
+        sku: item.sku,
+        barcode: item.barcode,
+        supplier: item.supplier,
+        leadTime: item.leadTime,
+      }));
+      downloadCSV({
+        headers: csvHeaders(),
+        data: csvData,
+        filename: `items-${new Date().toISOString()}.csv`,
+      });
+      toast.success(`Downloaded ${data.total} items as CSV`);
     } catch (error) {
       toast.error((error as Error).message || 'Error downloading CSV');
     }
   }
 
   function sample() {
-    // csv sample file with headers
-    const headers = () => [
-      'Name',
-      'Description',
-      'Category',
-      'Quantity',
-      'Price',
-      'Status',
-      'Reorder Level',
-      'Updated At',
-      'Action',
-    ];
+    /**
+     * @description Sample CSV data for products
+     * @date 2025-03-01
+     * @author Ed Ancerys
+     */
 
     // sample data
     const data = [
@@ -85,27 +98,7 @@ export default function Page() {
       // Add more product objects as needed
     ];
 
-    // download sample csv
-    const csvContent = [headers().join(',')]
-      .concat(
-        data.map((item) => {
-          const row = Object.values(item).map((value) =>
-            value.toString().replace(',', ' ')
-          );
-          return row.join(',');
-        })
-      )
-      .join('\n');
-
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'inventory_list.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    toast.success('CSV downloaded successfully');
+    downloadCSV({ headers: csvHeaders(), data, filename: 'sample.csv' });
   }
 
   return (
@@ -180,4 +173,22 @@ function headers() {
   ];
 
   return defaultHeaders;
+}
+
+function csvHeaders() {
+  const defaults = [
+    'Name',
+    'Description',
+    'Category',
+    'Quantity',
+    'Price',
+    'Status',
+    'Reorder Level',
+    'Unit',
+    'SKU',
+    'Barcode',
+    'Supplier',
+    'Lead Time',
+  ];
+  return defaults;
 }

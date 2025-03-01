@@ -88,3 +88,48 @@ export function getGreeting(date = new Date()) {
 
   return greeting;
 }
+
+// csvUtils.ts
+export type DownloadCSVOptions = {
+  headers: string[];
+  data: Record<string, any>[];
+  filename?: string;
+  separator?: string;
+};
+
+export function downloadCSV({
+  headers,
+  data,
+  filename = 'data_list.csv',
+  separator = ',',
+}: DownloadCSVOptions) {
+  // Generate CSV content
+  const csvRows: string[] = [];
+
+  // Create header row
+  csvRows.push(headers.join(separator));
+
+  // Create each data row with proper escaping:
+  data.forEach((item) => {
+    const row = Object.values(item)
+      .map((value) => {
+        // Convert value to string and escape separator if needed.
+        const cell = value?.toString() || '';
+        return cell.includes(separator) ? `"${cell}"` : cell;
+      })
+      .join(separator);
+    csvRows.push(row);
+  });
+
+  const csvContent = csvRows.join('\n');
+
+  // Create a blob and trigger download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
