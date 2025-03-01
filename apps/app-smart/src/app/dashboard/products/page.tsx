@@ -103,7 +103,7 @@ export default function Page() {
         <PageTitle text="Inventory Lists" />
         <section className="flex gap-4">
           <Button variant="primary" onClick={sample}>
-            Sample
+            CSV Sample
           </Button>
           <Button variant="primary" onClick={() => csvRef.current?.click()}>
             CSV Uploads

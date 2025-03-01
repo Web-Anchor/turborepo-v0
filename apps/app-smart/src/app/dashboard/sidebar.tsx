@@ -93,25 +93,7 @@ export default function RootLayout({ children }: SidebarTypes) {
                 <ul role="list" className="flex flex-1 flex-col gap-y-7">
                   <li>
                     <ul role="list" className="-mx-2 space-y-1">
-                      {navigation().map((item) => (
-                        <li key={item.name}>
-                          <Link
-                            href={item.href}
-                            className={classNames(
-                              path === item.href
-                                ? 'bg-gray-800 text-white'
-                                : 'text-gray-400 hover:bg-gray-800 hover:text-white',
-                              'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
-                            )}
-                          >
-                            <item.icon
-                              aria-hidden="true"
-                              className="size-6 shrink-0"
-                            />
-                            {item.name}
-                          </Link>
-                        </li>
-                      ))}
+                      <MenuWrapper path={path} />
                     </ul>
                   </li>
                   <li>
@@ -168,25 +150,7 @@ export default function RootLayout({ children }: SidebarTypes) {
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
-                  {navigation().map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        href={item.href}
-                        className={classNames(
-                          path === item.href
-                            ? 'bg-gray-800 text-white'
-                            : 'text-gray-400 hover:bg-gray-800 hover:text-white',
-                          'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
-                        )}
-                      >
-                        <item.icon
-                          aria-hidden="true"
-                          className="size-6 shrink-0"
-                        />
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
+                  <MenuWrapper path={path} />
                 </ul>
               </li>
               <li>
@@ -283,6 +247,67 @@ export default function RootLayout({ children }: SidebarTypes) {
   );
 }
 
+function MenuWrapper({ path }: { path: string }) {
+  return (
+    <>
+      {primaryMenu().map((item: NavigationItem, key: number) => {
+        return (
+          <li key={key}>
+            <Link
+              href={item.href}
+              className={classNames(
+                path === item.href
+                  ? 'bg-gray-800 text-white'
+                  : 'text-gray-400 hover:bg-gray-800 hover:text-white',
+                'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
+              )}
+            >
+              {typeof item.icon === 'function' && (
+                <item.icon aria-hidden="true" className="size-6 shrink-0" />
+              )}
+              {item.name}
+            </Link>
+            {/* Menu sub navigation */}
+            {item.navigation && path === item.href && (
+              <ul role="list" className="ml-4 space-y-1 my-1">
+                {item.navigation.map((subItem: NavigationItem, key: number) => {
+                  return (
+                    <li key={key}>
+                      <Link
+                        href={subItem.href}
+                        className={classNames(
+                          path === subItem.href
+                            ? 'bg-gray-800 text-white'
+                            : 'text-gray-400 hover:bg-gray-800 hover:text-white',
+                          'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
+                        )}
+                      >
+                        {typeof subItem.icon === 'function' && (
+                          <subItem.icon
+                            aria-hidden="true"
+                            className="size-6 shrink-0"
+                          />
+                        )}
+                        {typeof subItem.icon === 'object' && (
+                          <span className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
+                            {subItem.icon}
+                          </span>
+                        )}
+
+                        {subItem.name}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </li>
+        );
+      })}
+    </>
+  );
+}
+
 function UserImageWrapper({ user }: { user?: ClerkUser | null }) {
   return (
     <Image
@@ -294,8 +319,15 @@ function UserImageWrapper({ user }: { user?: ClerkUser | null }) {
   );
 }
 
-function navigation() {
-  const navigation = [
+type NavigationItem = {
+  name: string;
+  href: string;
+  icon?: React.ElementType | React.ReactNode;
+  navigation?: NavigationItem[];
+};
+
+function primaryMenu(): NavigationItem[] {
+  const navigation: NavigationItem[] = [
     {
       name: 'Dashboard',
       href: '/dashboard',
@@ -310,6 +342,13 @@ function navigation() {
       name: 'Products',
       href: '/dashboard/products',
       icon: ListPlus,
+      navigation: [
+        {
+          name: 'Create Product',
+          href: '/dashboard/products/create',
+          icon: <p>C</p>,
+        },
+      ],
     },
     {
       name: 'Clusters',
