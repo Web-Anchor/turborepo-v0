@@ -251,6 +251,8 @@ function MenuWrapper({ path }: { path: string }) {
   return (
     <>
       {primaryMenu().map((item: NavigationItem, key: number) => {
+        console.log(typeof item.icon, item?.name);
+
         return (
           <li key={key}>
             <Link
@@ -262,7 +264,7 @@ function MenuWrapper({ path }: { path: string }) {
                 'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
               )}
             >
-              {typeof item.icon === 'function' && (
+              {item.icon && (
                 <item.icon aria-hidden="true" className="size-6 shrink-0" />
               )}
               {item.name}
@@ -282,15 +284,15 @@ function MenuWrapper({ path }: { path: string }) {
                           'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
                         )}
                       >
-                        {typeof subItem.icon === 'function' && (
+                        {subItem.icon && (
                           <subItem.icon
                             aria-hidden="true"
                             className="size-6 shrink-0"
                           />
                         )}
-                        {typeof subItem.icon === 'object' && (
+                        {subItem.initial && (
                           <span className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
-                            {subItem.icon}
+                            {subItem.initial}
                           </span>
                         )}
 
@@ -322,7 +324,8 @@ function UserImageWrapper({ user }: { user?: ClerkUser | null }) {
 type NavigationItem = {
   name: string;
   href: string;
-  icon?: React.ElementType | React.ReactNode;
+  icon?: React.ElementType;
+  initial?: React.ReactNode;
   navigation?: NavigationItem[];
 };
 
@@ -346,7 +349,7 @@ function primaryMenu(): NavigationItem[] {
         {
           name: 'Create Product',
           href: '/dashboard/products/create',
-          icon: <p>C</p>,
+          initial: <p>C</p>,
         },
       ],
     },
