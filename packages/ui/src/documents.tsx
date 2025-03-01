@@ -9,7 +9,7 @@ export function PageTitle(props: ComponentTypes) {
   return (
     <h1
       className={classNames(
-        'mt-3 text-3xl font-extrabold tracking-tight',
+        'mt-3 text-3xl font-bold tracking-tight',
         props.className
       )}
     >

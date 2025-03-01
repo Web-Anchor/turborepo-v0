@@ -2,21 +2,27 @@
 
 import { BentoGridWrapper } from '@repo/ui/grids';
 import { Filler } from '@repo/ui/fillers';
-import { PageTitle, Paragraph } from '@repo/ui/documents';
+import { Paragraph } from '@repo/ui/documents';
 import { useWhoIAm } from 'hooks/users';
 import { getGreeting } from 'lib/utils';
+import { Header } from '@repo/ui/headers';
 
 export default function Page() {
   const { data: user } = useWhoIAm();
 
   return (
     <div className="flex flex-col gap-4">
-      <PageTitle text="Dashboard" />
-      <Paragraph>
-        <span className="font-bold">
-          {getGreeting()} {user?.firstName || user?.lastName}
-        </span>
-      </Paragraph>
+      <Header
+        title="Dashboard"
+        subtitle={`${getGreeting()} ${user?.firstName || user?.lastName}`}
+        description={[
+          'Ad dolore ea cupidatat labore elit dolor aute.',
+          'Proident anim irure pariatur enim excepteur ea. Ut culpa sit laboris culpa magna officia anim mollit cupidatat veniam. Ad ad non sint ullamco.',
+          'This is a description',
+        ]}
+        type="page-header"
+      />
+
       <Paragraph>
         Welcome to the dashboard! Here you can view a summary of your
         store&#39;s performance and recent activity.

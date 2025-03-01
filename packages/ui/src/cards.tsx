@@ -1,4 +1,4 @@
-import { classNames, conditionalReturn } from '../dist/utils';
+import { classNames, mergeIf } from '../dist/utils';
 import { Button } from './buttons';
 import { dateToFormattedString } from '../dist/utils';
 
@@ -27,7 +27,7 @@ export function CollectionCard({
     <div
       className={classNames(
         'flex flex-col justify-between rounded-lg border border-white shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl',
-        conditionalReturn(type === 'secondary', 'border-tertiary')
+        mergeIf(type === 'secondary', 'border-tertiary')
       )}
     >
       <div className="flex flex-col gap-4 p-6">
@@ -35,7 +35,7 @@ export function CollectionCard({
           <h3
             className={classNames(
               'text-xl font-semibold truncate',
-              conditionalReturn(type === 'secondary', 'text-tertiary')
+              mergeIf(type === 'secondary', 'text-tertiary')
             )}
           >
             {name}
@@ -43,10 +43,7 @@ export function CollectionCard({
           <span
             className={classNames(
               'text-nowrap bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full',
-              conditionalReturn(
-                type === 'secondary',
-                'bg-tertiary text-primary'
-              )
+              mergeIf(type === 'secondary', 'bg-tertiary text-primary')
             )}
           >
             {itemCount} items
@@ -55,7 +52,7 @@ export function CollectionCard({
         <p
           className={classNames(
             'text-gray-400 line-clamp-4',
-            conditionalReturn(type === 'secondary', 'text-lavender')
+            mergeIf(type === 'secondary', 'text-lavender')
           )}
         >
           {description}
@@ -63,7 +60,7 @@ export function CollectionCard({
         <div
           className={classNames(
             'flex items-center text-gray-500 text-sm gap-2',
-            conditionalReturn(type === 'secondary', 'text-lavender')
+            mergeIf(type === 'secondary', 'text-lavender')
           )}
         >
           <svg
@@ -90,7 +87,7 @@ export function CollectionCard({
                 key={index}
                 className={classNames(
                   'bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full flex items-center gap-2',
-                  conditionalReturn(type === 'secondary', 'text-tertiary')
+                  mergeIf(type === 'secondary', 'text-tertiary')
                 )}
               >
                 <svg
@@ -113,7 +110,7 @@ export function CollectionCard({
         <Button
           className={classNames(
             'flex gap-2 items-center text-gray-400 p-0 hoover:text-red-600',
-            conditionalReturn(type === 'secondary', 'text-tertiary')
+            mergeIf(type === 'secondary', 'text-tertiary')
           )}
           variant="link"
           LinkComponent={LinkComponent}
