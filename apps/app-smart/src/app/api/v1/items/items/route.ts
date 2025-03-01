@@ -5,7 +5,7 @@ import {
 } from 'lib/middleware';
 import axios from 'axios';
 
-const QUERY = `
+export const QUERY = `
   query Items($where: ItemWhereInput, $take: Int, $skip: Int, $orderBy: [ItemOrderByInput!]) {
     items(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
       id

@@ -251,8 +251,6 @@ function MenuWrapper({ path }: { path: string }) {
   return (
     <>
       {primaryMenu().map((item: NavigationItem, key: number) => {
-        console.log(typeof item.icon, item?.name);
-
         return (
           <li key={key}>
             <Link

@@ -34,6 +34,17 @@ export default function Page() {
     }
   }
 
+  async function downloadAsCsv() {
+    try {
+      const { data } = await axios.post('/api/v1/items/all-items', {});
+      console.log(data);
+
+      toast.success('CSV downloaded successfully');
+    } catch (error) {
+      toast.error((error as Error).message || 'Error downloading CSV');
+    }
+  }
+
   function sample() {
     // csv sample file with headers
     const headers = () => [
@@ -108,12 +119,8 @@ export default function Page() {
           <Button variant="primary" onClick={() => csvRef.current?.click()}>
             CSV Uploads
           </Button>
-          <Button
-            variant="primary"
-            href="/dashboard/products/create"
-            LinkComponent={Link}
-          >
-            Create Product
+          <Button variant="primary" onClick={downloadAsCsv}>
+            Download as CSV
           </Button>
         </section>
       </section>
