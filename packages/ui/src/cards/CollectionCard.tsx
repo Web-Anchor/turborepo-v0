@@ -1,6 +1,6 @@
-import { classNames, mergeIf } from '../dist/utils';
-import { Button } from './buttons';
-import { dateToFormattedString } from '../dist/utils';
+import { classNames, mergeIf } from '../../dist/utils';
+import { Button } from '../buttons';
+import { dateToFormattedString } from '../../dist/utils';
 
 type CollectionCardTypes = {
   name?: string;

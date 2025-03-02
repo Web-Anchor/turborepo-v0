@@ -4,7 +4,7 @@ import {
   sessionAuth,
 } from 'lib/middleware';
 import axios from 'axios';
-import { QUERY } from '../items/route';
+import { QUERY } from '../items/utils';
 
 const handler = async ({
   req,

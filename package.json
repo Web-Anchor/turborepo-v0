@@ -31,6 +31,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
     "prisma": "latest"
   }
 }

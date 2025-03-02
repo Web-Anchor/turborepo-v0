@@ -1,4 +1,4 @@
-import { classNames, conditionalReturn } from '../dist/utils';
+import { classNames, mergeIf } from '../dist/utils';
 import { useState } from 'react';
 import {
   Label,
@@ -82,7 +82,7 @@ export function TextInput({ type = 'text', ...rest }: InputTypes) {
             'block min-w-0 grow bg-white/5 px-3 py-1.5 text-base text-white placeholder:text-gray-500 focus:outline focus:outline-0 sm:text-sm/6',
             'border border-slate-700 rounded-md',
             'appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none', // Remove number input arrows
-            conditionalReturn(type === 'number', 'appearance-none'), // Remove number input arrows
+            mergeIf(type === 'number', 'appearance-none'), // Remove number input arrows
             rest.inputClassName
           )}
         />
@@ -243,7 +243,7 @@ export function SelectInput({ options, ...rest }: SelectInputTypes) {
                             <span
                               className={classNames(
                                 'absolute inset-y-0 right-0 flex items-center pr-4',
-                                conditionalReturn(selected, 'text-white')
+                                mergeIf(selected, 'text-white')
                               )}
                             >
                               <svg

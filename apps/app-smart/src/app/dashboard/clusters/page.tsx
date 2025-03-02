@@ -3,7 +3,7 @@
 import { useGetClusters } from 'hooks/clusters';
 import { PageTitle, Paragraph } from '@repo/ui/documents';
 import { Button } from '@repo/ui/buttons';
-import { CollectionCard } from '@repo/ui/cards';
+import { CollectionCard } from '@repo/ui/cards/CollectionCard';
 import Link from 'components/Wrappers/Link';
 
 export default function Page() {

@@ -7,6 +7,7 @@ import { useWhoIAm } from 'hooks/users';
 import { getGreeting } from 'lib/utils';
 import { Header } from '@repo/ui/headers';
 import { useStatistics } from 'hooks/statistics';
+import { StatisticCard } from '@repo/ui/cards/StatisticCard';
 
 export default function Page() {
   const { data: user } = useWhoIAm();
@@ -25,6 +26,13 @@ export default function Page() {
             'This is a description',
           ]}
           type="page-header"
+        />
+        <StatisticCard
+          name="Total Users"
+          description="Total users registered on the platform"
+          // itemCount={data?.totalUsers}
+          updatedAt="2023-03-22"
+          tags={['Users']}
         />
         <BentoGrid>
           <div className="flex p-px lg:col-span-4">
