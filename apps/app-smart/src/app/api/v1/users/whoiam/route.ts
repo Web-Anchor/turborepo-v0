@@ -5,7 +5,7 @@ import {
 } from 'lib/middleware';
 
 const handler = async ({ context }: MiddlewareTypes): Promise<Response> => {
-  console.log('🤖 Who i am check!');
+  console.log('🤖 Who i am check! User:', context?.user.id);
 
   return Response.json({ data: context?.user });
 };

@@ -100,7 +100,7 @@ export function Header({
               mergeIf(size === 'small', 'lg:text-4xl'),
               mergeIf(
                 type === 'page-header',
-                'text-md sm:text-3xl font-bold tracking-tight order-0'
+                'text-md sm:text-5xl font-bold tracking-tight order-0'
               )
             )}
           >

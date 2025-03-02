@@ -133,3 +133,8 @@ export type ItemTag = {
   item?: Item;
   itemId?: string;
 };
+
+export type Statistics = {
+  itemsCount: number;
+  ordersCount: number;
+};

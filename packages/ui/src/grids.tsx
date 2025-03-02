@@ -9,7 +9,7 @@ type ComponentTypes = {
   gridSize?: '6x2' | '4x4' | '3x3' | '2x6' | '6x6';
 } & Defaults;
 
-export function BentoGridWrapper(props: ComponentTypes) {
+export function BentoGrid({ gridSize = '6x2', ...props }: ComponentTypes) {
   // --------------------------------------------------------------------------------
   // 📌  Children to have class of col-span-X columns
   // example: <div className="flex lg:col-span-2">...</div>
@@ -18,8 +18,8 @@ export function BentoGridWrapper(props: ComponentTypes) {
   return (
     <section
       className={classNames(
-        gridToClassName(props.gridSize),
-        'grid grid-cols-1 gap-4',
+        'grid grid-cols-1 gap-4 max-w-4xl my-8 lg:my-16',
+        gridToClassName(gridSize),
         props.className
       )}
     >

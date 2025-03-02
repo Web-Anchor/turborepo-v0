@@ -1,7 +1,7 @@
 import { UserTable } from '@repo/ui/tables';
 import { Filler } from '@repo/ui/fillers';
 import { PageTitle, Paragraph } from '@repo/ui/documents';
-import { BentoGridWrapper } from '@repo/ui/grids';
+import { BentoGrid } from '@repo/ui/grids';
 import Link from 'components/Wrappers/Link';
 
 export default async function Page() {
@@ -31,7 +31,7 @@ export default async function Page() {
           },
         ]}
       />
-      <BentoGridWrapper className="lg:grid-cols-6 lg:grid-rows-2">
+      <BentoGrid className="lg:grid-cols-6 lg:grid-rows-2">
         <Filler className="lg:col-span-2" />
         <Filler className="lg:col-span-2" />
         <Filler className="lg:col-span-2" />
@@ -42,7 +42,7 @@ export default async function Page() {
 
         <Filler className="lg:col-span-3" />
         <Filler className="lg:col-span-3" />
-      </BentoGridWrapper>
+      </BentoGrid>
       <Paragraph text="Sunt magna elit cillum aliqua exercitation labore et adipisicing ullamco in." />
     </div>
   );
