@@ -7,9 +7,10 @@ export function useStatistics() {
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
   });
-
+  const statistics = data?.data?.data as Statistics;
   return {
-    data: data?.data?.data as Statistics,
+    data: statistics,
+    statistics,
     isLoading,
     error,
     isValidating,

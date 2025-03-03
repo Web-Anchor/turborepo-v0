@@ -12,8 +12,8 @@ import { Link } from 'components/Wrappers/Link';
 
 export default function Page() {
   const { data: user } = useWhoIAm();
-  const { data } = useStatistics();
-  console.log('📊 Statistics:', data);
+  const { statistics } = useStatistics();
+  console.log('📊 Statistics:', statistics);
 
   return (
     <div className="flex flex-col gap-4">
@@ -29,22 +29,23 @@ export default function Page() {
           type="page-header"
         />
         <BentoGrid>
-          <div className="flex flex-wrap gap-4 bg-white rounded-xl ring-1 ring-white/15 lg:col-span-6">
+          <div className="flex flex-wrap gap-4 p-4 bg-white rounded-xl ring-1 ring-white/15 lg:col-span-6">
             <StatisticCard
-              name="Total Users"
-              description="Total users registered on the platform"
-              // itemCount={data?.totalUsers}
-              updatedAt="2023-03-22"
-              tags={['Users']}
+              name="Total Products"
+              description="Total products available on the platform"
+              updatedAt={statistics?.items?.[0]?.updatedAt}
               LinkComponent={Link}
+              amount={statistics?.itemsCount}
+              type="Products"
+              status="Active"
             />
             <StatisticCard
-              name="Total Users"
-              description="Total users registered on the platform"
-              // itemCount={data?.totalUsers}
-              updatedAt="2023-03-22"
-              tags={['Users']}
+              name="Total Orders"
+              description="Total orders placed on the platform"
+              updatedAt={statistics?.orders?.[0]?.updatedAt}
               LinkComponent={Link}
+              amount={statistics?.ordersCount}
+              type="Orders"
             />
           </div>
           <div className="flex p-px lg:col-span-2">

@@ -9,7 +9,7 @@ type ComponentTypes = {
   gridSize?: '6x2' | '4x4' | '3x3' | '2x6' | '6x6' | '8x8' | '6x1';
 } & Defaults;
 
-export function BentoGrid({ gridSize = '6x2', ...props }: ComponentTypes) {
+export function BentoGrid({ gridSize = '6x1', ...props }: ComponentTypes) {
   // --------------------------------------------------------------------------------
   // 📌  Children to have class of col-span-X columns
   // example: <div className="flex lg:col-span-2">...</div>

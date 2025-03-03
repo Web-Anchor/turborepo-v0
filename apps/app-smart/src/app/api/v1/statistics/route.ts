@@ -18,6 +18,17 @@ function statsQuery({ userId }: { userId: string }): string {
     query Q {
       itemsCount(where:  { users:  ${users}})
       ordersCount(where:  { users:  ${users}})
+      items(take: 1, orderBy:  { 
+        id: desc
+      }) {
+        updatedAt
+      }
+      orders(take: 1, orderBy:  {
+        id: desc
+      }) {
+        updatedAt
+      }
+  
     }
 `;
 

@@ -137,4 +137,6 @@ export type ItemTag = {
 export type Statistics = {
   itemsCount: number;
   ordersCount: number;
+  items: Item[];
+  orders: Order[];
 };
