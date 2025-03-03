@@ -3,7 +3,7 @@ import {
   MiddlewareTypes,
   sessionAuth,
 } from 'lib/middleware';
-import axios from 'axios';
+import axios from 'lib/axios';
 import csvParser from 'csv-parser';
 import fs from 'fs';
 import { Item } from 'types/data-types';

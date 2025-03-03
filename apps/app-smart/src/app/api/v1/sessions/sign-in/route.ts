@@ -5,7 +5,7 @@ import {
 } from 'lib/middleware';
 import { currentUser } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import axios from 'axios';
+import axios from 'lib/axios';
 
 const handler = async ({ context }: MiddlewareTypes): Promise<Response> => {
   console.log('🤖 auth logon action. Clerk ID:', context);

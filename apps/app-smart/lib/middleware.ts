@@ -1,5 +1,5 @@
 import { auth } from '@clerk/nextjs/server';
-import axios from 'axios';
+import axios from 'lib/axios';
 
 interface CacheEntry<T> {
   data: T;

@@ -25,6 +25,15 @@ type CustomAxiosInstance = AxiosInstance & {
     data?: any,
     config?: CustomAxiosRequestConfig
   ): Promise<R>;
+  put<T = any, R = AxiosResponse<T>>(
+    url: string,
+    data?: any,
+    config?: CustomAxiosRequestConfig
+  ): Promise<R>;
+  delete<T = any, R = AxiosResponse<T>>(
+    url: string,
+    config?: CustomAxiosRequestConfig
+  ): Promise<R>;
 };
 
 // Create an instance with a default configuration (without baseURL)

@@ -7,7 +7,7 @@ import Link from 'components/Wrappers/Link';
 import ItemTable from '@repo/ui/tables';
 import { useRef } from 'react';
 import { toast } from 'sonner';
-import axios from 'axios';
+import axios from 'lib/axios';
 import { downloadCSV } from 'lib/utils';
 import { Item } from 'types/data-types';
 

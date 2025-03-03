@@ -3,7 +3,7 @@ import {
   MiddlewareTypes,
   sessionAuth,
 } from 'lib/middleware';
-import axios from 'axios';
+import axios from 'lib/axios';
 
 const QUERY = `
   query List($where: ListWhereUniqueInput!) {

@@ -1,7 +1,7 @@
 import { composeMiddleware, requireAuth } from 'lib/middleware';
 import { currentUser } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import axios from 'axios';
+import axios from 'lib/axios';
 
 const handler = async (): Promise<Response> => {
   console.log('🤖 auth User sing-up');

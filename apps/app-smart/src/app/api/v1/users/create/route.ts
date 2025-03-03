@@ -1,5 +1,5 @@
 import { composeMiddleware, MiddlewareTypes } from 'lib/middleware';
-import axios from 'axios';
+import axios from 'lib/axios';
 
 const MUTATION = `
   mutation M($data: UserCreateInput!) {
