@@ -115,6 +115,22 @@ export default function ItemTable({
                     {item.reorderLevel}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm hidden lg:table-cell">
+                    <span
+                      className={classNames(
+                        'inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20',
+                        themeStatus(
+                          isLowOnStock(item.quantity, item.reorderLevel)
+                            ? 'INACTIVE'
+                            : 'ACTIVE'
+                        )
+                      )}
+                    >
+                      {isLowOnStock(item.quantity, item.reorderLevel)
+                        ? 'Low Stock'
+                        : 'Good Levels'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm hidden lg:table-cell">
                     {dateToFormattedString(item.updatedAt)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -128,6 +144,14 @@ export default function ItemTable({
       </div>
     </div>
   );
+}
+
+function isLowOnStock(quantity: number = 0, reorderLevel?: number) {
+  try {
+    return reorderLevel && quantity <= reorderLevel;
+  } catch {
+    return false;
+  }
 }
 
 type User = {

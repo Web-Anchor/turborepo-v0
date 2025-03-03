@@ -192,6 +192,7 @@ function headers() {
     { name: 'Price', className: '' },
     { name: 'Status', className: 'hidden sm:table-cell' },
     { name: 'Reorder level', className: 'hidden sm:table-cell' },
+    { name: 'Stock Levels', className: 'hidden sm:table-cell' },
     { name: 'Last Updated', className: 'hidden lg:table-cell' },
     { name: 'Actions', className: '' },
   ];
