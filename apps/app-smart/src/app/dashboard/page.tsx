@@ -74,25 +74,16 @@ export default function Page() {
             LinkComponent={Link}
           />
         </div>
-        <div className="flex p-px lg:col-span-6">
-          <div className="flex flex-1 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
-            <img
-              alt=""
-              src="https://tailwindui.com/plus-assets/img/component-images/bento-02-integrations.png"
-              className="h-80 object-cover"
-            />
-            <div className="p-10">
-              <h3 className="text-sm/4 font-semibold text-gray-400">
-                Integrations
-              </h3>
-              <p className="mt-2 text-lg font-medium tracking-tight text-white">
-                Connect your favorite tools
-              </p>
-              <p className="mt-2 max-w-lg text-sm/6 text-gray-400">
-                Curabitur auctor, ex quis auctor venenatis, eros arcu rhoncus
-                massa.
-              </p>
-            </div>
+
+        <div className="flex flex-1 justify-center col-span-6 items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
+          Sale Overview Graph
+        </div>
+        <div className="flex flex-wrap gap-4 p-2 bg-white rounded-xl ring-1 ring-white/15 lg:col-span-6">
+          <div className="flex flex-1 justify-center items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
+            Sale Trends graph
+          </div>
+          <div className="flex flex-1 justify-center items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
+            Order Trends graph
           </div>
         </div>
       </BentoGrid>
