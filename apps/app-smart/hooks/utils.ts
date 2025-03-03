@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'lib/axios';
 import useSWR from 'swr';
 
 // --------------------------------------------------------------------------------
@@ -11,9 +11,6 @@ export function fetcher(url?: string, body?: object) {
   return axios
     .post(url, body, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
     })
     .catch((error) => ({ error }));
 }

@@ -6,7 +6,7 @@ type Defaults = {
 };
 
 type ComponentTypes = {
-  gridSize?: '6x2' | '4x4' | '3x3' | '2x6' | '6x6';
+  gridSize?: '6x2' | '4x4' | '3x3' | '2x6' | '6x6' | '8x8' | '6x1';
 } & Defaults;
 
 export function BentoGrid({ gridSize = '6x2', ...props }: ComponentTypes) {
@@ -38,6 +38,12 @@ function gridToClassName(grid?: string): string {
       return 'lg:grid-cols-3 lg:grid-rows-3';
     case '2x6':
       return 'lg:grid-cols-2 lg:grid-rows-6';
+    case '6x6':
+      return 'lg:grid-cols-6 lg:grid-rows-6';
+    case '8x8':
+      return 'lg:grid-cols-8 lg:grid-rows-8';
+    case '6x1':
+      return 'lg:grid-cols-6 lg:grid-rows-1';
     default:
       return 'lg:grid-cols-6 lg:grid-rows-6';
   }

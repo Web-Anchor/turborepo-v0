@@ -8,6 +8,7 @@ import { getGreeting } from 'lib/utils';
 import { Header } from '@repo/ui/headers';
 import { useStatistics } from 'hooks/statistics';
 import { StatisticCard } from '@repo/ui/cards/StatisticCard';
+import { Link } from 'components/Wrappers/Link';
 
 export default function Page() {
   const { data: user } = useWhoIAm();
@@ -27,35 +28,24 @@ export default function Page() {
           ]}
           type="page-header"
         />
-        <StatisticCard
-          name="Total Users"
-          description="Total users registered on the platform"
-          // itemCount={data?.totalUsers}
-          updatedAt="2023-03-22"
-          tags={['Users']}
-        />
         <BentoGrid>
-          <div className="flex p-px lg:col-span-4">
-            <div className="overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 max-lg:rounded-t-[2rem] lg:rounded-tl-[2rem]">
-              <img
-                alt=""
-                src="https://tailwindui.com/plus-assets/img/component-images/bento-02-releases.png"
-                className="h-80 object-cover object-left"
-              />
-              <div className="p-10">
-                <h3 className="text-sm/4 font-semibold text-gray-400">
-                  Releases
-                </h3>
-                <p className="mt-2 text-lg font-medium tracking-tight text-white">
-                  Push to deploy
-                </p>
-                <p className="mt-2 max-w-lg text-sm/6 text-gray-400">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                  gravida justo et nulla efficitur, maximus egestas sem
-                  pellentesque.
-                </p>
-              </div>
-            </div>
+          <div className="flex flex-wrap gap-4 bg-white rounded-xl ring-1 ring-white/15 lg:col-span-6">
+            <StatisticCard
+              name="Total Users"
+              description="Total users registered on the platform"
+              // itemCount={data?.totalUsers}
+              updatedAt="2023-03-22"
+              tags={['Users']}
+              LinkComponent={Link}
+            />
+            <StatisticCard
+              name="Total Users"
+              description="Total users registered on the platform"
+              // itemCount={data?.totalUsers}
+              updatedAt="2023-03-22"
+              tags={['Users']}
+              LinkComponent={Link}
+            />
           </div>
           <div className="flex p-px lg:col-span-2">
             <div className="overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
