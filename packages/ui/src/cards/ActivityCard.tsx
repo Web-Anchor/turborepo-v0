@@ -20,9 +20,34 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 type ActivityItemType = {
   message?: string;
   description?: string;
-  type: keyof typeof activityIcons;
+  type?:
+    | 'User'
+    | 'Products'
+    | 'Orders'
+    | 'Notification'
+    | 'Time'
+    | 'Calendar'
+    | 'Message'
+    | 'Purchase'
+    | 'Document'
+    | 'Settings';
   updatedAt?: string;
-  status?: keyof typeof statuses;
+  status?:
+    | 'Paid'
+    | 'Withdraw'
+    | 'Overdue'
+    | 'Active'
+    | 'Inactive'
+    | 'Pending'
+    | 'Completed'
+    | 'Canceled'
+    | 'Refunded'
+    | 'Failed'
+    | 'Processing'
+    | 'Shipped'
+    | 'Delivered'
+    | 'Returned'
+    | 'Low Stock';
   href?: string;
 };
 
@@ -51,26 +76,10 @@ const statuses = {
   Shipped: 'text-blue-700 bg-blue-50 ring-blue-600/10',
   Delivered: 'text-green-700 bg-green-50 ring-green-600/20',
   Returned: 'text-red-700 bg-red-50 ring-red-600/10',
-  'Awaiting Payment': 'text-yellow-700 bg-yellow-50 ring-yellow-600/10',
-  'Awaiting Pickup': 'text-blue-700 bg-blue-50 ring-blue-600/10',
-  'Awaiting Shipment': 'text-blue-700 bg-blue-50 ring-blue-600/10',
-  'Partially Shipped': 'text-blue-700 bg-blue-50 ring-blue-600/10',
-  'Partially Delivered': 'text-green-700 bg-green-50 ring-green-600/20',
-  'Partially Returned': 'text-red-700 bg-red-50 ring-red-600/10',
-  'Partially Refunded': 'text-gray-600 bg-gray-50 ring-gray-500/10',
-  'Payment Error': 'text-red-700 bg-red-50 ring-red-600/10',
-  'On Hold': 'text-yellow-700 bg-yellow-50 ring-yellow-600/10',
-  Cancelled: 'text-red-700 bg-red-50 ring-red-600/10',
-  New: 'text-blue-700 bg-blue-50 ring-blue-600/10',
-  Updated: 'text-yellow-700 bg-yellow-50 ring-yellow-600/10',
-  Info: 'text-gray-600 bg-gray-50 ring-gray-500/10',
-  Warning: 'text-yellow-700 bg-yellow-50 ring-yellow-600/10',
-  Error: 'text-red-700 bg-red-50 ring-red-600/10',
-  Success: 'text-green-700 bg-green-50 ring-green-600/20',
+  LowStock: 'text-red-700 bg-red-50 ring-red-600/10',
 };
 
-// Extended icon set for activities
-const activityIcons = {
+const icon = {
   User: <User className="size-5" />,
   Products: <Package className="size-5" />,
   Orders: <BoxArrowDown className="size-5" />,
@@ -167,11 +176,11 @@ function ActivityItem({
     <div className="flex items-start gap-x-3 py-3">
       <div
         className={classNames(
-          statuses[item.status || 'Info'],
-          'rounded-full p-1 text-xs font-medium ring-1 ring-inset'
+          'rounded-full p-1 text-xs font-medium ring-1 ring-inset',
+          statuses[(item.status as keyof typeof statuses) || 'Inactive']
         )}
       >
-        {activityIcons[item.type]}
+        {icon[(item.type as keyof typeof icon) || 'Products']}
       </div>
       <div className="flex flex-row flex-1 min-w-0">
         <section className="flex flex-1 flex-col gap-1">
@@ -188,8 +197,8 @@ function ActivityItem({
         <div className="flex-shrink-0">
           <div
             className={classNames(
-              statuses[item.status],
-              'rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset'
+              'rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset',
+              statuses[(item.status as keyof typeof statuses) || '']
             )}
           >
             {item.status}
@@ -203,6 +212,7 @@ function ActivityItem({
 // Recent Activity Card
 type RecentActivityCardProps = BaseCardProps & {
   activities: ActivityItemType[];
+  hidden?: boolean;
 };
 
 export function ActivityCard({
@@ -211,10 +221,14 @@ export function ActivityCard({
   icon = cardIcons.Activity,
   ...rest
 }: RecentActivityCardProps) {
+  if (rest.hidden) {
+    return null;
+  }
+
   return (
     <BaseCard title={title} icon={icon} {...rest}>
       <div className="divide-y divide-gray-600 px-6 py-2">
-        {!activities.length && (
+        {!activities?.length && (
           <p className="py-4 text-sm text-gray-400 text-center">
             No recent activity
           </p>
@@ -274,7 +288,21 @@ type StatisticCardTypes = {
   href?: string;
   amount?: string | number;
   type?: 'User' | 'Products' | 'Orders';
-  status?: keyof typeof statuses;
+  status?:
+    | 'Paid'
+    | 'Withdraw'
+    | 'Overdue'
+    | 'Active'
+    | 'Inactive'
+    | 'Pending'
+    | 'Completed'
+    | 'Canceled'
+    | 'Refunded'
+    | 'Failed'
+    | 'Processing'
+    | 'Shipped'
+    | 'Delivered'
+    | 'Returned';
   className?: string;
 };
 
@@ -349,8 +377,8 @@ export function StatisticCard({
           <dd className="flex items-start gap-x-2">
             <div
               className={classNames(
-                statuses[status],
-                'rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset'
+                'rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset',
+                statuses[status]
               )}
             >
               {status}

@@ -10,10 +10,14 @@ import { toast } from 'sonner';
 import axios from 'lib/axios';
 import { downloadCSV } from 'lib/utils';
 import { Item } from 'types/data-types';
+import { ActivityCard } from '@repo/ui/cards/ActivityCard';
+import { Warning } from '@phosphor-icons/react';
+import { dateToFormattedString } from '@repo/ui/utils.ts';
 
 export default function Page() {
   const { data, mutate } = useGetItems({});
   const csvRef = useRef<HTMLInputElement>(null);
+  console.log('data', data);
 
   async function csvUpload() {
     try {
@@ -121,6 +125,26 @@ export default function Page() {
       {/* hidden input for csv from uploads */}
       <input type="file" className="hidden" ref={csvRef} onChange={csvUpload} />
 
+      <ActivityCard
+        activities={data
+          ?.filter((item) => isLowOnStock(item.quantity, item.reorderLevel))
+          ?.map((item) => ({
+            message: `${item.name} is low on stock`,
+            description: `Only ${item.quantity} left in stock`,
+            updatedAt: dateToFormattedString(item.updatedAt),
+            type: 'Products',
+            status: 'Low Stock',
+          }))}
+        title="Low Stock Alerts"
+        icon={<Warning className="text-red-500" size={24} />}
+        hidden={
+          !data ||
+          data?.filter((item) => isLowOnStock(item.quantity, item.reorderLevel))
+            .length === 0
+        }
+        LinkComponent={Link}
+      />
+
       <ItemTable
         headers={headers()}
         items={data?.map((item) => ({
@@ -191,4 +215,12 @@ function csvHeaders() {
     'Lead Time',
   ];
   return defaults;
+}
+
+function isLowOnStock(quantity: number = 0, reorderLevel?: number) {
+  try {
+    return reorderLevel && quantity <= reorderLevel;
+  } catch {
+    return false;
+  }
 }
