@@ -1,7 +1,6 @@
 'use client';
 
 import { BentoGrid } from '@repo/ui/grids';
-import { Filler } from '@repo/ui/fillers';
 import { Paragraph } from '@repo/ui/documents';
 import { useWhoIAm } from 'hooks/users';
 import { getGreeting } from 'lib/utils';
