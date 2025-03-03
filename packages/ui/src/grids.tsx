@@ -28,6 +28,29 @@ export function BentoGrid({ gridSize = '6x1', ...props }: ComponentTypes) {
   );
 }
 
+type GridCardTypes = {
+  className?: string;
+  children?: React.ReactNode;
+};
+
+export function GridCard({ ...props }: GridCardTypes) {
+  // --------------------------------------------------------------------------------
+  // 📌  Children to have class of col-span-X columns
+  // example: <div className="flex lg:col-span-2">...</div>
+  // --------------------------------------------------------------------------------
+
+  return (
+    <section
+      className={classNames(
+        'flex flex-wrap gap-4 p-2 bg-white rounded-xl ring-1 ring-white/15 lg:col-span-6',
+        props.className
+      )}
+    >
+      {props.children}
+    </section>
+  );
+}
+
 function gridToClassName(grid?: string): string {
   switch (grid) {
     case '6x2':

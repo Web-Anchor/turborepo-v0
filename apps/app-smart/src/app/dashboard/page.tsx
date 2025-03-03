@@ -1,6 +1,6 @@
 'use client';
 
-import { BentoGrid } from '@repo/ui/grids';
+import { BentoGrid, GridCard } from '@repo/ui/grids';
 import { useWhoIAm } from 'hooks/users';
 import { getGreeting } from 'lib/utils';
 import { Header } from '@repo/ui/headers';
@@ -27,7 +27,7 @@ export default function Page() {
         type="page-header"
       />
       <BentoGrid>
-        <div className="flex flex-wrap gap-4 p-2 bg-white rounded-xl ring-1 ring-white/15 lg:col-span-6">
+        <GridCard>
           <StatisticCard
             name="Total Products"
             description="Total products available on the platform"
@@ -45,8 +45,8 @@ export default function Page() {
             amount={statistics?.ordersCount}
             type="Orders"
           />
-        </div>
-        <div className="flex flex-wrap gap-4 p-2 bg-white rounded-xl ring-1 ring-white/15 lg:col-span-6">
+        </GridCard>
+        <GridCard>
           <ActivityCard
             activities={[
               {
@@ -73,19 +73,21 @@ export default function Page() {
             title="Recent Activity"
             LinkComponent={Link}
           />
-        </div>
+        </GridCard>
 
-        <div className="flex flex-1 justify-center col-span-6 items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
-          Sale Overview Graph
-        </div>
-        <div className="flex flex-wrap gap-4 p-2 bg-white rounded-xl ring-1 ring-white/15 lg:col-span-6">
+        <GridCard>
+          <div className="flex flex-1 justify-center col-span-6 items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
+            Sale Overview Graph
+          </div>
+        </GridCard>
+        <GridCard>
           <div className="flex flex-1 justify-center items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
             Sale Trends graph
           </div>
           <div className="flex flex-1 justify-center items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
             Order Trends graph
           </div>
-        </div>
+        </GridCard>
       </BentoGrid>
       <Header
         description={[
