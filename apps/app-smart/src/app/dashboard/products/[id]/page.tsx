@@ -21,7 +21,7 @@ export default function Page() {
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
-      if (!params?.id) {
+      if (!data?.id) {
         throw new Error('List ID is required');
       }
 
@@ -31,6 +31,25 @@ export default function Page() {
       });
       toast.success('You have successfully updated the list.');
       mutate();
+      router.back();
+    } catch (error) {
+      toast.error(
+        (error as Error)?.message || 'An error occurred. Please try again.'
+      );
+    }
+  }
+
+  // delete the item
+  async function deleteItem() {
+    try {
+      if (!data?.id) {
+        throw new Error('List ID is required');
+      }
+
+      await axios.post('/api/v1/products/delete', {
+        id: data?.id,
+      });
+      toast.success('You have successfully deleted the list.');
       router.back();
     } catch (error) {
       toast.error(
@@ -115,7 +134,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="mt-6 flex items-center justify-end gap-x-6">
+        <div className="mt-6 flex items-center justify-end gap-4">
           <Button
             type="button"
             variant="link"
@@ -127,6 +146,9 @@ export default function Page() {
           </Button>
           <Button type="submit" variant="primary">
             Update
+          </Button>
+          <Button type="button" variant="danger" onClick={deleteItem}>
+            Delete
           </Button>
         </div>
       </FormWrapper>
