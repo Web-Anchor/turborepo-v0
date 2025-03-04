@@ -7,12 +7,12 @@ import axios from 'lib/axios';
 
 function statsQuery({ userId }: { userId: string }): string {
   const users = `{
-        some:  {
-           id:  {
-              equals: "${userId}"
-           }
+      some:  {
+          id:  {
+            equals: "${userId}"
+          }
         }
-     }`;
+      }`;
 
   const QUERY = `
     query Q {

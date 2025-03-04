@@ -30,7 +30,7 @@ export const Item: any = list({
     products: relationship({ ref: 'Product.items', many: true }),
 
     batchNumber: text({ validation: { isRequired: true } }), // Unique batch identifier
-    sku: text({ isIndexed: 'unique' }), // Optional SKU tracking at the inventory level
+    sku: text({ isIndexed: 'unique', validation: { isRequired: false } }), // Optional SKU tracking at the inventory level
 
     // Stock Tracking
     quantity: integer({ validation: { min: 0 }, defaultValue: 0 }),

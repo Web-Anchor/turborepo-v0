@@ -8,7 +8,7 @@ type HookTypes = {
 };
 
 export function useGetLists(props: HookTypes) {
-  const url = '/api/v1/lists/lists';
+  const url = '/api/v1/products/products';
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
     data: { userId: props.userId },
@@ -24,7 +24,7 @@ export function useGetLists(props: HookTypes) {
 }
 
 export function useGetList(props: HookTypes) {
-  const url = `/api/v1/lists/list?id=${props.id}`;
+  const url = `/api/v1/products/product?id=${props.id}`;
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
     data: { id: props.id },
