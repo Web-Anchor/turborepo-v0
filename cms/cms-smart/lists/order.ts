@@ -30,7 +30,7 @@ export const Order: any = list({
     }),
     users: relationship({ ref: 'User.orders', many: true }),
     products: relationship({ ref: 'Product.orders', many: true }),
-    items: relationship({ ref: 'Item.orders', many: true }),
+    items: relationship({ ref: 'Inventory.orders', many: true }),
     source: text(),
     amount: integer(),
     currency: text(),

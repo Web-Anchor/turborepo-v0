@@ -28,12 +28,12 @@ export default function Page() {
       const attributes = filterFormObject(data, customKeys);
       customKeys.forEach((key) => delete data[key]); // delete custom keys from data
 
-      await axios.post('/api/v1/items/create', {
+      await axios.post('/api/v1/products/create', {
         ...objKeysToNumber(['quantity', 'cost', 'price', 'reorderLevel'], data),
         attributes,
       });
       toast.success('Your item has been created.');
-      mutate('/api/v1/items/items');
+      mutate('/api/v1/products/products');
       router.back();
     } catch (error) {
       toast.error(

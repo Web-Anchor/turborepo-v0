@@ -38,9 +38,7 @@ type CustomAxiosInstance = AxiosInstance & {
 
 // Create an instance with a default configuration (without baseURL)
 const api: CustomAxiosInstance = axios.create({
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: {},
   timeout: 10000, // 10 seconds timeout to avoid hanging requests
 });
 

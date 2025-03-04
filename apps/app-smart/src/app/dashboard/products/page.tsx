@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetItems } from 'hooks/items';
+import { useGetProducts } from 'hooks/items';
 import { PageTitle, Paragraph } from '@repo/ui/documents';
 import { Button } from '@repo/ui/buttons';
 import Link from 'components/Wrappers/Link';
@@ -15,9 +15,8 @@ import { Warning } from '@phosphor-icons/react';
 import { dateToFormattedString } from '@repo/ui/utils.ts';
 
 export default function Page() {
-  const { data, mutate } = useGetItems({});
+  const { data, mutate } = useGetProducts({});
   const csvRef = useRef<HTMLInputElement>(null);
-  console.log('data', data);
 
   async function csvUpload() {
     try {
@@ -29,8 +28,13 @@ export default function Page() {
       form.append('file', file);
 
       const { data } = await axios.post('/api/v1/files/csv-upload', form);
+      console.log('res data', data);
+
       mutate();
       toast.success(data?.message || 'CSV uploaded successfully');
+      if (data?.errors) {
+        toast.error(data?.errors);
+      }
     } catch (error) {
       toast.error((error as Error).message || 'Error uploading CSV');
     } finally {
@@ -42,7 +46,7 @@ export default function Page() {
 
   async function downloadAsCsv() {
     try {
-      const { data } = await axios.post('/api/v1/items/all-items', {});
+      const { data } = await axios.post('/api/v1/products/all-products', {});
       const items: Item[] = data?.data;
       const csvData = items.map((item) => ({
         name: item.name,

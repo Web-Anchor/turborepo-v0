@@ -24,8 +24,8 @@ export const Product: any = list({
     name: text({ validation: { isRequired: true } }),
     description: text({ ui: { displayMode: 'textarea' } }),
     category: text(), // e.g. "construction", "retail"
-    sku: text({ isIndexed: 'unique' }), // Stock Keeping Unit
-    barcode: text({ isIndexed: 'unique' }),
+    sku: text(), // Stock Keeping Unit
+    barcode: text(),
     attributes: json({ defaultValue: {} }), // Additional specs stored as JSON (e.g., dimensions)
 
     // Pricing & Taxation
@@ -35,7 +35,8 @@ export const Product: any = list({
 
     // Inventory & Tracking
     reorderLevel: integer({ defaultValue: 0, validation: { min: 0 } }), // When to restock
-    unit: text({ defaultValue: 'pcs' }), // Measurement unit
+    unit: text({ defaultValue: 'pcs' }), // Measurement unit (e.g., kg, liters)
+    quantity: integer({ defaultValue: 0, validation: { min: 0 } }), // Current stock
     supplier: text(),
     leadTime: integer({ validation: { min: 0 } }), // Days for restocking
 
@@ -53,7 +54,7 @@ export const Product: any = list({
     tags: relationship({ ref: 'Tag.products', many: true }),
 
     // // Inventory Items (Stock tracking)
-    items: relationship({ ref: 'Item.products', many: true }),
+    items: relationship({ ref: 'Inventory.products', many: true }),
 
     // Metadata
     lastModifiedBy: relationship({ ref: 'User' }),

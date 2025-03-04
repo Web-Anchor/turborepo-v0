@@ -8,14 +8,7 @@ import csvParser from 'csv-parser';
 import fs from 'fs';
 import { Item } from 'types/data-types';
 import { inventoryItemStatusOptions } from 'lib/list-options';
-
-const MUTATION = `
-  mutation CreateItems($data: [ItemCreateInput!]!) {
-    createItems(data: $data) {
-      id
-    }
-  }
-`;
+import { CRETE_PRODUCTS_MUTATION } from '../../products/create/utils';
 
 const handler = async ({
   req,
@@ -25,6 +18,7 @@ const handler = async ({
 
   const products: Item[] = [];
   let uploadedItems = 0;
+  let errors = null;
   const form = await req.formData();
   const file = form.get('file');
 
@@ -35,6 +29,7 @@ const handler = async ({
     file.size === 0 ||
     file.size > 1024 * 1024 * 5 // 5MB
   ) {
+    console.error('❌ Invalid file uploaded!');
     throw new Error('Invalid file uploaded!');
   }
 
@@ -62,15 +57,19 @@ const handler = async ({
           products.push(row);
         })
         .on('end', async () => {
-          const { data } = await addProductList(products, context?.user?.id);
+          const { data, errors: errorMsgs } = await addProductList(
+            products,
+            context?.user?.id
+          );
           uploadedItems = data?.length || 0;
+          errors = errorMsgs;
           console.log('Uploaded items:', data, uploadedItems);
           resolve(data);
         });
     });
 
     writeStream.on('error', (err) => {
-      console.error('Error writing file:', err);
+      console.error('Error reading file:', err);
       reject(err);
       throw new Error('Error writing file');
     });
@@ -78,6 +77,8 @@ const handler = async ({
 
   return Response.json({
     message: `Successfully uploaded ${uploadedItems} items`,
+    data: errors ? [] : products,
+    errors,
   });
 };
 
@@ -116,14 +117,16 @@ async function addProductList(products: (Item | any)[], userId: string) {
   }
 
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
-    query: MUTATION,
+    query: CRETE_PRODUCTS_MUTATION,
     variables: {
       data: products?.map((product) => {
+        console.log('Product:', product);
+
         if (!product['Name']) {
           throw new Error('Product name is required');
         }
 
-        return {
+        const blob: { sku?: string | null; [key: string]: any } = {
           name: product['Name'],
           description: product['Description'],
           category: product['Category'],
@@ -134,8 +137,6 @@ async function addProductList(products: (Item | any)[], userId: string) {
             : 'ACTIVE',
           reorderLevel: validNumber(product['Reorder Level']),
           unit: product['Unit'],
-          sku: product['SKU'],
-          barcode: product['Barcode'],
           supplier: product['Supplier'],
           leadTime: validNumber(product['Lead Time']),
           users: {
@@ -143,15 +144,30 @@ async function addProductList(products: (Item | any)[], userId: string) {
               id: userId,
             },
           },
+          // Conditionally add properties if they pass the validStringValue check
+          ...(validStringValue(product['SKU']) ? { sku: product['SKU'] } : {}),
+          ...(validStringValue(product['Barcode'])
+            ? { barcode: product['Barcode'] }
+            : {}),
         };
+
+        return blob;
       }),
     },
   });
+  const errors = data?.errors?.map((err: Error) => err.message).join(', ');
+  const createProducts =
+    data?.data?.createProducts?.filter((p: any) => p) || []; // Remove null items
+  console.log('CREATE PROD DATA:', data);
 
-  return { data: data?.data?.createItems };
+  return { data: createProducts, errors };
 }
 
 function validNumber(number: string | number): number {
   const num = Number(number);
   return isNaN(num) ? 0 : num;
+}
+
+function validStringValue(str: string): string | null {
+  return typeof str === 'string' && str.trim() !== '' ? str.trim() : null;
 }

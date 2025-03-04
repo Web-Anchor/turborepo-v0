@@ -6,24 +6,24 @@ import {
 import axios from 'lib/axios';
 
 const MUTATION = `
-  mutation M($where: ItemWhereUniqueInput!, $data: ItemUpdateInput!) {
-    updateItem(where: $where, data: $data) {
+  mutation UpdateList($where: ListWhereUniqueInput!, $data: ListUpdateInput!) {
+    updateList(where: $where, data: $data) {
       id
     }
   }
 `;
 
 const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
-  const { id, ...body } = await req.json();
+  const { id, ...rest } = await req.json();
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: MUTATION,
     variables: {
       where: { id },
-      data: body,
+      data: rest,
     },
   });
 
-  return Response.json({ data: data?.data?.updateItem });
+  return Response.json({ data: data?.data?.updateList });
 };
 
 export const POST = composeMiddleware([sessionAuth, handler]);

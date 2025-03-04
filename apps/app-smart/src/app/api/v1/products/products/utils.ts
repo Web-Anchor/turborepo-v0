@@ -1,6 +1,6 @@
 export const QUERY = `
-  query Items($where: ItemWhereInput, $take: Int, $skip: Int, $orderBy: [ItemOrderByInput!]) {
-    items(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
+  query Products($where: ProductWhereInput, $take: Int, $skip: Int, $orderBy: [ProductOrderByInput!]) {
+    products(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
       id
       name
       description

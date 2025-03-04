@@ -14,7 +14,7 @@ import { Cluster } from './lists/cluster';
 import { Invitation } from './lists/invitation';
 import { Order } from './lists/order';
 import { Integration } from './lists/integration';
-import { Item } from './lists/item';
+import { Inventory } from './lists/inventory';
 
 // the document field is a more complicated field, so it has it's own package
 import { document } from '@keystone-6/fields-document';
@@ -29,7 +29,7 @@ export const lists = {
   Cluster,
   List: InventoryList,
   Product,
-  Item,
+  Inventory,
   Invitation,
   Order,
   Integration,

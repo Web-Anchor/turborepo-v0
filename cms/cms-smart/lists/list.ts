@@ -25,7 +25,7 @@ export const InventoryList: any = list({
     }),
     users: relationship({ ref: 'User.lists', many: true }),
     products: relationship({ ref: 'Product.lists', many: true }),
-    items: relationship({ ref: 'Item.lists', many: true }),
+    items: relationship({ ref: 'Inventory.lists', many: true }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     updatedAt: timestamp({ db: { updatedAt: true } }),
   },

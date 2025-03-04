@@ -4,25 +4,24 @@ import {
   sessionAuth,
 } from 'lib/middleware';
 import axios from 'lib/axios';
+import { MUTATION } from './utils';
 
-const MUTATION = `
-  mutation CreateList($data: ListCreateInput!)  {
-    createList(data: $data) {
-      id
-    }
-  }
-`;
-
-const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
+const handler = async ({
+  req,
+  context,
+}: MiddlewareTypes): Promise<Response> => {
   const body = await req.json();
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: MUTATION,
     variables: {
-      data: body,
+      data: {
+        ...body,
+        users: { connect: [{ id: context?.user?.id }] }, // User ID owning the item
+      },
     },
   });
 
-  return Response.json({ data: data?.data?.createList });
+  return Response.json({ data: data?.data?.createProduct });
 };
 
 export const POST = composeMiddleware([sessionAuth, handler]);

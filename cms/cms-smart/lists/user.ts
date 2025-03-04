@@ -43,7 +43,7 @@ export const User: any = list({
     password: password({ validation: { isRequired: true } }),
     tags: relationship({ ref: 'Tag.users', many: true }),
     orders: relationship({ ref: 'Order.users', many: true }),
-    items: relationship({ ref: 'Item.users', many: true }),
+    items: relationship({ ref: 'Inventory.users', many: true }),
     lists: relationship({ ref: 'List.users', many: true }),
     products: relationship({ ref: 'Product.users', many: true }),
     // Invitations received for list access

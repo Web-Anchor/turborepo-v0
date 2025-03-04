@@ -16,9 +16,9 @@ function statsQuery({ userId }: { userId: string }): string {
 
   const QUERY = `
     query Q {
-      itemsCount(where:  { users:  ${users}})
+      productsCount(where:  { users:  ${users}})
       ordersCount(where:  { users:  ${users}})
-      items(take: 1, orderBy:  { 
+      products(take: 1, orderBy:  { 
         id: desc
       }) {
         updatedAt

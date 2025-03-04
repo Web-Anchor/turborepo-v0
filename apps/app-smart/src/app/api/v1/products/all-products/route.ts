@@ -4,7 +4,7 @@ import {
   sessionAuth,
 } from 'lib/middleware';
 import axios from 'lib/axios';
-import { QUERY } from '../items/utils';
+import { QUERY } from '../products/utils';
 
 const handler = async ({
   req,
@@ -14,7 +14,7 @@ const handler = async ({
   const body = await req.json();
   const take = body.take || 100; // number of items to fetch per page
   let skip = 0;
-  let allItems: any[] = [];
+  let allProducts: any[] = [];
 
   try {
     while (true) {
@@ -31,16 +31,16 @@ const handler = async ({
         },
       });
 
-      const items = data?.data?.items || [];
-      allItems = allItems.concat(items);
+      const products = data?.data?.products || [];
+      allProducts = allProducts.concat(products);
 
       // If fewer items were returned than requested, we are done.
-      if (items.length < take) break;
+      if (products.length < take) break;
 
       skip += take;
     }
 
-    return Response.json({ data: allItems, total: allItems.length });
+    return Response.json({ data: allProducts, total: allProducts.length });
   } catch (error: any) {
     console.error('Error fetching items:', error);
     return Response.json({ error: error.message }, { status: 500 });

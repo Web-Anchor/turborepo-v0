@@ -7,14 +7,14 @@ import { toast } from 'sonner';
 import axios from 'lib/axios';
 import { useParams, useRouter } from 'next/navigation';
 import { FormWrapper, SelectInput, TextInput } from '@repo/ui/forms';
-import { useGetItem } from 'hooks/items';
+import { useGetProduct } from 'hooks/items';
 import { statusListOptions } from 'lib/list-options';
 import { objKeysToNumber } from 'lib/utils';
 
 export default function Page() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  const { data, mutate } = useGetItem({
+  const { data, mutate } = useGetProduct({
     id: params?.id,
   });
   console.log(data);
@@ -25,7 +25,7 @@ export default function Page() {
         throw new Error('List ID is required');
       }
 
-      await axios.post('/api/v1/items/update', {
+      await axios.post('/api/v1/products/update', {
         ...objKeysToNumber(['quantity', 'cost', 'price', 'reorderLevel'], data),
         id: params?.id,
       });

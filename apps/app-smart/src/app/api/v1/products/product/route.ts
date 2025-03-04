@@ -4,44 +4,36 @@ import {
   sessionAuth,
 } from 'lib/middleware';
 import axios from 'lib/axios';
+import { QUERY } from '../products/utils';
 
-const QUERY = `
-  query List($where: ListWhereUniqueInput!) {
-    list(where: $where) {
-      id
-      name
-      description
-      invitations {
-        id
-        email
-        status
-      }
-      tags {
-        name
-      }
-      clusters {
-        id
-        name
-      }
-      createdAt
-      updatedAt
-      accessesCount
-      itemsCount
-      invitationsCount
-    }
-  }
-`;
-
-const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
+const handler = async ({
+  req,
+  context,
+}: MiddlewareTypes): Promise<Response> => {
   const { id } = await req.json();
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: QUERY,
     variables: {
-      where: { id },
+      where: {
+        AND: [
+          {
+            id: {
+              equals: id,
+            },
+            users: {
+              some: {
+                id: {
+                  equals: context?.userId,
+                },
+              },
+            },
+          },
+        ],
+      },
     },
   });
 
-  return Response.json({ data: data?.data?.list });
+  return Response.json({ data: data?.data?.products?.[0] });
 };
 
 export const POST = composeMiddleware([sessionAuth, handler]);

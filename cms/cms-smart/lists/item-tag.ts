@@ -9,6 +9,6 @@ export const ItemTag: any = list({
   },
   fields: {
     name: text(),
-    items: relationship({ ref: 'Item.itemTags', many: true }),
+    items: relationship({ ref: 'Inventory.itemTags', many: true }),
   },
 });

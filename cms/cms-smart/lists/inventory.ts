@@ -18,7 +18,7 @@ const inventoryStatusOptions = [
   { label: 'Expired', value: 'EXPIRED' },
 ];
 
-export const Item: any = list({
+export const Inventory: any = list({
   access: allowAll,
 
   ui: {

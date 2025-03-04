@@ -6,8 +6,8 @@ type HookTypes = {
   id?: string | number;
 };
 
-export function useGetItems(props: HookTypes) {
-  const url = '/api/v1/items/items';
+export function useGetProducts(props: HookTypes) {
+  const url = '/api/v1/products/products';
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
     data: { ...props },
@@ -22,8 +22,8 @@ export function useGetItems(props: HookTypes) {
   };
 }
 
-export function useGetItem(props: HookTypes) {
-  const url = `/api/v1/items/item?id=${props.id}`;
+export function useGetProduct(props: HookTypes) {
+  const url = `/api/v1/products/product?id=${props.id}`;
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
     data: { ...props },
