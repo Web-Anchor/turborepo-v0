@@ -22,7 +22,8 @@ import {
   CalendarDots,
   CloudArrowUp,
   ArrowsIn,
-  ListPlus,
+  ShoppingCart,
+  Tag,
   CardsThree,
 } from '@phosphor-icons/react';
 import { classNames } from 'lib/utils';
@@ -248,6 +249,8 @@ export default function RootLayout({ children }: SidebarTypes) {
 }
 
 function MenuWrapper({ path }: { path: string }) {
+  console.log(path);
+
   return (
     <>
       {primaryMenu().map((item: NavigationItem, key: number) => {
@@ -256,7 +259,7 @@ function MenuWrapper({ path }: { path: string }) {
             <Link
               href={item.href}
               className={classNames(
-                path === item.href
+                item.href?.includes(path)
                   ? 'bg-gray-800 text-white'
                   : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                 'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
@@ -268,7 +271,7 @@ function MenuWrapper({ path }: { path: string }) {
               {item.name}
             </Link>
             {/* Menu sub navigation */}
-            {item.navigation && path === item.href && (
+            {item.navigation && path?.includes(item.href) && (
               <ul role="list" className="ml-4 space-y-1 my-1">
                 {item.navigation.map((subItem: NavigationItem, key: number) => {
                   return (
@@ -337,17 +340,29 @@ function primaryMenu(): NavigationItem[] {
     {
       name: 'Orders',
       href: '/dashboard/orders',
+      icon: ShoppingCart,
+    },
+    {
+      name: 'Inventory',
+      href: '/dashboard/inventory',
       icon: Cube,
+      navigation: [
+        {
+          name: 'Create Inventory',
+          href: '/dashboard/inventory/create',
+          initial: <p>I</p>,
+        },
+      ],
     },
     {
       name: 'Products',
       href: '/dashboard/products',
-      icon: ListPlus,
+      icon: Tag,
       navigation: [
         {
           name: 'Create Product',
           href: '/dashboard/products/create',
-          initial: <p>C</p>,
+          initial: <p>P</p>,
         },
       ],
     },
