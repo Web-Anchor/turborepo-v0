@@ -17,21 +17,10 @@ export const Tag: any = list({
   // this is the fields for our Tag list
   fields: {
     name: text(),
-    // this can be helpful to find out all the Posts associated with a Tag
     users: relationship({ ref: 'User.tags', many: true }),
     lists: relationship({ ref: 'List.tags', many: true }),
     items: relationship({ ref: 'Item.tags', many: true }),
+    products: relationship({ ref: 'Product.tags', many: true }),
     // you can add more fields here, like images, videos, etc.
-  },
-});
-
-export const ItemTag: any = list({
-  access: allowAll,
-  ui: {
-    // isHidden: true,
-  },
-  fields: {
-    name: text(),
-    item: relationship({ ref: 'Item.itemTags', many: false }),
   },
 });

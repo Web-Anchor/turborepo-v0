@@ -6,13 +6,15 @@
 // - https://keystonejs.com/docs/config/lists
 
 import { User } from './lists/user';
-import { Tag, ItemTag } from './lists/tag';
+import { Tag } from './lists/tag';
+import { ItemTag } from './lists/item-tag';
 import { InventoryList } from './lists/list';
-import { InventoryItem } from './lists/item';
+import { Product } from './lists/product';
 import { Cluster } from './lists/cluster';
 import { Invitation } from './lists/invitation';
 import { Order } from './lists/order';
 import { Integration } from './lists/integration';
+import { Item } from './lists/item';
 
 // the document field is a more complicated field, so it has it's own package
 import { document } from '@keystone-6/fields-document';
@@ -26,7 +28,8 @@ export const lists = {
   User,
   Cluster,
   List: InventoryList,
-  Item: InventoryItem,
+  Product,
+  Item,
   Invitation,
   Order,
   Integration,

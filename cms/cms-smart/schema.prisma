@@ -12,25 +12,28 @@ generator client {
 }
 
 model User {
-  id                       String        @id @default(cuid())
-  firstName                String        @default("")
-  lastName                 String        @default("")
-  phoneNumbers             String        @default("")
-  clerkId                  String        @unique @default("")
-  email                    String        @unique @default("")
-  role                     String?       @default("USER")
-  password                 String
-  tags                     Tag[]         @relation("Tag_users")
-  orders                   Order[]       @relation("Order_users")
-  items                    Item[]        @relation("Item_users")
-  listInvitations          Invitation[]  @relation("Invitation_user")
-  createdAt                DateTime?     @default(now())
-  permissions              String?       @default("ALL")
-  configuration            String?       @default("{}")
-  updatedAt                DateTime?     @updatedAt
-  from_Cluster_users       Cluster[]     @relation("Cluster_users")
-  from_Item_lastModifiedBy Item[]        @relation("Item_lastModifiedBy")
-  from_Integration_user    Integration[] @relation("Integration_user")
+  id                          String        @id @default(cuid())
+  firstName                   String        @default("")
+  lastName                    String        @default("")
+  phoneNumbers                String        @default("")
+  clerkId                     String        @unique @default("")
+  email                       String        @unique @default("")
+  role                        String?       @default("USER")
+  password                    String
+  tags                        Tag[]         @relation("Tag_users")
+  orders                      Order[]       @relation("Order_users")
+  items                       Item[]        @relation("Item_users")
+  lists                       List[]        @relation("List_users")
+  products                    Product[]     @relation("Product_users")
+  listInvitations             Invitation[]  @relation("Invitation_user")
+  createdAt                   DateTime?     @default(now())
+  permissions                 String?       @default("ALL")
+  configuration               String?       @default("{}")
+  updatedAt                   DateTime?     @updatedAt
+  from_Cluster_users          Cluster[]     @relation("Cluster_users")
+  from_Product_lastModifiedBy Product[]     @relation("Product_lastModifiedBy")
+  from_Item_lastModifiedBy    Item[]        @relation("Item_lastModifiedBy")
+  from_Integration_user       Integration[] @relation("Integration_user")
 }
 
 model Cluster {
@@ -50,37 +53,66 @@ model List {
   description String       @default("")
   tags        Tag[]        @relation("List_tags")
   clusters    Cluster[]    @relation("Cluster_lists")
-  items       Item[]       @relation("Item_lists")
   invitations Invitation[] @relation("Invitation_lists")
+  users       User[]       @relation("List_users")
+  products    Product[]    @relation("List_products")
+  items       Item[]       @relation("Item_lists")
   createdAt   DateTime?    @default(now())
   updatedAt   DateTime?    @updatedAt
 }
 
-model Item {
+model Product {
   id               String    @id @default(cuid())
   name             String    @default("")
   description      String    @default("")
   category         String    @default("")
-  quantity         Int?      @default(0)
+  sku              String    @unique @default("")
+  barcode          String    @unique @default("")
+  attributes       String?   @default("{}")
   cost             Float?
   price            Float?
   taxRate          Float?    @default(0)
   reorderLevel     Int?      @default(0)
-  unit             String    @default("")
-  sku              String    @default("")
-  barcode          String    @default("")
+  unit             String    @default("pcs")
   supplier         String    @default("")
   leadTime         Int?
-  attributes       String?   @default("{}")
   status           String?   @default("ACTIVE")
-  users            User[]    @relation("Item_users")
-  orders           Order[]   @relation("Item_orders")
   isHidden         Boolean   @default(false)
+  users            User[]    @relation("Product_users")
+  orders           Order[]   @relation("Order_products")
+  lists            List[]    @relation("List_products")
+  tags             Tag[]     @relation("Product_tags")
+  items            Item[]    @relation("Item_products")
+  lastModifiedBy   User?     @relation("Product_lastModifiedBy", fields: [lastModifiedById], references: [id])
+  lastModifiedById String?   @map("lastModifiedBy")
+  createdAt        DateTime? @default(now())
+  updatedAt        DateTime? @updatedAt
+
+  @@index([lastModifiedById])
+}
+
+model Item {
+  id               String    @id @default(cuid())
+  products         Product[] @relation("Item_products")
+  batchNumber      String    @default("")
+  sku              String    @unique @default("")
+  quantity         Int?      @default(0)
+  location         String    @default("")
+  expiryDate       DateTime?
+  receivedDate     DateTime? @default(now())
+  purchasePrice    Float?
+  salePrice        Float?
+  status           String?   @default("IN_STOCK")
+  supplier         String    @default("")
+  isReserved       Boolean   @default(false)
+  isDamaged        Boolean   @default(false)
+  users            User[]    @relation("Item_users")
   lists            List[]    @relation("Item_lists")
+  tags             Tag[]     @relation("Item_tags")
+  itemTags         ItemTag[] @relation("Item_itemTags")
+  orders           Order[]   @relation("Item_orders")
   lastModifiedBy   User?     @relation("Item_lastModifiedBy", fields: [lastModifiedById], references: [id])
   lastModifiedById String?   @map("lastModifiedBy")
-  tags             Tag[]     @relation("Item_tags")
-  itemTags         ItemTag[] @relation("ItemTag_item")
   createdAt        DateTime? @default(now())
   updatedAt        DateTime? @updatedAt
 
@@ -107,6 +139,7 @@ model Order {
   orderNumber String    @default("")
   status      String?   @default("PENDING")
   users       User[]    @relation("Order_users")
+  products    Product[] @relation("Order_products")
   items       Item[]    @relation("Item_orders")
   source      String    @default("")
   amount      Int?
@@ -131,18 +164,16 @@ model Integration {
 }
 
 model Tag {
-  id    String @id @default(cuid())
-  name  String @default("")
-  users User[] @relation("Tag_users")
-  lists List[] @relation("List_tags")
-  items Item[] @relation("Item_tags")
+  id       String    @id @default(cuid())
+  name     String    @default("")
+  users    User[]    @relation("Tag_users")
+  lists    List[]    @relation("List_tags")
+  items    Item[]    @relation("Item_tags")
+  products Product[] @relation("Product_tags")
 }
 
 model ItemTag {
-  id     String  @id @default(cuid())
-  name   String  @default("")
-  item   Item?   @relation("ItemTag_item", fields: [itemId], references: [id])
-  itemId String? @map("item")
-
-  @@index([itemId])
+  id    String @id @default(cuid())
+  name  String @default("")
+  items Item[] @relation("Item_itemTags")
 }

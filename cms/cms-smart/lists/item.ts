@@ -6,51 +6,61 @@ import {
   timestamp,
   integer,
   float,
-  json,
   select,
   checkbox,
 } from '@keystone-6/core/fields';
-import { inventoryItemStatusOptions } from '../config/options';
 
-export const InventoryItem: any = list({
-  // WARNING
-  //   for this starter project, anyone can create, query, update and delete anything
-  //   if you want to prevent random people on the internet from accessing your data,
-  //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
+const inventoryStatusOptions = [
+  { label: 'In Stock', value: 'IN_STOCK' },
+  { label: 'Reserved', value: 'RESERVED' },
+  { label: 'Sold', value: 'SOLD' },
+  { label: 'Damaged', value: 'DAMAGED' },
+  { label: 'Expired', value: 'EXPIRED' },
+];
+
+export const Item: any = list({
   access: allowAll,
 
-  // setting this to isHidden for the user interface prevents this list being visible in the Admin UI
   ui: {
-    // isHidden: true,
+    labelField: 'batchNumber',
+    searchFields: ['batchNumber', 'product.name', 'location'],
   },
 
   fields: {
-    name: text({ validation: { isRequired: true } }),
-    description: text(),
-    category: text(), // e.g. "construction", "retail", etc.
-    quantity: integer({ defaultValue: 0 }),
-    cost: float(), // cost price
-    price: float(), // selling price
-    taxRate: float({ defaultValue: 0 }),
-    reorderLevel: integer({ defaultValue: 0 }),
-    unit: text(), // e.g. "pcs", "kg", "meters"
-    sku: text(), // Stock Keeping Unit
-    barcode: text(),
-    supplier: text(),
-    leadTime: integer(),
-    attributes: json({ defaultValue: {} }), // Additional attributes stored as JSON for flexibility (dimensions, specs, etc.)
+    products: relationship({ ref: 'Product.items', many: true }),
+
+    batchNumber: text({ validation: { isRequired: true } }), // Unique batch identifier
+    sku: text({ isIndexed: 'unique' }), // Optional SKU tracking at the inventory level
+
+    // Stock Tracking
+    quantity: integer({ validation: { min: 0 }, defaultValue: 0 }),
+    location: text(), // Warehouse or store location
+    expiryDate: timestamp(), // Expiry date for perishable goods
+    receivedDate: timestamp({ defaultValue: { kind: 'now' } }),
+
+    // Pricing & Valuation
+    purchasePrice: float({ validation: { min: 0 } }), // Cost per unit at time of purchase
+    salePrice: float({ validation: { min: 0 } }), // Selling price per unit (can differ from product default)
+
+    // Status & Availability
     status: select({
-      options: inventoryItemStatusOptions,
-      defaultValue: 'ACTIVE',
-      ui: { displayMode: 'select' },
+      options: inventoryStatusOptions,
+      defaultValue: 'IN_STOCK',
+      ui: { displayMode: 'segmented-control' },
     }),
+    supplier: text(),
+    isReserved: checkbox({ defaultValue: false }), // If reserved for an order
+    isDamaged: checkbox({ defaultValue: false }), // If item is damaged
     users: relationship({ ref: 'User.items', many: true }),
-    orders: relationship({ ref: 'Order.items', many: true }),
-    isHidden: checkbox({ defaultValue: false }),
     lists: relationship({ ref: 'List.items', many: true }),
-    lastModifiedBy: relationship({ ref: 'User', many: false }),
     tags: relationship({ ref: 'Tag.items', many: true }),
-    itemTags: relationship({ ref: 'ItemTag.item', many: true }),
+    itemTags: relationship({ ref: 'ItemTag.items', many: true }),
+
+    // // Relationships
+    orders: relationship({ ref: 'Order.items', many: true }),
+
+    // Metadata
+    lastModifiedBy: relationship({ ref: 'User' }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     updatedAt: timestamp({ db: { updatedAt: true } }),
   },
