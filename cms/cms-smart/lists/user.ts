@@ -17,6 +17,11 @@ export const User: any = list({
   //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
   access: allowAll,
 
+  ui: {
+    labelField: 'email',
+    searchFields: ['email', 'firstName', 'lastName'],
+  },
+
   // this is the fields for our User list
   fields: {
     // by adding isRequired, we enforce that every User should have a name
