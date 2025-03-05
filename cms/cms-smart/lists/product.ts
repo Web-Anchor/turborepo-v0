@@ -24,6 +24,17 @@ export const Product: any = list({
     afterOperation: {
       create: async (args) => {
         /* ... */
+        // create a new bom record and add composite product
+        // as a component with quantity 1
+        // await context.lists.BOM.createOne({
+        //   data: {
+        //     name: args.data.name,
+        //     composite: { connect: { id: args.result.id } },
+        //     components: { connect: { id: args.result.id } },
+        //     updatedAt: new Date(),
+        //   },
+        // });
+        console.log('🪝 prop types ', args);
       },
       update: async (args) => {
         console.log('🪝 prop types ', args);

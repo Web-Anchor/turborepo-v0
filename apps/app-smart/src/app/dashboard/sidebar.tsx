@@ -257,7 +257,7 @@ function MenuWrapper({ path }: { path: string }) {
             <Link
               href={item.href}
               className={classNames(
-                item.href?.includes(path)
+                path === item.href
                   ? 'bg-gray-800 text-white'
                   : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                 'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
@@ -269,7 +269,7 @@ function MenuWrapper({ path }: { path: string }) {
               {item.name}
             </Link>
             {/* Menu sub navigation */}
-            {item.navigation && path?.includes(item.href) && (
+            {item.navigation && path.includes(item.href) && (
               <ul role="list" className="ml-4 space-y-1 my-1">
                 {item.navigation.map((subItem: NavigationItem, key: number) => {
                   return (
