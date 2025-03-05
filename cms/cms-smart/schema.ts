@@ -14,6 +14,7 @@ import { Invitation } from './lists/invitation';
 import { Order } from './lists/order';
 import { Integration } from './lists/integration';
 import { Inventory } from './lists/inventory';
+import { BOM } from './lists/bom';
 
 // the document field is a more complicated field, so it has it's own package
 import { document } from '@keystone-6/fields-document';
@@ -33,4 +34,5 @@ export const lists = {
   Order,
   Integration,
   Tag, // this last list is our Tag list, it only has a name field for now
+  BOM,
 } satisfies Lists;

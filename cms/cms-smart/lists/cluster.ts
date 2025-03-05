@@ -11,7 +11,7 @@ export const Cluster: any = list({
 
   fields: {
     name: text({ validation: { isRequired: true } }),
-    description: text(),
+    description: text({ ui: { displayMode: 'textarea' } }),
     users: relationship({
       ref: 'User',
       many: true,

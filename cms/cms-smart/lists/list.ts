@@ -16,7 +16,7 @@ export const List: any = list({
 
   fields: {
     name: text(),
-    description: text(),
+    description: text({ ui: { displayMode: 'textarea' } }),
     tags: relationship({ ref: 'Tag.lists', many: true }),
     clusters: relationship({ ref: 'Cluster', many: true }),
     users: relationship({

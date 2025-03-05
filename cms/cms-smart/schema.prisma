@@ -82,6 +82,7 @@ model Product {
   isHidden            Boolean   @default(false)
   users               User[]    @relation("Product_users")
   tags                Tag[]     @relation("Product_tags")
+  bom                 BOM?      @relation("BOM_composite")
   createdAt           DateTime? @default(now())
   updatedAt           DateTime? @updatedAt
   from_List_products  List[]    @relation("List_products")
@@ -90,6 +91,8 @@ model Product {
 
 model Inventory {
   id                   String    @id @default(cuid())
+  name                 String    @default("")
+  description          String    @default("")
   batchNumber          String    @default("")
   sku                  String    @unique @default("")
   quantity             Int?      @default(0)
@@ -105,6 +108,7 @@ model Inventory {
   isDamaged            Boolean   @default(false)
   users                User[]    @relation("Inventory_users")
   tags                 Tag[]     @relation("Inventory_tags")
+  bom                  BOM[]     @relation("BOM_components")
   createdAt            DateTime? @default(now())
   updatedAt            DateTime? @updatedAt
   from_List_items      List[]    @relation("List_items")
@@ -164,4 +168,18 @@ model Tag {
   lists       List[]      @relation("List_tags")
   products    Product[]   @relation("Product_tags")
   inventory   Inventory[] @relation("Inventory_tags")
+}
+
+model BOM {
+  id           String     @id @default(cuid())
+  name         String     @default("")
+  description  String     @default("")
+  composite    Product?   @relation("BOM_composite", fields: [compositeId], references: [id])
+  compositeId  String?    @unique @map("composite")
+  components   Inventory? @relation("BOM_components", fields: [componentsId], references: [id])
+  componentsId String?    @map("components")
+  quantity     Int        @default(1)
+  unit         String     @default("pcs")
+
+  @@index([componentsId])
 }

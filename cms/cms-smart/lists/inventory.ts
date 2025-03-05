@@ -27,7 +27,9 @@ export const Inventory: any = list({
   },
 
   fields: {
-    batchNumber: text({ validation: { isRequired: true } }), // Unique batch identifier
+    name: text({ validation: { isRequired: true } }),
+    description: text({ ui: { displayMode: 'textarea' } }),
+    batchNumber: text({ validation: { isRequired: false } }), // Unique batch identifier
     sku: text({ isIndexed: 'unique', validation: { isRequired: false } }), // Optional SKU tracking at the inventory level
 
     // Stock Tracking
@@ -60,6 +62,7 @@ export const Inventory: any = list({
       },
     }),
     tags: relationship({ ref: 'Tag.inventory', many: true }),
+    bom: relationship({ ref: 'BOM.components', many: true }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     updatedAt: timestamp({ db: { updatedAt: true } }),
   },

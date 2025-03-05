@@ -17,7 +17,7 @@ export const Tag: any = list({
   // this is the fields for our Tag list
   fields: {
     name: text(),
-    description: text(),
+    description: text({ ui: { displayMode: 'textarea' } }),
     users: relationship({
       ref: 'User.tags',
       many: true,

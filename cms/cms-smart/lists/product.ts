@@ -75,6 +75,7 @@ export const Product: any = list({
       },
     }),
     tags: relationship({ ref: 'Tag.products', many: true }),
+    bom: relationship({ ref: 'BOM.composite', many: false }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     updatedAt: timestamp({ db: { updatedAt: true } }),
   },
