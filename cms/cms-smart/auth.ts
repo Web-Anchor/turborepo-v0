@@ -29,6 +29,7 @@ const { withAuth } = createAuth({
   // this is a GraphQL query fragment for fetching what data will be attached to a context.session
   //   this can be helpful for when you are writing your access control functions
   //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
+  sessionData: 'email id',
   secretField: 'password',
 
   // WARNING: remove initFirstItem functionality in production
@@ -37,7 +38,7 @@ const { withAuth } = createAuth({
     // if there are no items in the database, by configuring this field
     //   you are asking the Keystone AdminUI to create a new user
     //   providing inputs for these fields
-    fields: ['firstName', 'email', 'password'],
+    fields: ['name', 'email', 'password'],
 
     // it uses context.sudo() to do this, which bypasses any access control you might have
     //   you shouldn't use this in production
