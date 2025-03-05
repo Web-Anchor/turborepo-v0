@@ -46,22 +46,18 @@ export const User: any = list({
       ui: { displayMode: 'select' },
     }),
     password: password({ validation: { isRequired: true } }),
-    tags: relationship({ ref: 'Tag.users', many: true }),
-    orders: relationship({ ref: 'Order.users', many: true }),
-    items: relationship({ ref: 'Inventory.users', many: true }),
-    lists: relationship({ ref: 'List.users', many: true }),
-    products: relationship({ ref: 'Product.users', many: true }),
-    // Invitations received for list access
-    listInvitations: relationship({ ref: 'Invitation.user', many: true }),
-    createdAt: timestamp({
-      defaultValue: { kind: 'now' },
-    }),
     permissions: select({
       options: userPermissionsOptions,
       defaultValue: 'ALL',
       ui: { displayMode: 'select' },
     }),
     configuration: json({ defaultValue: {} }), // for storing user-specific setting configurations
+    tags: relationship({ ref: 'Tag.users', many: true }),
+
+    // metadata fields
     updatedAt: timestamp({ db: { updatedAt: true } }),
+    createdAt: timestamp({
+      defaultValue: { kind: 'now' },
+    }),
   },
 });

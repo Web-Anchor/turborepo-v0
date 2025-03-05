@@ -75,7 +75,6 @@ export type Item = {
   lastModifiedBy?: User;
   lastModifiedById?: string;
   tags: Tag[];
-  itemTags: ItemTag[];
   createdAt?: string;
   updatedAt?: string;
 };
@@ -125,13 +124,6 @@ export type Tag = {
   users: User[];
   lists: List[];
   items: Item[];
-};
-
-export type ItemTag = {
-  id: string;
-  name: string;
-  item?: Item;
-  itemId?: string;
 };
 
 export type Statistics = {

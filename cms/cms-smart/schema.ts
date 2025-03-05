@@ -7,8 +7,7 @@
 
 import { User } from './lists/user';
 import { Tag } from './lists/tag';
-import { ItemTag } from './lists/item-tag';
-import { InventoryList } from './lists/list';
+import { List } from './lists/list';
 import { Product } from './lists/product';
 import { Cluster } from './lists/cluster';
 import { Invitation } from './lists/invitation';
@@ -27,12 +26,11 @@ import { type Lists } from '.keystone/types';
 export const lists = {
   User,
   Cluster,
-  List: InventoryList,
+  List,
   Product,
   Inventory,
   Invitation,
   Order,
   Integration,
   Tag, // this last list is our Tag list, it only has a name field for now
-  ItemTag,
 } satisfies Lists;

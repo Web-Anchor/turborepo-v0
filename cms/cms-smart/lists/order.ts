@@ -29,7 +29,7 @@ export const Order: any = list({
       ui: { displayMode: 'select' },
     }),
     users: relationship({
-      ref: 'User.orders',
+      ref: 'User',
       many: true,
       ui: {
         displayMode: 'select',
@@ -37,10 +37,11 @@ export const Order: any = list({
         searchFields: ['firstName', 'lastName', 'email'],
       },
     }),
-    products: relationship({ ref: 'Product.orders', many: true }),
-    items: relationship({ ref: 'Inventory.orders', many: true }),
+    products: relationship({ ref: 'Product', many: true }),
+    inventory: relationship({ ref: 'Inventory', many: true }),
     source: text(),
-    amount: integer(),
+    quantity: integer({ defaultValue: 0, validation: { min: 0 } }), // Total number of items
+    unit: text({ defaultValue: 'pcs' }), // Measurement unit (e.g., kg, liters)
     currency: text(),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     updatedAt: timestamp({ db: { updatedAt: true } }),

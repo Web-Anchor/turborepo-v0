@@ -24,12 +24,12 @@ export const Invitation: any = list({
     }),
     token: text({ isIndexed: 'unique' }),
     lists: relationship({
-      ref: 'List.invitations',
+      ref: 'List',
       many: true,
     }),
-    clusters: relationship({ ref: 'Cluster.invitations', many: true }),
+    clusters: relationship({ ref: 'Cluster', many: true }),
     user: relationship({
-      ref: 'User.listInvitations',
+      ref: 'User',
       many: false,
       ui: {
         displayMode: 'select',

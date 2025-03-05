@@ -10,22 +10,12 @@ type User {
   email: String
   role: String
   password: PasswordState
-  tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
-  tagsCount(where: TagWhereInput! = {}): Int
-  orders(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
-  ordersCount(where: OrderWhereInput! = {}): Int
-  items(where: InventoryWhereInput! = {}, orderBy: [InventoryOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: InventoryWhereUniqueInput): [Inventory!]
-  itemsCount(where: InventoryWhereInput! = {}): Int
-  lists(where: ListWhereInput! = {}, orderBy: [ListOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ListWhereUniqueInput): [List!]
-  listsCount(where: ListWhereInput! = {}): Int
-  products(where: ProductWhereInput! = {}, orderBy: [ProductOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProductWhereUniqueInput): [Product!]
-  productsCount(where: ProductWhereInput! = {}): Int
-  listInvitations(where: InvitationWhereInput! = {}, orderBy: [InvitationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: InvitationWhereUniqueInput): [Invitation!]
-  listInvitationsCount(where: InvitationWhereInput! = {}): Int
-  createdAt: DateTime
   permissions: String
   configuration: JSON
+  tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
+  tagsCount(where: TagWhereInput! = {}): Int
   updatedAt: DateTime
+  createdAt: DateTime
 }
 
 type PasswordState {
@@ -51,15 +41,10 @@ input UserWhereInput {
   clerkId: StringFilter
   email: StringFilter
   role: StringNullableFilter
-  tags: TagManyRelationFilter
-  orders: OrderManyRelationFilter
-  items: InventoryManyRelationFilter
-  lists: ListManyRelationFilter
-  products: ProductManyRelationFilter
-  listInvitations: InvitationManyRelationFilter
-  createdAt: DateTimeNullableFilter
   permissions: StringNullableFilter
+  tags: TagManyRelationFilter
   updatedAt: DateTimeNullableFilter
+  createdAt: DateTimeNullableFilter
 }
 
 input IDFilter {
@@ -121,36 +106,6 @@ input TagManyRelationFilter {
   none: TagWhereInput
 }
 
-input OrderManyRelationFilter {
-  every: OrderWhereInput
-  some: OrderWhereInput
-  none: OrderWhereInput
-}
-
-input InventoryManyRelationFilter {
-  every: InventoryWhereInput
-  some: InventoryWhereInput
-  none: InventoryWhereInput
-}
-
-input ListManyRelationFilter {
-  every: ListWhereInput
-  some: ListWhereInput
-  none: ListWhereInput
-}
-
-input ProductManyRelationFilter {
-  every: ProductWhereInput
-  some: ProductWhereInput
-  none: ProductWhereInput
-}
-
-input InvitationManyRelationFilter {
-  every: InvitationWhereInput
-  some: InvitationWhereInput
-  none: InvitationWhereInput
-}
-
 input DateTimeNullableFilter {
   equals: DateTime
   in: [DateTime!]
@@ -170,9 +125,9 @@ input UserOrderByInput {
   clerkId: OrderDirection
   email: OrderDirection
   role: OrderDirection
-  createdAt: OrderDirection
   permissions: OrderDirection
   updatedAt: OrderDirection
+  createdAt: OrderDirection
 }
 
 enum OrderDirection {
@@ -188,16 +143,11 @@ input UserUpdateInput {
   email: String
   role: String
   password: String
-  tags: TagRelateToManyForUpdateInput
-  orders: OrderRelateToManyForUpdateInput
-  items: InventoryRelateToManyForUpdateInput
-  lists: ListRelateToManyForUpdateInput
-  products: ProductRelateToManyForUpdateInput
-  listInvitations: InvitationRelateToManyForUpdateInput
-  createdAt: DateTime
   permissions: String
   configuration: JSON
+  tags: TagRelateToManyForUpdateInput
   updatedAt: DateTime
+  createdAt: DateTime
 }
 
 input TagRelateToManyForUpdateInput {
@@ -205,41 +155,6 @@ input TagRelateToManyForUpdateInput {
   set: [TagWhereUniqueInput!]
   create: [TagCreateInput!]
   connect: [TagWhereUniqueInput!]
-}
-
-input OrderRelateToManyForUpdateInput {
-  disconnect: [OrderWhereUniqueInput!]
-  set: [OrderWhereUniqueInput!]
-  create: [OrderCreateInput!]
-  connect: [OrderWhereUniqueInput!]
-}
-
-input InventoryRelateToManyForUpdateInput {
-  disconnect: [InventoryWhereUniqueInput!]
-  set: [InventoryWhereUniqueInput!]
-  create: [InventoryCreateInput!]
-  connect: [InventoryWhereUniqueInput!]
-}
-
-input ListRelateToManyForUpdateInput {
-  disconnect: [ListWhereUniqueInput!]
-  set: [ListWhereUniqueInput!]
-  create: [ListCreateInput!]
-  connect: [ListWhereUniqueInput!]
-}
-
-input ProductRelateToManyForUpdateInput {
-  disconnect: [ProductWhereUniqueInput!]
-  set: [ProductWhereUniqueInput!]
-  create: [ProductCreateInput!]
-  connect: [ProductWhereUniqueInput!]
-}
-
-input InvitationRelateToManyForUpdateInput {
-  disconnect: [InvitationWhereUniqueInput!]
-  set: [InvitationWhereUniqueInput!]
-  create: [InvitationCreateInput!]
-  connect: [InvitationWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -255,46 +170,16 @@ input UserCreateInput {
   email: String
   role: String
   password: String
-  tags: TagRelateToManyForCreateInput
-  orders: OrderRelateToManyForCreateInput
-  items: InventoryRelateToManyForCreateInput
-  lists: ListRelateToManyForCreateInput
-  products: ProductRelateToManyForCreateInput
-  listInvitations: InvitationRelateToManyForCreateInput
-  createdAt: DateTime
   permissions: String
   configuration: JSON
+  tags: TagRelateToManyForCreateInput
   updatedAt: DateTime
+  createdAt: DateTime
 }
 
 input TagRelateToManyForCreateInput {
   create: [TagCreateInput!]
   connect: [TagWhereUniqueInput!]
-}
-
-input OrderRelateToManyForCreateInput {
-  create: [OrderCreateInput!]
-  connect: [OrderWhereUniqueInput!]
-}
-
-input InventoryRelateToManyForCreateInput {
-  create: [InventoryCreateInput!]
-  connect: [InventoryWhereUniqueInput!]
-}
-
-input ListRelateToManyForCreateInput {
-  create: [ListCreateInput!]
-  connect: [ListWhereUniqueInput!]
-}
-
-input ProductRelateToManyForCreateInput {
-  create: [ProductCreateInput!]
-  connect: [ProductWhereUniqueInput!]
-}
-
-input InvitationRelateToManyForCreateInput {
-  create: [InvitationCreateInput!]
-  connect: [InvitationWhereUniqueInput!]
 }
 
 type Cluster {
@@ -305,8 +190,6 @@ type Cluster {
   usersCount(where: UserWhereInput! = {}): Int
   lists(where: ListWhereInput! = {}, orderBy: [ListOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ListWhereUniqueInput): [List!]
   listsCount(where: ListWhereInput! = {}): Int
-  invitations(where: InvitationWhereInput! = {}, orderBy: [InvitationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: InvitationWhereUniqueInput): [Invitation!]
-  invitationsCount(where: InvitationWhereInput! = {}): Int
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -324,7 +207,6 @@ input ClusterWhereInput {
   description: StringFilter
   users: UserManyRelationFilter
   lists: ListManyRelationFilter
-  invitations: InvitationManyRelationFilter
   createdAt: DateTimeNullableFilter
   updatedAt: DateTimeNullableFilter
 }
@@ -333,6 +215,12 @@ input UserManyRelationFilter {
   every: UserWhereInput
   some: UserWhereInput
   none: UserWhereInput
+}
+
+input ListManyRelationFilter {
+  every: ListWhereInput
+  some: ListWhereInput
+  none: ListWhereInput
 }
 
 input ClusterOrderByInput {
@@ -348,7 +236,6 @@ input ClusterUpdateInput {
   description: String
   users: UserRelateToManyForUpdateInput
   lists: ListRelateToManyForUpdateInput
-  invitations: InvitationRelateToManyForUpdateInput
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -358,6 +245,13 @@ input UserRelateToManyForUpdateInput {
   set: [UserWhereUniqueInput!]
   create: [UserCreateInput!]
   connect: [UserWhereUniqueInput!]
+}
+
+input ListRelateToManyForUpdateInput {
+  disconnect: [ListWhereUniqueInput!]
+  set: [ListWhereUniqueInput!]
+  create: [ListCreateInput!]
+  connect: [ListWhereUniqueInput!]
 }
 
 input ClusterUpdateArgs {
@@ -370,7 +264,6 @@ input ClusterCreateInput {
   description: String
   users: UserRelateToManyForCreateInput
   lists: ListRelateToManyForCreateInput
-  invitations: InvitationRelateToManyForCreateInput
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -378,6 +271,11 @@ input ClusterCreateInput {
 input UserRelateToManyForCreateInput {
   create: [UserCreateInput!]
   connect: [UserWhereUniqueInput!]
+}
+
+input ListRelateToManyForCreateInput {
+  create: [ListCreateInput!]
+  connect: [ListWhereUniqueInput!]
 }
 
 type List {
@@ -388,8 +286,6 @@ type List {
   tagsCount(where: TagWhereInput! = {}): Int
   clusters(where: ClusterWhereInput! = {}, orderBy: [ClusterOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ClusterWhereUniqueInput): [Cluster!]
   clustersCount(where: ClusterWhereInput! = {}): Int
-  invitations(where: InvitationWhereInput! = {}, orderBy: [InvitationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: InvitationWhereUniqueInput): [Invitation!]
-  invitationsCount(where: InvitationWhereInput! = {}): Int
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   usersCount(where: UserWhereInput! = {}): Int
   products(where: ProductWhereInput! = {}, orderBy: [ProductOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProductWhereUniqueInput): [Product!]
@@ -413,7 +309,6 @@ input ListWhereInput {
   description: StringFilter
   tags: TagManyRelationFilter
   clusters: ClusterManyRelationFilter
-  invitations: InvitationManyRelationFilter
   users: UserManyRelationFilter
   products: ProductManyRelationFilter
   items: InventoryManyRelationFilter
@@ -425,6 +320,18 @@ input ClusterManyRelationFilter {
   every: ClusterWhereInput
   some: ClusterWhereInput
   none: ClusterWhereInput
+}
+
+input ProductManyRelationFilter {
+  every: ProductWhereInput
+  some: ProductWhereInput
+  none: ProductWhereInput
+}
+
+input InventoryManyRelationFilter {
+  every: InventoryWhereInput
+  some: InventoryWhereInput
+  none: InventoryWhereInput
 }
 
 input ListOrderByInput {
@@ -440,7 +347,6 @@ input ListUpdateInput {
   description: String
   tags: TagRelateToManyForUpdateInput
   clusters: ClusterRelateToManyForUpdateInput
-  invitations: InvitationRelateToManyForUpdateInput
   users: UserRelateToManyForUpdateInput
   products: ProductRelateToManyForUpdateInput
   items: InventoryRelateToManyForUpdateInput
@@ -455,6 +361,20 @@ input ClusterRelateToManyForUpdateInput {
   connect: [ClusterWhereUniqueInput!]
 }
 
+input ProductRelateToManyForUpdateInput {
+  disconnect: [ProductWhereUniqueInput!]
+  set: [ProductWhereUniqueInput!]
+  create: [ProductCreateInput!]
+  connect: [ProductWhereUniqueInput!]
+}
+
+input InventoryRelateToManyForUpdateInput {
+  disconnect: [InventoryWhereUniqueInput!]
+  set: [InventoryWhereUniqueInput!]
+  create: [InventoryCreateInput!]
+  connect: [InventoryWhereUniqueInput!]
+}
+
 input ListUpdateArgs {
   where: ListWhereUniqueInput!
   data: ListUpdateInput!
@@ -465,7 +385,6 @@ input ListCreateInput {
   description: String
   tags: TagRelateToManyForCreateInput
   clusters: ClusterRelateToManyForCreateInput
-  invitations: InvitationRelateToManyForCreateInput
   users: UserRelateToManyForCreateInput
   products: ProductRelateToManyForCreateInput
   items: InventoryRelateToManyForCreateInput
@@ -478,6 +397,16 @@ input ClusterRelateToManyForCreateInput {
   connect: [ClusterWhereUniqueInput!]
 }
 
+input ProductRelateToManyForCreateInput {
+  create: [ProductCreateInput!]
+  connect: [ProductWhereUniqueInput!]
+}
+
+input InventoryRelateToManyForCreateInput {
+  create: [InventoryCreateInput!]
+  connect: [InventoryWhereUniqueInput!]
+}
+
 type Product {
   id: ID!
   name: String
@@ -486,6 +415,7 @@ type Product {
   sku: String
   barcode: String
   attributes: JSON
+  isComposite: Boolean
   cost: Float
   price: Float
   taxRate: Float
@@ -498,15 +428,8 @@ type Product {
   isHidden: Boolean
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   usersCount(where: UserWhereInput! = {}): Int
-  orders(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
-  ordersCount(where: OrderWhereInput! = {}): Int
-  lists(where: ListWhereInput! = {}, orderBy: [ListOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ListWhereUniqueInput): [List!]
-  listsCount(where: ListWhereInput! = {}): Int
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
-  items(where: InventoryWhereInput! = {}, orderBy: [InventoryOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: InventoryWhereUniqueInput): [Inventory!]
-  itemsCount(where: InventoryWhereInput! = {}): Int
-  lastModifiedBy: User
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -525,6 +448,7 @@ input ProductWhereInput {
   category: StringFilter
   sku: StringFilter
   barcode: StringFilter
+  isComposite: BooleanFilter
   cost: FloatNullableFilter
   price: FloatNullableFilter
   taxRate: FloatNullableFilter
@@ -536,13 +460,14 @@ input ProductWhereInput {
   status: StringNullableFilter
   isHidden: BooleanFilter
   users: UserManyRelationFilter
-  orders: OrderManyRelationFilter
-  lists: ListManyRelationFilter
   tags: TagManyRelationFilter
-  items: InventoryManyRelationFilter
-  lastModifiedBy: UserWhereInput
   createdAt: DateTimeNullableFilter
   updatedAt: DateTimeNullableFilter
+}
+
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
 }
 
 input FloatNullableFilter {
@@ -567,11 +492,6 @@ input IntNullableFilter {
   not: IntNullableFilter
 }
 
-input BooleanFilter {
-  equals: Boolean
-  not: BooleanFilter
-}
-
 input ProductOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -579,6 +499,7 @@ input ProductOrderByInput {
   category: OrderDirection
   sku: OrderDirection
   barcode: OrderDirection
+  isComposite: OrderDirection
   cost: OrderDirection
   price: OrderDirection
   taxRate: OrderDirection
@@ -600,6 +521,7 @@ input ProductUpdateInput {
   sku: String
   barcode: String
   attributes: JSON
+  isComposite: Boolean
   cost: Float
   price: Float
   taxRate: Float
@@ -611,19 +533,9 @@ input ProductUpdateInput {
   status: String
   isHidden: Boolean
   users: UserRelateToManyForUpdateInput
-  orders: OrderRelateToManyForUpdateInput
-  lists: ListRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
-  items: InventoryRelateToManyForUpdateInput
-  lastModifiedBy: UserRelateToOneForUpdateInput
   createdAt: DateTime
   updatedAt: DateTime
-}
-
-input UserRelateToOneForUpdateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-  disconnect: Boolean
 }
 
 input ProductUpdateArgs {
@@ -638,6 +550,7 @@ input ProductCreateInput {
   sku: String
   barcode: String
   attributes: JSON
+  isComposite: Boolean
   cost: Float
   price: Float
   taxRate: Float
@@ -649,27 +562,17 @@ input ProductCreateInput {
   status: String
   isHidden: Boolean
   users: UserRelateToManyForCreateInput
-  orders: OrderRelateToManyForCreateInput
-  lists: ListRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
-  items: InventoryRelateToManyForCreateInput
-  lastModifiedBy: UserRelateToOneForCreateInput
   createdAt: DateTime
   updatedAt: DateTime
 }
 
-input UserRelateToOneForCreateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-}
-
 type Inventory {
   id: ID!
-  products(where: ProductWhereInput! = {}, orderBy: [ProductOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProductWhereUniqueInput): [Product!]
-  productsCount(where: ProductWhereInput! = {}): Int
   batchNumber: String
   sku: String
   quantity: Int
+  unit: String
   location: String
   expiryDate: DateTime
   receivedDate: DateTime
@@ -681,15 +584,8 @@ type Inventory {
   isDamaged: Boolean
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   usersCount(where: UserWhereInput! = {}): Int
-  lists(where: ListWhereInput! = {}, orderBy: [ListOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ListWhereUniqueInput): [List!]
-  listsCount(where: ListWhereInput! = {}): Int
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
-  itemTags(where: ItemTagWhereInput! = {}, orderBy: [ItemTagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ItemTagWhereUniqueInput): [ItemTag!]
-  itemTagsCount(where: ItemTagWhereInput! = {}): Int
-  orders(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
-  ordersCount(where: OrderWhereInput! = {}): Int
-  lastModifiedBy: User
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -704,10 +600,10 @@ input InventoryWhereInput {
   OR: [InventoryWhereInput!]
   NOT: [InventoryWhereInput!]
   id: IDFilter
-  products: ProductManyRelationFilter
   batchNumber: StringFilter
   sku: StringFilter
   quantity: IntNullableFilter
+  unit: StringFilter
   location: StringFilter
   expiryDate: DateTimeNullableFilter
   receivedDate: DateTimeNullableFilter
@@ -718,19 +614,9 @@ input InventoryWhereInput {
   isReserved: BooleanFilter
   isDamaged: BooleanFilter
   users: UserManyRelationFilter
-  lists: ListManyRelationFilter
   tags: TagManyRelationFilter
-  itemTags: ItemTagManyRelationFilter
-  orders: OrderManyRelationFilter
-  lastModifiedBy: UserWhereInput
   createdAt: DateTimeNullableFilter
   updatedAt: DateTimeNullableFilter
-}
-
-input ItemTagManyRelationFilter {
-  every: ItemTagWhereInput
-  some: ItemTagWhereInput
-  none: ItemTagWhereInput
 }
 
 input InventoryOrderByInput {
@@ -738,6 +624,7 @@ input InventoryOrderByInput {
   batchNumber: OrderDirection
   sku: OrderDirection
   quantity: OrderDirection
+  unit: OrderDirection
   location: OrderDirection
   expiryDate: OrderDirection
   receivedDate: OrderDirection
@@ -752,10 +639,10 @@ input InventoryOrderByInput {
 }
 
 input InventoryUpdateInput {
-  products: ProductRelateToManyForUpdateInput
   batchNumber: String
   sku: String
   quantity: Int
+  unit: String
   location: String
   expiryDate: DateTime
   receivedDate: DateTime
@@ -766,20 +653,9 @@ input InventoryUpdateInput {
   isReserved: Boolean
   isDamaged: Boolean
   users: UserRelateToManyForUpdateInput
-  lists: ListRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
-  itemTags: ItemTagRelateToManyForUpdateInput
-  orders: OrderRelateToManyForUpdateInput
-  lastModifiedBy: UserRelateToOneForUpdateInput
   createdAt: DateTime
   updatedAt: DateTime
-}
-
-input ItemTagRelateToManyForUpdateInput {
-  disconnect: [ItemTagWhereUniqueInput!]
-  set: [ItemTagWhereUniqueInput!]
-  create: [ItemTagCreateInput!]
-  connect: [ItemTagWhereUniqueInput!]
 }
 
 input InventoryUpdateArgs {
@@ -788,10 +664,10 @@ input InventoryUpdateArgs {
 }
 
 input InventoryCreateInput {
-  products: ProductRelateToManyForCreateInput
   batchNumber: String
   sku: String
   quantity: Int
+  unit: String
   location: String
   expiryDate: DateTime
   receivedDate: DateTime
@@ -802,18 +678,9 @@ input InventoryCreateInput {
   isReserved: Boolean
   isDamaged: Boolean
   users: UserRelateToManyForCreateInput
-  lists: ListRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
-  itemTags: ItemTagRelateToManyForCreateInput
-  orders: OrderRelateToManyForCreateInput
-  lastModifiedBy: UserRelateToOneForCreateInput
   createdAt: DateTime
   updatedAt: DateTime
-}
-
-input ItemTagRelateToManyForCreateInput {
-  create: [ItemTagCreateInput!]
-  connect: [ItemTagWhereUniqueInput!]
 }
 
 type Invitation {
@@ -870,6 +737,12 @@ input InvitationUpdateInput {
   updatedAt: DateTime
 }
 
+input UserRelateToOneForUpdateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+}
+
 input InvitationUpdateArgs {
   where: InvitationWhereUniqueInput!
   data: InvitationUpdateInput!
@@ -886,6 +759,11 @@ input InvitationCreateInput {
   updatedAt: DateTime
 }
 
+input UserRelateToOneForCreateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
 type Order {
   id: ID!
   orderNumber: String
@@ -894,10 +772,11 @@ type Order {
   usersCount(where: UserWhereInput! = {}): Int
   products(where: ProductWhereInput! = {}, orderBy: [ProductOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProductWhereUniqueInput): [Product!]
   productsCount(where: ProductWhereInput! = {}): Int
-  items(where: InventoryWhereInput! = {}, orderBy: [InventoryOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: InventoryWhereUniqueInput): [Inventory!]
-  itemsCount(where: InventoryWhereInput! = {}): Int
+  inventory(where: InventoryWhereInput! = {}, orderBy: [InventoryOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: InventoryWhereUniqueInput): [Inventory!]
+  inventoryCount(where: InventoryWhereInput! = {}): Int
   source: String
-  amount: Int
+  quantity: Int
+  unit: String
   currency: String
   createdAt: DateTime
   updatedAt: DateTime
@@ -916,9 +795,10 @@ input OrderWhereInput {
   status: StringNullableFilter
   users: UserManyRelationFilter
   products: ProductManyRelationFilter
-  items: InventoryManyRelationFilter
+  inventory: InventoryManyRelationFilter
   source: StringFilter
-  amount: IntNullableFilter
+  quantity: IntNullableFilter
+  unit: StringFilter
   currency: StringFilter
   createdAt: DateTimeNullableFilter
   updatedAt: DateTimeNullableFilter
@@ -929,7 +809,8 @@ input OrderOrderByInput {
   orderNumber: OrderDirection
   status: OrderDirection
   source: OrderDirection
-  amount: OrderDirection
+  quantity: OrderDirection
+  unit: OrderDirection
   currency: OrderDirection
   createdAt: OrderDirection
   updatedAt: OrderDirection
@@ -940,9 +821,10 @@ input OrderUpdateInput {
   status: String
   users: UserRelateToManyForUpdateInput
   products: ProductRelateToManyForUpdateInput
-  items: InventoryRelateToManyForUpdateInput
+  inventory: InventoryRelateToManyForUpdateInput
   source: String
-  amount: Int
+  quantity: Int
+  unit: String
   currency: String
   createdAt: DateTime
   updatedAt: DateTime
@@ -958,9 +840,10 @@ input OrderCreateInput {
   status: String
   users: UserRelateToManyForCreateInput
   products: ProductRelateToManyForCreateInput
-  items: InventoryRelateToManyForCreateInput
+  inventory: InventoryRelateToManyForCreateInput
   source: String
-  amount: Int
+  quantity: Int
+  unit: String
   currency: String
   createdAt: DateTime
   updatedAt: DateTime
@@ -1038,14 +921,15 @@ input IntegrationCreateInput {
 type Tag {
   id: ID!
   name: String
+  description: String
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   usersCount(where: UserWhereInput! = {}): Int
   lists(where: ListWhereInput! = {}, orderBy: [ListOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ListWhereUniqueInput): [List!]
   listsCount(where: ListWhereInput! = {}): Int
-  items(where: InventoryWhereInput! = {}, orderBy: [InventoryOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: InventoryWhereUniqueInput): [Inventory!]
-  itemsCount(where: InventoryWhereInput! = {}): Int
   products(where: ProductWhereInput! = {}, orderBy: [ProductOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProductWhereUniqueInput): [Product!]
   productsCount(where: ProductWhereInput! = {}): Int
+  inventory(where: InventoryWhereInput! = {}, orderBy: [InventoryOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: InventoryWhereUniqueInput): [Inventory!]
+  inventoryCount(where: InventoryWhereInput! = {}): Int
 }
 
 input TagWhereUniqueInput {
@@ -1058,23 +942,26 @@ input TagWhereInput {
   NOT: [TagWhereInput!]
   id: IDFilter
   name: StringFilter
+  description: StringFilter
   users: UserManyRelationFilter
   lists: ListManyRelationFilter
-  items: InventoryManyRelationFilter
   products: ProductManyRelationFilter
+  inventory: InventoryManyRelationFilter
 }
 
 input TagOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  description: OrderDirection
 }
 
 input TagUpdateInput {
   name: String
+  description: String
   users: UserRelateToManyForUpdateInput
   lists: ListRelateToManyForUpdateInput
-  items: InventoryRelateToManyForUpdateInput
   products: ProductRelateToManyForUpdateInput
+  inventory: InventoryRelateToManyForUpdateInput
 }
 
 input TagUpdateArgs {
@@ -1084,50 +971,11 @@ input TagUpdateArgs {
 
 input TagCreateInput {
   name: String
+  description: String
   users: UserRelateToManyForCreateInput
   lists: ListRelateToManyForCreateInput
-  items: InventoryRelateToManyForCreateInput
   products: ProductRelateToManyForCreateInput
-}
-
-type ItemTag {
-  id: ID!
-  name: String
-  items(where: InventoryWhereInput! = {}, orderBy: [InventoryOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: InventoryWhereUniqueInput): [Inventory!]
-  itemsCount(where: InventoryWhereInput! = {}): Int
-}
-
-input ItemTagWhereUniqueInput {
-  id: ID
-}
-
-input ItemTagWhereInput {
-  AND: [ItemTagWhereInput!]
-  OR: [ItemTagWhereInput!]
-  NOT: [ItemTagWhereInput!]
-  id: IDFilter
-  name: StringFilter
-  items: InventoryManyRelationFilter
-}
-
-input ItemTagOrderByInput {
-  id: OrderDirection
-  name: OrderDirection
-}
-
-input ItemTagUpdateInput {
-  name: String
-  items: InventoryRelateToManyForUpdateInput
-}
-
-input ItemTagUpdateArgs {
-  where: ItemTagWhereUniqueInput!
-  data: ItemTagUpdateInput!
-}
-
-input ItemTagCreateInput {
-  name: String
-  items: InventoryRelateToManyForCreateInput
+  inventory: InventoryRelateToManyForCreateInput
 }
 
 """
@@ -1190,12 +1038,6 @@ type Mutation {
   updateTags(data: [TagUpdateArgs!]!): [Tag]
   deleteTag(where: TagWhereUniqueInput!): Tag
   deleteTags(where: [TagWhereUniqueInput!]!): [Tag]
-  createItemTag(data: ItemTagCreateInput!): ItemTag
-  createItemTags(data: [ItemTagCreateInput!]!): [ItemTag]
-  updateItemTag(where: ItemTagWhereUniqueInput!, data: ItemTagUpdateInput!): ItemTag
-  updateItemTags(data: [ItemTagUpdateArgs!]!): [ItemTag]
-  deleteItemTag(where: ItemTagWhereUniqueInput!): ItemTag
-  deleteItemTags(where: [ItemTagWhereUniqueInput!]!): [ItemTag]
   endSession: Boolean!
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
@@ -1246,9 +1088,6 @@ type Query {
   tag(where: TagWhereUniqueInput!): Tag
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
-  itemTag(where: ItemTagWhereUniqueInput!): ItemTag
-  itemTags(where: ItemTagWhereInput! = {}, orderBy: [ItemTagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ItemTagWhereUniqueInput): [ItemTag!]
-  itemTagsCount(where: ItemTagWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }

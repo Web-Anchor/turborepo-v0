@@ -12,112 +12,103 @@ generator client {
 }
 
 model User {
-  id                            String        @id @default(cuid())
-  firstName                     String        @default("")
-  lastName                      String        @default("")
-  phoneNumbers                  String        @default("")
-  clerkId                       String        @unique @default("")
-  email                         String        @unique @default("")
-  role                          String?       @default("USER")
-  password                      String
-  tags                          Tag[]         @relation("Tag_users")
-  orders                        Order[]       @relation("Order_users")
-  items                         Inventory[]   @relation("Inventory_users")
-  lists                         List[]        @relation("List_users")
-  products                      Product[]     @relation("Product_users")
-  listInvitations               Invitation[]  @relation("Invitation_user")
-  createdAt                     DateTime?     @default(now())
-  permissions                   String?       @default("ALL")
-  configuration                 String?       @default("{}")
-  updatedAt                     DateTime?     @updatedAt
-  from_Cluster_users            Cluster[]     @relation("Cluster_users")
-  from_Product_lastModifiedBy   Product[]     @relation("Product_lastModifiedBy")
-  from_Inventory_lastModifiedBy Inventory[]   @relation("Inventory_lastModifiedBy")
-  from_Integration_user         Integration[] @relation("Integration_user")
+  id                    String        @id @default(cuid())
+  firstName             String        @default("")
+  lastName              String        @default("")
+  phoneNumbers          String        @default("")
+  clerkId               String        @unique @default("")
+  email                 String        @unique @default("")
+  role                  String?       @default("USER")
+  password              String
+  permissions           String?       @default("ALL")
+  configuration         String?       @default("{}")
+  tags                  Tag[]         @relation("Tag_users")
+  updatedAt             DateTime?     @updatedAt
+  createdAt             DateTime?     @default(now())
+  from_Cluster_users    Cluster[]     @relation("Cluster_users")
+  from_List_users       List[]        @relation("List_users")
+  from_Product_users    Product[]     @relation("Product_users")
+  from_Inventory_users  Inventory[]   @relation("Inventory_users")
+  from_Invitation_user  Invitation[]  @relation("Invitation_user")
+  from_Order_users      Order[]       @relation("Order_users")
+  from_Integration_user Integration[] @relation("Integration_user")
 }
 
 model Cluster {
-  id          String       @id @default(cuid())
-  name        String       @default("")
-  description String       @default("")
-  users       User[]       @relation("Cluster_users")
-  lists       List[]       @relation("Cluster_lists")
-  invitations Invitation[] @relation("Cluster_invitations")
-  createdAt   DateTime?    @default(now())
-  updatedAt   DateTime?    @updatedAt
+  id                       String       @id @default(cuid())
+  name                     String       @default("")
+  description              String       @default("")
+  users                    User[]       @relation("Cluster_users")
+  lists                    List[]       @relation("Cluster_lists")
+  createdAt                DateTime?    @default(now())
+  updatedAt                DateTime?    @updatedAt
+  from_List_clusters       List[]       @relation("List_clusters")
+  from_Invitation_clusters Invitation[] @relation("Invitation_clusters")
 }
 
 model List {
-  id          String       @id @default(cuid())
-  name        String       @default("")
-  description String       @default("")
-  tags        Tag[]        @relation("List_tags")
-  clusters    Cluster[]    @relation("Cluster_lists")
-  invitations Invitation[] @relation("Invitation_lists")
-  users       User[]       @relation("List_users")
-  products    Product[]    @relation("List_products")
-  items       Inventory[]  @relation("Inventory_lists")
-  createdAt   DateTime?    @default(now())
-  updatedAt   DateTime?    @updatedAt
+  id                    String       @id @default(cuid())
+  name                  String       @default("")
+  description           String       @default("")
+  tags                  Tag[]        @relation("List_tags")
+  clusters              Cluster[]    @relation("List_clusters")
+  users                 User[]       @relation("List_users")
+  products              Product[]    @relation("List_products")
+  items                 Inventory[]  @relation("List_items")
+  createdAt             DateTime?    @default(now())
+  updatedAt             DateTime?    @updatedAt
+  from_Cluster_lists    Cluster[]    @relation("Cluster_lists")
+  from_Invitation_lists Invitation[] @relation("Invitation_lists")
 }
 
 model Product {
-  id               String      @id @default(cuid())
-  name             String      @default("")
-  description      String      @default("")
-  category         String      @default("")
-  sku              String      @default("")
-  barcode          String      @default("")
-  attributes       String?     @default("{}")
-  cost             Float?
-  price            Float?
-  taxRate          Float?      @default(0)
-  reorderLevel     Int?        @default(0)
-  unit             String      @default("pcs")
-  quantity         Int?        @default(0)
-  supplier         String      @default("")
-  leadTime         Int?
-  status           String?     @default("ACTIVE")
-  isHidden         Boolean     @default(false)
-  users            User[]      @relation("Product_users")
-  orders           Order[]     @relation("Order_products")
-  lists            List[]      @relation("List_products")
-  tags             Tag[]       @relation("Product_tags")
-  items            Inventory[] @relation("Inventory_products")
-  lastModifiedBy   User?       @relation("Product_lastModifiedBy", fields: [lastModifiedById], references: [id])
-  lastModifiedById String?     @map("lastModifiedBy")
-  createdAt        DateTime?   @default(now())
-  updatedAt        DateTime?   @updatedAt
-
-  @@index([lastModifiedById])
+  id                  String    @id @default(cuid())
+  name                String    @default("")
+  description         String    @default("")
+  category            String    @default("")
+  sku                 String    @default("")
+  barcode             String    @default("")
+  attributes          String?   @default("{}")
+  isComposite         Boolean   @default(false)
+  cost                Float?
+  price               Float?
+  taxRate             Float?    @default(0)
+  reorderLevel        Int?      @default(0)
+  unit                String    @default("pcs")
+  quantity            Int?      @default(0)
+  supplier            String    @default("")
+  leadTime            Int?
+  status              String?   @default("ACTIVE")
+  isHidden            Boolean   @default(false)
+  users               User[]    @relation("Product_users")
+  tags                Tag[]     @relation("Product_tags")
+  createdAt           DateTime? @default(now())
+  updatedAt           DateTime? @updatedAt
+  from_List_products  List[]    @relation("List_products")
+  from_Order_products Order[]   @relation("Order_products")
 }
 
 model Inventory {
-  id               String    @id @default(cuid())
-  products         Product[] @relation("Inventory_products")
-  batchNumber      String    @default("")
-  sku              String    @unique @default("")
-  quantity         Int?      @default(0)
-  location         String    @default("")
-  expiryDate       DateTime?
-  receivedDate     DateTime? @default(now())
-  purchasePrice    Float?
-  salePrice        Float?
-  status           String?   @default("IN_STOCK")
-  supplier         String    @default("")
-  isReserved       Boolean   @default(false)
-  isDamaged        Boolean   @default(false)
-  users            User[]    @relation("Inventory_users")
-  lists            List[]    @relation("Inventory_lists")
-  tags             Tag[]     @relation("Inventory_tags")
-  itemTags         ItemTag[] @relation("Inventory_itemTags")
-  orders           Order[]   @relation("Inventory_orders")
-  lastModifiedBy   User?     @relation("Inventory_lastModifiedBy", fields: [lastModifiedById], references: [id])
-  lastModifiedById String?   @map("lastModifiedBy")
-  createdAt        DateTime? @default(now())
-  updatedAt        DateTime? @updatedAt
-
-  @@index([lastModifiedById])
+  id                   String    @id @default(cuid())
+  batchNumber          String    @default("")
+  sku                  String    @unique @default("")
+  quantity             Int?      @default(0)
+  unit                 String    @default("pcs")
+  location             String    @default("")
+  expiryDate           DateTime?
+  receivedDate         DateTime? @default(now())
+  purchasePrice        Float?
+  salePrice            Float?
+  status               String?   @default("IN_STOCK")
+  supplier             String    @default("")
+  isReserved           Boolean   @default(false)
+  isDamaged            Boolean   @default(false)
+  users                User[]    @relation("Inventory_users")
+  tags                 Tag[]     @relation("Inventory_tags")
+  createdAt            DateTime? @default(now())
+  updatedAt            DateTime? @updatedAt
+  from_List_items      List[]    @relation("List_items")
+  from_Order_inventory Order[]   @relation("Order_inventory")
 }
 
 model Invitation {
@@ -126,7 +117,7 @@ model Invitation {
   status    String?   @default("PENDING")
   token     String    @unique @default("")
   lists     List[]    @relation("Invitation_lists")
-  clusters  Cluster[] @relation("Cluster_invitations")
+  clusters  Cluster[] @relation("Invitation_clusters")
   user      User?     @relation("Invitation_user", fields: [userId], references: [id])
   userId    String?   @map("user")
   createdAt DateTime? @default(now())
@@ -141,9 +132,10 @@ model Order {
   status      String?     @default("PENDING")
   users       User[]      @relation("Order_users")
   products    Product[]   @relation("Order_products")
-  items       Inventory[] @relation("Inventory_orders")
+  inventory   Inventory[] @relation("Order_inventory")
   source      String      @default("")
-  amount      Int?
+  quantity    Int?        @default(0)
+  unit        String      @default("pcs")
   currency    String      @default("")
   createdAt   DateTime?   @default(now())
   updatedAt   DateTime?   @updatedAt
@@ -165,16 +157,11 @@ model Integration {
 }
 
 model Tag {
-  id       String      @id @default(cuid())
-  name     String      @default("")
-  users    User[]      @relation("Tag_users")
-  lists    List[]      @relation("List_tags")
-  items    Inventory[] @relation("Inventory_tags")
-  products Product[]   @relation("Product_tags")
-}
-
-model ItemTag {
-  id    String      @id @default(cuid())
-  name  String      @default("")
-  items Inventory[] @relation("Inventory_itemTags")
+  id          String      @id @default(cuid())
+  name        String      @default("")
+  description String      @default("")
+  users       User[]      @relation("Tag_users")
+  lists       List[]      @relation("List_tags")
+  products    Product[]   @relation("Product_tags")
+  inventory   Inventory[] @relation("Inventory_tags")
 }

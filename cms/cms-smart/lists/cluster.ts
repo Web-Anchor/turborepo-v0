@@ -12,9 +12,16 @@ export const Cluster: any = list({
   fields: {
     name: text({ validation: { isRequired: true } }),
     description: text(),
-    users: relationship({ ref: 'User', many: true }),
-    lists: relationship({ ref: 'List.clusters', many: true }),
-    invitations: relationship({ ref: 'Invitation.clusters', many: true }),
+    users: relationship({
+      ref: 'User',
+      many: true,
+      ui: { displayMode: 'select' },
+    }),
+    lists: relationship({
+      ref: 'List',
+      many: true,
+      ui: { displayMode: 'select' },
+    }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     updatedAt: timestamp({ db: { updatedAt: true } }),
   },

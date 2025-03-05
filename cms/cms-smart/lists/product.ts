@@ -20,6 +20,22 @@ export const Product: any = list({
     searchFields: ['name', 'sku', 'barcode'],
   },
 
+  hooks: {
+    afterOperation: {
+      create: async (args) => {
+        /* ... */
+      },
+      update: async (args) => {
+        console.log('🪝 prop types ', args);
+
+        /* ... */
+      },
+      delete: async (args) => {
+        /* ... */
+      },
+    },
+  },
+
   fields: {
     name: text({ validation: { isRequired: true } }),
     description: text({ ui: { displayMode: 'textarea' } }),
@@ -27,6 +43,7 @@ export const Product: any = list({
     sku: text(), // Stock Keeping Unit
     barcode: text(),
     attributes: json({ defaultValue: {} }), // Additional specs stored as JSON (e.g., dimensions)
+    isComposite: checkbox({ defaultValue: false }),
 
     // Pricing & Taxation
     cost: float({ validation: { min: 0 } }), // Cost price
@@ -49,7 +66,7 @@ export const Product: any = list({
     isHidden: checkbox({ defaultValue: false }),
 
     users: relationship({
-      ref: 'User.products',
+      ref: 'User',
       many: true,
       ui: {
         displayMode: 'select',
@@ -57,15 +74,7 @@ export const Product: any = list({
         searchFields: ['firstName', 'lastName', 'email'],
       },
     }),
-    orders: relationship({ ref: 'Order.products', many: true }),
-    lists: relationship({ ref: 'List.products', many: true }),
     tags: relationship({ ref: 'Tag.products', many: true }),
-
-    // // Inventory Items (Stock tracking)
-    items: relationship({ ref: 'Inventory.products', many: true }),
-
-    // Metadata
-    lastModifiedBy: relationship({ ref: 'User' }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     updatedAt: timestamp({ db: { updatedAt: true } }),
   },
