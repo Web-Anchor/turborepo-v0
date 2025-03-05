@@ -10,7 +10,7 @@ export const Cluster: any = list({
   access: allowAll,
 
   fields: {
-    name: text({ validation: { isRequired: true } }),
+    name: text(),
     description: text({ ui: { displayMode: 'textarea' } }),
     users: relationship({
       ref: 'User',

@@ -8,11 +8,13 @@ export const BOM: any = list({
   access: allowAll,
 
   ui: {
-    labelField: 'composite',
+    listView: {
+      initialColumns: ['name', 'composite', 'components', 'quantity', 'unit'],
+    },
   },
 
   fields: {
-    name: text({ validation: { isRequired: true } }),
+    name: text(),
     description: text({ ui: { displayMode: 'textarea' } }),
     composite: relationship({
       ref: 'Product.bom',

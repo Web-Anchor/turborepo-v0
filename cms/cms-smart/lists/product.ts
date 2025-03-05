@@ -16,13 +16,14 @@ export const Product: any = list({
   access: allowAll,
 
   ui: {
-    labelField: 'name',
-    searchFields: ['name', 'sku', 'barcode'],
+    listView: {
+      initialColumns: ['name', 'category', 'price', 'quantity', 'status'],
+    },
   },
 
   hooks: {
     afterOperation: {
-      create: async (args) => {
+      create: async ({ resolvedData, context }) => {
         /* ... */
         // create a new bom record and add composite product
         // as a component with quantity 1
@@ -34,10 +35,10 @@ export const Product: any = list({
         //     updatedAt: new Date(),
         //   },
         // });
-        console.log('🪝 prop types ', args);
+        console.log('🪝 prop types ', { resolvedData, context });
       },
-      update: async (args) => {
-        console.log('🪝 prop types ', args);
+      update: async ({ resolvedData, context }) => {
+        console.log('🪝 prop types ', { resolvedData, context });
 
         /* ... */
       },
