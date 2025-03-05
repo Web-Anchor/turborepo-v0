@@ -46,12 +46,20 @@ export const Inventory: any = list({
     status: select({
       options: inventoryStatusOptions,
       defaultValue: 'IN_STOCK',
-      ui: { displayMode: 'segmented-control' },
+      ui: { displayMode: 'select' },
     }),
     supplier: text(),
     isReserved: checkbox({ defaultValue: false }), // If reserved for an order
     isDamaged: checkbox({ defaultValue: false }), // If item is damaged
-    users: relationship({ ref: 'User.items', many: true }),
+    users: relationship({
+      ref: 'User.items',
+      many: true,
+      ui: {
+        displayMode: 'select',
+        labelField: 'email',
+        searchFields: ['firstName', 'lastName', 'email'],
+      },
+    }),
     lists: relationship({ ref: 'List.items', many: true }),
     tags: relationship({ ref: 'Tag.items', many: true }),
     itemTags: relationship({ ref: 'ItemTag.items', many: true }),

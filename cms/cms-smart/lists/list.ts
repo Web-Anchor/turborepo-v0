@@ -23,7 +23,15 @@ export const InventoryList: any = list({
       ref: 'Invitation.lists',
       many: true,
     }),
-    users: relationship({ ref: 'User.lists', many: true }),
+    users: relationship({
+      ref: 'User.lists',
+      many: true,
+      ui: {
+        displayMode: 'select',
+        labelField: 'email',
+        searchFields: ['firstName', 'lastName', 'email'],
+      },
+    }),
     products: relationship({ ref: 'Product.lists', many: true }),
     items: relationship({ ref: 'Inventory.lists', many: true }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),

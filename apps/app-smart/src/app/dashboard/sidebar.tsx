@@ -249,8 +249,6 @@ export default function RootLayout({ children }: SidebarTypes) {
 }
 
 function MenuWrapper({ path }: { path: string }) {
-  console.log(path);
-
   return (
     <>
       {primaryMenu().map((item: NavigationItem, key: number) => {
@@ -348,7 +346,7 @@ function primaryMenu(): NavigationItem[] {
       icon: Cube,
       navigation: [
         {
-          name: 'Create Inventory',
+          name: 'Add Inventory Item',
           href: '/dashboard/inventory/create',
           initial: <p>I</p>,
         },

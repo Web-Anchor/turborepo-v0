@@ -28,7 +28,15 @@ export const Order: any = list({
       defaultValue: 'PENDING',
       ui: { displayMode: 'select' },
     }),
-    users: relationship({ ref: 'User.orders', many: true }),
+    users: relationship({
+      ref: 'User.orders',
+      many: true,
+      ui: {
+        displayMode: 'select',
+        labelField: 'email',
+        searchFields: ['firstName', 'lastName', 'email'],
+      },
+    }),
     products: relationship({ ref: 'Product.orders', many: true }),
     items: relationship({ ref: 'Inventory.orders', many: true }),
     source: text(),

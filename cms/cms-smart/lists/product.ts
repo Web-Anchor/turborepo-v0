@@ -48,7 +48,15 @@ export const Product: any = list({
     }),
     isHidden: checkbox({ defaultValue: false }),
 
-    users: relationship({ ref: 'User.products', many: true }),
+    users: relationship({
+      ref: 'User.products',
+      many: true,
+      ui: {
+        displayMode: 'select',
+        labelField: 'email',
+        searchFields: ['firstName', 'lastName', 'email'],
+      },
+    }),
     orders: relationship({ ref: 'Order.products', many: true }),
     lists: relationship({ ref: 'List.products', many: true }),
     tags: relationship({ ref: 'Tag.products', many: true }),

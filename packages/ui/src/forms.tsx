@@ -1,3 +1,5 @@
+'use client';
+
 import { classNames, mergeIf } from '../dist/utils';
 import { useState } from 'react';
 import {
@@ -6,6 +8,7 @@ import {
   ListboxButton,
   ListboxOption,
   ListboxOptions,
+  Switch,
 } from '@headlessui/react';
 
 type ComponentTypes = {
@@ -289,5 +292,71 @@ export function SelectInput({ options, ...rest }: SelectInputTypes) {
         )}
       </div>
     </div>
+  );
+}
+
+// switch input
+type SwitchInputTypes = {
+  className?: string;
+  name?: string;
+  label?: string;
+  defaultValue?: boolean;
+  optional?: boolean;
+  onChange?: (checked: boolean) => void;
+};
+
+export function SwitchInput({ name = '', ...rest }: SwitchInputTypes) {
+  const [enabled, setEnabled] = useState(rest.defaultValue || false);
+  console.log('enabled', enabled);
+
+  function toggle() {
+    console.log('toggle');
+
+    setEnabled(!enabled);
+    rest.onChange?.(!enabled);
+  }
+
+  return (
+    <Switch
+      checked={enabled}
+      onChange={toggle}
+      className="group relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 focus:outline-hidden data-checked:bg-indigo-600"
+    >
+      <input
+        type="checkbox"
+        name={name}
+        value={enabled.toString()}
+        className="hidden"
+      />
+      <span className="sr-only">Use setting</span>
+      <span className="pointer-events-none relative inline-block size-5 transform rounded-full bg-white ring-0 shadow-sm transition duration-200 ease-in-out group-data-checked:translate-x-5">
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 flex size-full items-center justify-center transition-opacity duration-200 ease-in group-data-checked:opacity-0 group-data-checked:duration-100 group-data-checked:ease-out"
+        >
+          <svg fill="none" viewBox="0 0 12 12" className="size-3 text-gray-400">
+            <path
+              d="M4 8l2-2m0 0l2-2M6 6L4 4m2 2l2 2"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 flex size-full items-center justify-center opacity-0 transition-opacity duration-100 ease-out group-data-checked:opacity-100 group-data-checked:duration-200 group-data-checked:ease-in"
+        >
+          <svg
+            fill="currentColor"
+            viewBox="0 0 12 12"
+            className="size-3 text-indigo-600"
+          >
+            <path d="M3.707 5.293a1 1 0 00-1.414 1.414l1.414-1.414zM5 8l-.707.707a1 1 0 001.414 0L5 8zm4.707-3.293a1 1 0 00-1.414-1.414l1.414 1.414zm-7.414 2l2 2 1.414-1.414-2-2-1.414 1.414zm3.414 2l4-4-1.414-1.414-4 4 1.414 1.414z" />
+          </svg>
+        </span>
+      </span>
+    </Switch>
   );
 }

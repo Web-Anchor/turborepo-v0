@@ -17,7 +17,15 @@ export const Tag: any = list({
   // this is the fields for our Tag list
   fields: {
     name: text(),
-    users: relationship({ ref: 'User.tags', many: true }),
+    users: relationship({
+      ref: 'User.tags',
+      many: true,
+      ui: {
+        displayMode: 'select',
+        labelField: 'email',
+        searchFields: ['firstName', 'lastName', 'email'],
+      },
+    }),
     lists: relationship({ ref: 'List.tags', many: true }),
     items: relationship({ ref: 'Inventory.tags', many: true }),
     products: relationship({ ref: 'Product.tags', many: true }),

@@ -28,7 +28,15 @@ export const Invitation: any = list({
       many: true,
     }),
     clusters: relationship({ ref: 'Cluster.invitations', many: true }),
-    user: relationship({ ref: 'User.listInvitations', many: false }),
+    user: relationship({
+      ref: 'User.listInvitations',
+      many: false,
+      ui: {
+        displayMode: 'select',
+        labelField: 'email',
+        searchFields: ['firstName', 'lastName', 'email'],
+      },
+    }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     updatedAt: timestamp({ db: { updatedAt: true } }),
   },

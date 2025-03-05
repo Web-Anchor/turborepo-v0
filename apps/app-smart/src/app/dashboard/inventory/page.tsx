@@ -5,6 +5,7 @@ import { PageTitle, Paragraph } from '@repo/ui/documents';
 import { Button } from '@repo/ui/buttons';
 import { CollectionCard } from '@repo/ui/cards/CollectionCard';
 import Link from 'components/Wrappers/Link';
+import { SwitchInput } from '@repo/ui/forms';
 
 export default function Page() {
   const { data } = useGetLists({ userId: 1 });
@@ -21,6 +22,7 @@ export default function Page() {
         >
           Create List
         </Button>
+        <SwitchInput label="Show archived" />
       </section>
       <Paragraph text="Id ex dolor nostrud amet qui officia reprehenderit nulla sint nulla incididunt labore." />
 
