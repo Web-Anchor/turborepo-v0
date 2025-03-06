@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetProducts } from 'hooks/items';
+import { useGetProducts } from 'hooks/products';
 import { PageTitle, Paragraph } from '@repo/ui/documents';
 import { Button } from '@repo/ui/buttons';
 import Link from 'components/Wrappers/Link';
@@ -9,7 +9,7 @@ import { useRef } from 'react';
 import { toast } from 'sonner';
 import axios from 'lib/axios';
 import { downloadCSV } from 'lib/utils';
-import { Item } from 'types/data-types';
+import { Product } from 'types/data-types';
 import { ActivityCard } from '@repo/ui/cards/ActivityCard';
 import { Warning } from '@phosphor-icons/react';
 import { dateToFormattedString } from '@repo/ui/utils.ts';
@@ -47,7 +47,7 @@ export default function Page() {
   async function downloadAsCsv() {
     try {
       const { data } = await axios.post('/api/v1/products/all-products', {});
-      const items: Item[] = data?.data;
+      const items: Product[] = data?.data;
       const csvData = items.map((item) => ({
         name: item.name,
         description: item.description,

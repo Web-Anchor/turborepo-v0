@@ -1,31 +1,24 @@
 export type User = {
   id: string;
-  clerkId: string;
   firstName: string;
   lastName: string;
+  phoneNumbers: string;
+  clerkId: string;
   email: string;
-  phoneNumber?: string;
-  role?: string; // default "USER"
+  role?: string;
   password: string;
+  permissions?: string;
+  configuration?: string;
   tags: Tag[];
-  orders: Order[];
-  items: Item[];
-  listInvitations: Invitation[];
-  createdAt?: string;
-  permissions?: string; // default "ALL"
-  configuration?: string; // default "{}"
-  updatedAt?: string;
-};
-
-export type ClerkUser = {
-  id: string;
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  imageUrl?: string;
-  lastActiveAt?: string;
   updatedAt?: string;
   createdAt?: string;
+  from_Cluster_users: Cluster[];
+  from_List_users: List[];
+  from_Product_users: Product[];
+  from_Inventory_users: Inventory[];
+  from_Invitation_user: Invitation[];
+  from_Order_users: Order[];
+  from_Integration_user: Integration[];
 };
 
 export type Cluster = {
@@ -34,9 +27,10 @@ export type Cluster = {
   description: string;
   users: User[];
   lists: List[];
-  invitations: Invitation[];
   createdAt?: string;
   updatedAt?: string;
+  from_List_clusters: List[];
+  from_Invitation_clusters: Invitation[];
 };
 
 export type List = {
@@ -45,44 +39,73 @@ export type List = {
   description: string;
   tags: Tag[];
   clusters: Cluster[];
-  items: Item[];
-  invitations: Invitation[];
-  itemsCount?: number;
+  users: User[];
+  products: Product[];
+  items: Inventory[];
   createdAt?: string;
   updatedAt?: string;
+  from_Cluster_lists: Cluster[];
+  from_Invitation_lists: Invitation[];
 };
 
-export type Item = {
+export type Product = {
   id: string;
   name: string;
   description: string;
   category: string;
-  quantity?: number;
-  cost?: number;
-  price?: number;
-  reorderLevel?: number;
-  unit: string;
   sku: string;
   barcode: string;
+  attributes?: string;
+  isComposite: boolean;
+  cost?: number;
+  price?: number;
+  taxRate?: number;
+  reorderLevel?: number;
+  unit: string;
+  quantity?: number;
   supplier: string;
   leadTime?: number;
-  attributes?: string; // default "{}"
-  status?: string; // default "ACTIVE"
-  users: User[];
-  orders: Order[];
+  status?: string;
   isHidden: boolean;
-  lists: List[];
-  lastModifiedBy?: User;
-  lastModifiedById?: string;
+  users: User[];
   tags: Tag[];
+  bom: BOM[];
   createdAt?: string;
   updatedAt?: string;
+  from_List_products: List[];
+  from_Order_products: Order[];
+};
+
+export type Inventory = {
+  id: string;
+  name: string;
+  description: string;
+  batchNumber: string;
+  sku: string;
+  quantity?: number;
+  unit: string;
+  location: string;
+  expiryDate?: string;
+  receivedDate?: string;
+  purchasePrice?: number;
+  salePrice?: number;
+  status?: string;
+  supplier: string;
+  isReserved: boolean;
+  isDamaged: boolean;
+  users: User[];
+  tags: Tag[];
+  bom?: BOM;
+  createdAt?: string;
+  updatedAt?: string;
+  from_List_items: List[];
+  from_Order_inventory: Order[];
 };
 
 export type Invitation = {
   id: string;
   email: string;
-  status?: string; // default "PENDING"
+  status?: string;
   token: string;
   lists: List[];
   clusters: Cluster[];
@@ -95,11 +118,13 @@ export type Invitation = {
 export type Order = {
   id: string;
   orderNumber: string;
-  status?: string; // default "PENDING"
+  status?: string;
   users: User[];
-  items: Item[];
+  products: Product[];
+  inventory: Inventory[];
   source: string;
-  amount?: number;
+  quantity?: number;
+  unit: string;
   currency: string;
   createdAt?: string;
   updatedAt?: string;
@@ -113,7 +138,7 @@ export type Integration = {
   storeUrl: string;
   apiKey: string;
   shopId: string;
-  status?: string; // default "PENDING"
+  status?: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -121,14 +146,39 @@ export type Integration = {
 export type Tag = {
   id: string;
   name: string;
+  description: string;
   users: User[];
   lists: List[];
-  items: Item[];
+  products: Product[];
+  inventory: Inventory[];
+};
+
+export type BOM = {
+  id: string;
+  name: string;
+  description: string;
+  composite?: Product;
+  compositeId?: string;
+  component?: Inventory;
+  componentId?: string;
+  quantity: number;
+  unit: string;
 };
 
 export type Statistics = {
   itemsCount: number;
   ordersCount: number;
-  items: Item[];
+  products: Product[];
   orders: Order[];
+};
+
+export type ClerkUser = {
+  id: string;
+  firstName?: string;
+  lastName?: string;
+  imageUrl?: string;
+  clerkId: string;
+  lastActiveAt?: string;
+  updatedAt?: string;
+  createdAt?: string;
 };

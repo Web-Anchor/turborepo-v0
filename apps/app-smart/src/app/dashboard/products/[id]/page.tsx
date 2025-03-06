@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import axios from 'lib/axios';
 import { useParams, useRouter } from 'next/navigation';
 import { FormWrapper, SelectInput, TextInput } from '@repo/ui/forms';
-import { useGetProduct } from 'hooks/items';
+import { useGetProduct } from '@hooks';
 import { statusListOptions } from 'lib/list-options';
 import { objKeysToNumber } from 'lib/utils';
 

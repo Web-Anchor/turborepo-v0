@@ -1,21 +1,21 @@
 import { useSWRWrapper } from 'hooks/utils';
 import { mutate } from 'swr';
-import { List } from 'types/data-types';
+import { Inventory } from 'types/data-types';
 
 type HookTypes = {
   userId?: string | number;
   id?: string | number;
 };
 
-export function useGetLists(props: HookTypes) {
-  const url = '/api/v1/products/products';
+export function useGetInventories(props: HookTypes) {
+  const url = '/api/v1/inventories/inventories';
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
     data: { userId: props.userId },
   });
 
   return {
-    data: data?.data?.data as List[],
+    data: data?.data?.data as Inventory[],
     isLoading,
     error,
     isValidating,
@@ -23,15 +23,15 @@ export function useGetLists(props: HookTypes) {
   };
 }
 
-export function useGetList(props: HookTypes) {
-  const url = `/api/v1/products/product?id=${props.id}`;
+export function useGetInventory(props: HookTypes) {
+  const url = `/api/v1/inventories/inventory?id=${props.id}`;
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
     data: { id: props.id },
   });
 
   return {
-    data: data?.data?.data as List,
+    data: data?.data?.data as Inventory,
     isLoading,
     error,
     isValidating,

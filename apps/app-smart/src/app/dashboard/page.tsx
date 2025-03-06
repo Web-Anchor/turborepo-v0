@@ -31,7 +31,7 @@ export default function Page() {
           <StatisticCard
             name="Total Products"
             description="Total products available on the platform"
-            updatedAt={statistics?.items?.[0]?.updatedAt}
+            updatedAt={statistics?.products?.[0]?.updatedAt}
             LinkComponent={Link}
             amount={statistics?.itemsCount}
             type="Products"
