@@ -165,6 +165,9 @@ export type BOM = {
   componentId?: string;
   quantity: number;
   unit: string;
+  users: User[];
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type Statistics = {

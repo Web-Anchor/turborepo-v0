@@ -1,6 +1,11 @@
 import { list } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
-import { integer, text, relationship } from '@keystone-6/core/fields';
+import {
+  integer,
+  text,
+  relationship,
+  timestamp,
+} from '@keystone-6/core/fields';
 
 export const BOM: any = list({
   // Bill of Materials (BOM) is a list of components required to build a composite product
@@ -34,6 +39,7 @@ export const BOM: any = list({
         searchFields: ['name', 'sku'],
       },
     }), // represents the raw material or sub-assembly (e.g. frame)
+    users: relationship({ ref: 'User', many: true }),
     quantity: integer({
       validation: { isRequired: true, min: 0 },
       defaultValue: 1,
@@ -43,6 +49,10 @@ export const BOM: any = list({
       validation: { isRequired: true },
       defaultValue: 'pcs',
       ui: { description: 'Unit of measure (e.g. grams, pcs)' },
+    }),
+    updatedAt: timestamp({ db: { updatedAt: true } }),
+    createdAt: timestamp({
+      defaultValue: { kind: 'now' },
     }),
   },
 });

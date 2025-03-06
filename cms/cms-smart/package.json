@@ -7,7 +7,7 @@
     "commit": "./commit.sh",
     "build": "keystone build",
     "db:reset": "npx prisma db push --force-reset",
-    "db:migrate": "npx prisma migrate dev",
+    "db:migrate": "keystone prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
     "start": "keystone start --with-migrations",
     "lint": "eslint . --ext .ts,.tsx",

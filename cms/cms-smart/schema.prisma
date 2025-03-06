@@ -32,6 +32,7 @@ model User {
   from_Invitation_user  Invitation[]  @relation("Invitation_user")
   from_Order_users      Order[]       @relation("Order_users")
   from_Integration_user Integration[] @relation("Integration_user")
+  from_BOM_users        BOM[]         @relation("BOM_users")
 }
 
 model Cluster {
@@ -180,8 +181,11 @@ model BOM {
   compositeId String?    @map("composite")
   component   Inventory? @relation("BOM_component", fields: [componentId], references: [id])
   componentId String?    @unique @map("component")
+  users       User[]     @relation("BOM_users")
   quantity    Int        @default(1)
   unit        String     @default("pcs")
+  updatedAt   DateTime?  @updatedAt
+  createdAt   DateTime?  @default(now())
 
   @@index([compositeId])
 }

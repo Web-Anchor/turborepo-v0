@@ -4,27 +4,24 @@ import {
   sessionAuth,
 } from 'lib/middleware';
 import axios from 'lib/axios';
-import { QUERY } from './utils';
+import { MUTATION } from './utils';
 
 const handler = async ({
   req,
   context,
 }: MiddlewareTypes): Promise<Response> => {
-  const { take, skip, orderBy } = await req.json();
-
+  const body = await req.json();
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
-    query: QUERY,
+    query: MUTATION,
     variables: {
-      where: {
-        users: { some: { id: { equals: context?.user?.id } } }, // User ID owning items
+      data: {
+        ...body,
+        users: { connect: [{ id: context?.user?.id }] }, // User ID owning the item
       },
-      take,
-      skip,
-      orderBy: orderBy || { id: 'desc' },
     },
   });
 
-  return Response.json({ data: data?.data?.inventories });
+  return Response.json({ data: data?.data?.createProduct });
 };
 
 export const POST = composeMiddleware([sessionAuth, handler]);

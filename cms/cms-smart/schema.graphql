@@ -1040,8 +1040,12 @@ type BOM {
   description: String
   composite: Product
   component: Inventory
+  users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  usersCount(where: UserWhereInput! = {}): Int
   quantity: Int
   unit: String
+  updatedAt: DateTime
+  createdAt: DateTime
 }
 
 input BOMWhereUniqueInput {
@@ -1057,8 +1061,11 @@ input BOMWhereInput {
   description: StringFilter
   composite: ProductWhereInput
   component: InventoryWhereInput
+  users: UserManyRelationFilter
   quantity: IntFilter
   unit: StringFilter
+  updatedAt: DateTimeNullableFilter
+  createdAt: DateTimeNullableFilter
 }
 
 input IntFilter {
@@ -1078,6 +1085,8 @@ input BOMOrderByInput {
   description: OrderDirection
   quantity: OrderDirection
   unit: OrderDirection
+  updatedAt: OrderDirection
+  createdAt: OrderDirection
 }
 
 input BOMUpdateInput {
@@ -1085,8 +1094,11 @@ input BOMUpdateInput {
   description: String
   composite: ProductRelateToOneForUpdateInput
   component: InventoryRelateToOneForUpdateInput
+  users: UserRelateToManyForUpdateInput
   quantity: Int
   unit: String
+  updatedAt: DateTime
+  createdAt: DateTime
 }
 
 input ProductRelateToOneForUpdateInput {
@@ -1111,8 +1123,11 @@ input BOMCreateInput {
   description: String
   composite: ProductRelateToOneForCreateInput
   component: InventoryRelateToOneForCreateInput
+  users: UserRelateToManyForCreateInput
   quantity: Int
   unit: String
+  updatedAt: DateTime
+  createdAt: DateTime
 }
 
 input ProductRelateToOneForCreateInput {
