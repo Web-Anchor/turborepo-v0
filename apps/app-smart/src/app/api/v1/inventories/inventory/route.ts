@@ -33,7 +33,7 @@ const handler = async ({
     },
   });
 
-  return Response.json({ data: data?.data?.products?.[0] });
+  return Response.json({ data: data?.data?.inventories?.[0] });
 };
 
 export const POST = composeMiddleware([sessionAuth, handler]);

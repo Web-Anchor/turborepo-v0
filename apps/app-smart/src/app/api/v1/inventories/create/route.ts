@@ -20,7 +20,6 @@ const handler = async ({
       },
     },
   });
-  console.log('crete inventory DATA', body, data);
 
   return Response.json({ data: data?.data?.createProduct });
 };

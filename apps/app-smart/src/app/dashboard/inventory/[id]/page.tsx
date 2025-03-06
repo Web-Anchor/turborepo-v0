@@ -8,6 +8,7 @@ import axios from 'lib/axios';
 import { useParams, useRouter } from 'next/navigation';
 import { FormWrapper, TextInput } from '@repo/ui/forms';
 import { useGetInventory } from 'hooks/inventories';
+import { objKeysToNumber } from 'lib/utils';
 
 export default function Page() {
   const router = useRouter();
@@ -17,13 +18,13 @@ export default function Page() {
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
       if (!params?.id) {
-        throw new Error('List ID is required');
+        throw new Error('Inventory ID is required');
       }
-      await axios.post('/api/v1/lists/update', {
-        ...data,
+      await axios.post('/api/v1/inventories/update', {
+        ...objKeysToNumber(['quantity', 'price'], data),
         id: params?.id,
       });
-      toast.success('You have successfully updated the list.');
+      toast.success('You have successfully updated the inventory.');
       mutate();
       router.back();
     } catch (error) {
@@ -35,7 +36,7 @@ export default function Page() {
 
   return (
     <section className="max-w-3xl mx-auto px-6 py-12 space-y-12">
-      <PageTitle>Cluster ID: {params?.id}</PageTitle>
+      <PageTitle>Inventory ID: {params?.id}</PageTitle>
       <FormWrapper onSubmit={submit}>
         <div className="space-y-12">
           <div className="border-b border-white/10 pb-12">
@@ -57,6 +58,35 @@ export default function Page() {
                 label="Description"
                 placeholder="Enter a description"
                 defaultValue={data?.description}
+                optional
+              />
+              <TextInput
+                name="sku"
+                label="SKU"
+                placeholder="Enter a SKU"
+                defaultValue={data?.sku}
+                optional
+              />
+              <TextInput
+                name="unit"
+                label="Unit"
+                placeholder="Enter a unit"
+                defaultValue={data?.unit}
+                optional
+              />
+              <TextInput
+                name="quantity"
+                type="number"
+                label="Quantity"
+                placeholder="Enter a quantity"
+                defaultValue={data?.quantity?.toString()}
+                optional
+              />
+              <TextInput
+                name="supplier"
+                label="Supplier"
+                placeholder="Enter a supplier"
+                defaultValue={data?.supplier}
                 optional
               />
             </div>

@@ -6,8 +6,8 @@ import {
 import axios from 'lib/axios';
 
 const MUTATION = `
-  mutation UpdateProduct($where: ProductWhereUniqueInput!, $data: ProductUpdateInput!) {
-    updateProduct(where: $where, data: $data) {
+  mutation UpdateInventory($where: InventoryWhereUniqueInput!, $data: InventoryUpdateInput!) {
+   updateInventory(where: $where, data: $data) {
       id
     }
   }
