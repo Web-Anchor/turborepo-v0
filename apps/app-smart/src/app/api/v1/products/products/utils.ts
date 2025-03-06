@@ -1,31 +1,36 @@
 export const QUERY = `
-  query Products($where: ProductWhereInput, $take: Int, $skip: Int, $orderBy: [ProductOrderByInput!]) {
-    products(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
+  query Q($where: ProductWhereInput!, $orderBy: [ProductOrderByInput!], $take: Int, $skip: Int) {
+    products(where: $where, orderBy: $orderBy, take: $take, skip: $skip) {
       id
       name
       description
       category
-      price
-      unit
+      sku
+      barcode
       attributes
-      status
+      isComposite
       cost
-      quantity
+      price
+      taxRate
       reorderLevel
-      lists {
-        id
-        name
-      }
-      tags {
-        name
-      }
+      unit
+      quantity
+      supplier
+      leadTime
+      status
+      isHidden
       users {
         id
-        firstName
-        lastName
-        email
       }
-      isHidden
+      usersCount
+      tags {
+        id
+      }
+      tagsCount
+      bom {
+        id
+      }
+      bomCount
       createdAt
       updatedAt
     }
