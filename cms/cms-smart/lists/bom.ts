@@ -25,7 +25,7 @@ export const BOM: any = list({
         searchFields: ['name'],
       },
     }), // represents the finished product or assembly product (e.g. bike)
-    components: relationship({
+    component: relationship({
       ref: 'Inventory.bom',
       ui: {
         description: 'Raw material or sub-assembly (e.g. frame)',

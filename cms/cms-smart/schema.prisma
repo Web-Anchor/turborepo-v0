@@ -82,7 +82,7 @@ model Product {
   isHidden            Boolean   @default(false)
   users               User[]    @relation("Product_users")
   tags                Tag[]     @relation("Product_tags")
-  bom                 BOM?      @relation("BOM_composite")
+  bom                 BOM[]     @relation("BOM_composite")
   createdAt           DateTime? @default(now())
   updatedAt           DateTime? @updatedAt
   from_List_products  List[]    @relation("List_products")
@@ -108,7 +108,7 @@ model Inventory {
   isDamaged            Boolean   @default(false)
   users                User[]    @relation("Inventory_users")
   tags                 Tag[]     @relation("Inventory_tags")
-  bom                  BOM[]     @relation("BOM_components")
+  bom                  BOM?      @relation("BOM_component")
   createdAt            DateTime? @default(now())
   updatedAt            DateTime? @updatedAt
   from_List_items      List[]    @relation("List_items")
@@ -171,15 +171,15 @@ model Tag {
 }
 
 model BOM {
-  id           String     @id @default(cuid())
-  name         String     @default("")
-  description  String     @default("")
-  composite    Product?   @relation("BOM_composite", fields: [compositeId], references: [id])
-  compositeId  String?    @unique @map("composite")
-  components   Inventory? @relation("BOM_components", fields: [componentsId], references: [id])
-  componentsId String?    @map("components")
-  quantity     Int        @default(1)
-  unit         String     @default("pcs")
+  id          String     @id @default(cuid())
+  name        String     @default("")
+  description String     @default("")
+  composite   Product?   @relation("BOM_composite", fields: [compositeId], references: [id])
+  compositeId String?    @map("composite")
+  component   Inventory? @relation("BOM_component", fields: [componentId], references: [id])
+  componentId String?    @unique @map("component")
+  quantity    Int        @default(1)
+  unit        String     @default("pcs")
 
-  @@index([componentsId])
+  @@index([compositeId])
 }

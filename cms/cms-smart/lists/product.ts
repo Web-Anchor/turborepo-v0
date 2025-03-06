@@ -23,27 +23,29 @@ export const Product: any = list({
 
   hooks: {
     afterOperation: {
-      create: async ({ resolvedData, context }) => {
+      create: async ({ item, context }) => {
         /* ... */
-        // create a new bom record and add composite product
-        // as a component with quantity 1
-        // await context.lists.BOM.createOne({
-        //   data: {
-        //     name: args.data.name,
-        //     composite: { connect: { id: args.result.id } },
-        //     components: { connect: { id: args.result.id } },
-        //     updatedAt: new Date(),
-        //   },
+        // if (item.isComposite) {
+        //   console.log('🪝 creating new bom record...');
+        //   await context.query.BOM.createOne({
+        //     data: {
+        //       name: `BOM for ${item.name}`,
+        //       composite: { connect: { id: item.id } },
+        //     },
+        //   });
+        // }
+      },
+      update: async (args) => {
+        /* ... */
+      },
+      delete: async ({ originalItem, context }) => {
+        /* ... */
+        // console.log('❌ deleting all bom records...');
+        // console.log('❌ originalItem', originalItem);
+        // Alternatively, you can try to delete them in one go:
+        // await context.query.BOM.deleteMany({
+        //   where: { composite: { id: originalItem.id } },
         // });
-        console.log('🪝 prop types ', { resolvedData, context });
-      },
-      update: async ({ resolvedData, context }) => {
-        console.log('🪝 prop types ', { resolvedData, context });
-
-        /* ... */
-      },
-      delete: async (args) => {
-        /* ... */
       },
     },
   },
@@ -87,7 +89,16 @@ export const Product: any = list({
       },
     }),
     tags: relationship({ ref: 'Tag.products', many: true }),
-    bom: relationship({ ref: 'BOM.composite', many: false }),
+    bom: relationship({
+      ref: 'BOM.composite',
+      many: true,
+      // ui: {
+      //   displayMode: 'cards',
+      //   cardFields: ['name'],
+      //   inlineCreate: { fields: ['name'] },
+      //   inlineEdit: { fields: ['name'] },
+      // },
+    }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     updatedAt: timestamp({ db: { updatedAt: true } }),
   },
