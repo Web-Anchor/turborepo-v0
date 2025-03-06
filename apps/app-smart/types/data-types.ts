@@ -89,8 +89,10 @@ export type Inventory = {
   receivedDate?: string;
   purchasePrice?: number;
   salePrice?: number;
+  price?: number;
   status?: string;
   supplier: string;
+  attributes?: string;
   isReserved: boolean;
   isDamaged: boolean;
   users: User[];

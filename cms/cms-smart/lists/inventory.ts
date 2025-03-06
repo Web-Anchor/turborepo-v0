@@ -7,6 +7,7 @@ import {
   integer,
   float,
   select,
+  json,
   checkbox,
 } from '@keystone-6/core/fields';
 
@@ -38,10 +39,12 @@ export const Inventory: any = list({
     location: text(), // Warehouse or store location
     expiryDate: timestamp(), // Expiry date for perishable goods
     receivedDate: timestamp({ defaultValue: { kind: 'now' } }),
+    attributes: json({ defaultValue: {} }), // Additional specs stored as JSON (e.g., dimensions)
 
     // Pricing & Valuation
     purchasePrice: float({ validation: { min: 0 } }), // Cost per unit at time of purchase
     salePrice: float({ validation: { min: 0 } }), // Selling price per unit (can differ from product default)
+    price: float({ validation: { min: 0 } }), // Current price per unit
 
     // Status & Availability
     status: select({

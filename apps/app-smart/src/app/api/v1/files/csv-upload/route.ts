@@ -6,7 +6,7 @@ import {
 import axios from 'lib/axios';
 import csvParser from 'csv-parser';
 import fs from 'fs';
-import { Item } from 'types/data-types';
+import { Product } from 'types/data-types';
 import { inventoryItemStatusOptions } from 'lib/list-options';
 import { CRETE_PRODUCTS_MUTATION } from '../../products/create/utils';
 
@@ -16,7 +16,7 @@ const handler = async ({
 }: MiddlewareTypes): Promise<Response> => {
   console.log('CSV uploader triggered'); // from = body.form
 
-  const products: Item[] = [];
+  const products: Product[] = [];
   let uploadedItems = 0;
   let errors = null;
   const form = await req.formData();
@@ -111,7 +111,7 @@ function readStream(fileStream: ReadableStream) {
   return nodeStream;
 }
 
-async function addProductList(products: (Item | any)[], userId: string) {
+async function addProductList(products: (Product | any)[], userId: string) {
   if (products.length === 0 || !userId) {
     throw new Error('No products or user ID provided');
   }

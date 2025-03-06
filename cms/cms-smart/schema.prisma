@@ -100,8 +100,10 @@ model Inventory {
   location             String    @default("")
   expiryDate           DateTime?
   receivedDate         DateTime? @default(now())
+  attributes           String?   @default("{}")
   purchasePrice        Float?
   salePrice            Float?
+  price                Float?
   status               String?   @default("IN_STOCK")
   supplier             String    @default("")
   isReserved           Boolean   @default(false)

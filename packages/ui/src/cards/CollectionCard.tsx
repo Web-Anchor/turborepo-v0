@@ -46,7 +46,7 @@ export function CollectionCard({
               mergeIf(type === 'secondary', 'bg-tertiary text-primary')
             )}
           >
-            {itemCount} items
+            {itemCount}
           </span>
         </div>
         <p

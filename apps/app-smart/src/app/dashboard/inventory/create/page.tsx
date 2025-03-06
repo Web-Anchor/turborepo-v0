@@ -1,6 +1,5 @@
 'use client';
 
-import { PageTitle, Paragraph } from '@repo/ui/documents';
 import Link from 'components/Wrappers/Link';
 import { Button } from '@repo/ui/buttons';
 import { toast } from 'sonner';
@@ -14,7 +13,8 @@ import {
 } from '@repo/ui/forms';
 import { filterFormObject, objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
-import { colorsOptions, statusListOptions } from 'lib/list-options';
+import { colorsOptions, inventoryStatusOptions } from 'lib/list-options';
+import { Header } from '@repo/ui/headers';
 
 export default function Page() {
   const router = useRouter();
@@ -27,9 +27,10 @@ export default function Page() {
       const customKeys = ['colour'];
       const attributes = filterFormObject(data, customKeys);
       customKeys.forEach((key) => delete data[key]); // delete custom keys from data
+      console.log('data', data);
 
-      await axios.post('/api/v1/products/create', {
-        ...objKeysToNumber(['quantity', 'cost', 'price', 'reorderLevel'], data),
+      await axios.post('/api/v1/inventories/create', {
+        ...objKeysToNumber(['quantity', 'cost', 'price'], data),
         attributes,
       });
       toast.success('Your item has been created.');
@@ -44,73 +45,66 @@ export default function Page() {
 
   return (
     <section className="max-w-3xl mx-auto px-6 py-12 space-y-12">
-      <PageTitle>Create Item</PageTitle>
+      <Header
+        title="Create Inventory Item"
+        subtitle="Add a new inventory item to your store"
+        description={[
+          'Ad dolore ea cupidatat labore elit dolor aute.',
+          'Proident anim irure pariatur enim excepteur ea. Ut culpa sit laboris culpa magna officia anim mollit cupidatat veniam. Ad ad non sint ullamco.',
+          'This is a description',
+        ]}
+        type="page-header"
+      />
       <FormWrapper onSubmit={submit}>
         <div className="space-y-12">
-          <div className="border-b border-white/10 pb-12">
-            <h2 className="text-base/7 font-semibold text-white">
-              Item Information
-            </h2>
-            <p className="mt-1 text-sm/6 text-gray-400">
-              Labore ullamco labore commodo commodo sit.
-            </p>
-
-            <div className="mt-10 flex flex-col gap-8">
-              <TextInput name="name" label="Name" placeholder="Enter a name" />
-              <TextAreaInput
-                name="description"
-                label="Description"
-                placeholder="Enter a description"
-                optional
-              />
-              <TextInput
-                name="category"
-                label="Category"
-                placeholder="Enter a category"
-                optional
-              />
-              <TextInput
-                name="quantity"
-                label="Quantity"
-                placeholder="Enter a quantity"
-                type="number"
-                optional
-              />
-              <TextInput
-                name="sku"
-                label="SKU"
-                placeholder="Enter a SKU"
-                optional
-              />
-              <TextInput
-                name="price"
-                label="Price"
-                placeholder="Enter a price"
-                type="number"
-                optional
-              />
-              <TextInput
-                name="reorderLevel"
-                label="Reorder Level"
-                placeholder="Enter a reorder level"
-                type="number"
-                optional
-              />
-              <SelectInput
-                name="status"
-                optional
-                label="Status"
-                defaultValue="ACTIVE"
-                options={statusListOptions}
-              />
-              <SelectInput
-                name="colour"
-                label="Colour"
-                placeholder="Select a colour"
-                options={colorsOptions}
-                optional
-              />
-            </div>
+          <div className="mt-10 flex flex-col gap-8">
+            <TextInput name="name" label="Name" placeholder="Enter a name" />
+            <TextAreaInput
+              name="description"
+              label="Description"
+              placeholder="Enter a description"
+              optional
+            />
+            <TextInput
+              name="batchNumber"
+              label="Batch Number"
+              placeholder="Enter a batch number"
+              optional
+            />
+            <TextInput
+              name="quantity"
+              label="Quantity"
+              placeholder="Enter a quantity"
+              type="number"
+              optional
+            />
+            <TextInput
+              name="sku"
+              label="SKU"
+              placeholder="Enter a SKU"
+              optional
+            />
+            <TextInput
+              name="price"
+              label="Price"
+              placeholder="Enter a price"
+              type="number"
+              optional
+            />
+            <SelectInput
+              name="status"
+              optional
+              label="Status"
+              defaultValue="IN_STOCK"
+              options={inventoryStatusOptions}
+            />
+            <SelectInput
+              name="colour"
+              label="Colour"
+              placeholder="Select a colour"
+              options={colorsOptions}
+              optional
+            />
           </div>
         </div>
 
@@ -129,9 +123,6 @@ export default function Page() {
           </Button>
         </div>
       </FormWrapper>
-      <Paragraph>
-        Elit elit id voluptate consectetur aute ipsum id ipsum dolore est sint.
-      </Paragraph>
     </section>
   );
 }

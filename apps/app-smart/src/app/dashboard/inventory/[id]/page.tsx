@@ -7,12 +7,12 @@ import { toast } from 'sonner';
 import axios from 'lib/axios';
 import { useParams, useRouter } from 'next/navigation';
 import { FormWrapper, TextInput } from '@repo/ui/forms';
-import { useGetList } from '@hooks';
+import { useGetInventory } from 'hooks/inventories';
 
 export default function Page() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  const { data, mutate } = useGetList({ id: params?.id });
+  const { data, mutate } = useGetInventory({ id: params?.id });
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {

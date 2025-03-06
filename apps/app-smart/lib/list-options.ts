@@ -22,3 +22,11 @@ export const inventoryItemStatusOptions = [
   { label: 'Under Maintenance', value: 'UNDER_MAINTENANCE' },
   { label: 'Discontinued', value: 'DISCONTINUED' },
 ];
+
+export const inventoryStatusOptions = [
+  { label: 'In Stock', value: 'IN_STOCK' },
+  { label: 'Reserved', value: 'RESERVED' },
+  { label: 'Sold', value: 'SOLD' },
+  { label: 'Damaged', value: 'DAMAGED' },
+  { label: 'Expired', value: 'EXPIRED' },
+];

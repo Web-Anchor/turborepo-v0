@@ -601,8 +601,10 @@ type Inventory {
   location: String
   expiryDate: DateTime
   receivedDate: DateTime
+  attributes: JSON
   purchasePrice: Float
   salePrice: Float
+  price: Float
   status: String
   supplier: String
   isReserved: Boolean
@@ -637,6 +639,7 @@ input InventoryWhereInput {
   receivedDate: DateTimeNullableFilter
   purchasePrice: FloatNullableFilter
   salePrice: FloatNullableFilter
+  price: FloatNullableFilter
   status: StringNullableFilter
   supplier: StringFilter
   isReserved: BooleanFilter
@@ -661,6 +664,7 @@ input InventoryOrderByInput {
   receivedDate: OrderDirection
   purchasePrice: OrderDirection
   salePrice: OrderDirection
+  price: OrderDirection
   status: OrderDirection
   supplier: OrderDirection
   isReserved: OrderDirection
@@ -679,8 +683,10 @@ input InventoryUpdateInput {
   location: String
   expiryDate: DateTime
   receivedDate: DateTime
+  attributes: JSON
   purchasePrice: Float
   salePrice: Float
+  price: Float
   status: String
   supplier: String
   isReserved: Boolean
@@ -713,8 +719,10 @@ input InventoryCreateInput {
   location: String
   expiryDate: DateTime
   receivedDate: DateTime
+  attributes: JSON
   purchasePrice: Float
   salePrice: Float
+  price: Float
   status: String
   supplier: String
   isReserved: Boolean
