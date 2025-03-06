@@ -10,6 +10,8 @@ import {
   ListboxOptions,
   Switch,
 } from '@headlessui/react';
+import { Button } from './buttons';
+import { MagnifyingGlass } from '@phosphor-icons/react';
 
 type ComponentTypes = {
   className?: string;
@@ -358,5 +360,144 @@ export function SwitchInput({ name = '', ...rest }: SwitchInputTypes) {
         </span>
       </span>
     </Switch>
+  );
+}
+
+// search with lookup functionality. have dropdown with search results. hoovered item is highlighted. onClick item is selected and input is updated with callBack function
+type SearchInputTypes = SelectInputTypes & {
+  options?: { label: string; value: string }[];
+  type?: 'text' | 'number' | 'email' | 'password';
+  onChange?: (value: string) => void;
+  onClick?: (value: string) => void;
+};
+
+export function SearchInput({
+  name = '',
+  options = [],
+  type = 'text',
+  ...rest
+}: SearchInputTypes) {
+  const [selected, setSelected] = useState<Option>({ label: '', value: '' });
+
+  const handleClick = (value: string) => {
+    setSelected({ label: value, value });
+    rest?.onChange?.(selected);
+    rest?.onClick?.(selected?.value);
+  };
+
+  return (
+    <div className={classNames('flex flex-1 flex-col', rest.className)}>
+      <div className="mt-2 relative">
+        <Listbox
+          value={selected.value || ''}
+          onChange={(value: string) => {
+            const newOption = options.find(
+              (option) => option.value === value
+            ) || {
+              label: '',
+              value: '',
+            };
+            setSelected(newOption);
+            if (rest.onChange) rest.onChange(newOption);
+          }}
+        >
+          {rest.label && (
+            <section className="flex flex-row gap-2 justify-between mb-2">
+              <Label
+                htmlFor={name}
+                className="text-sm/6 font-medium flex self-end"
+              >
+                {rest.label}
+              </Label>
+              {rest.optional && (
+                <span className="text-sm/6 font-medium flex self-end">
+                  Optional
+                </span>
+              )}
+            </section>
+          )}
+          <section
+            className={classNames(
+              'relative',
+              'flex flex-row gap-4',
+              'min-w-0 grow text-base text-white placeholder:text-gray-500 focus:outline focus:outline-0 sm:text-sm/6',
+              'appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none', // Remove number input arrows
+              rest.inputClassName
+            )}
+          >
+            <input
+              name={name}
+              type={type}
+              defaultValue={rest.defaultValue}
+              placeholder={rest.placeholder}
+              aria-describedby={`${name} input`}
+              className={classNames(
+                'block w-full min-w-0 grow bg-white/5 px-3 py-1.5 text-base text-white placeholder:text-gray-500 focus:outline focus:outline-0 sm:text-sm/6',
+                'border border-slate-700 rounded-md',
+                'appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none', // Remove number input arrows
+                mergeIf(type === 'number', 'appearance-none'), // Remove number input arrows
+                rest.inputClassName
+              )}
+              onChange={(e) => {
+                rest.onChange?.(e.target.value);
+                setSelected({ label: e.target.value, value: e.target.value });
+              }}
+            />
+            <Button type="button" onClick={() => handleClick(selected.value)}>
+              <MagnifyingGlass className="w-6 h-6 text-white" />
+            </Button>
+          </section>
+          <ListboxOptions className="absolute z-10 mt-4 max-h-60 w-full overflow-auto rounded-md bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+            {options.map((option) => {
+              return (
+                <ListboxOption
+                  key={option.value}
+                  value={option.value}
+                  className={() => {
+                    return classNames(
+                      'cursor-pointer select-none relative py-2 pl-3 pr-9'
+                    );
+                  }}
+                  onClick={() => handleClick(option.value)}
+                >
+                  {({ focus, selected }) => {
+                    return (
+                      <>
+                        <span
+                          className={classNames(
+                            'block truncate',
+                            focus ? 'font-semibold' : 'font-normal'
+                          )}
+                        >
+                          {option.label}
+                        </span>
+                        {selected && (
+                          <span
+                            className={classNames(
+                              'absolute inset-y-0 right-0 flex items-center pr-4',
+                              mergeIf(selected, 'text-white')
+                            )}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="20"
+                              fill="currentColor"
+                              viewBox="0 0 256 256"
+                            >
+                              <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                            </svg>
+                          </span>
+                        )}
+                      </>
+                    );
+                  }}
+                </ListboxOption>
+              );
+            })}
+          </ListboxOptions>
+        </Listbox>
+      </div>
+    </div>
   );
 }
