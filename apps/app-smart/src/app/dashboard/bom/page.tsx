@@ -1,25 +1,27 @@
 'use client';
 
-import { useGetInventories } from 'hooks/inventories';
+import { useGetBOMs } from 'hooks/boms';
 import { Button } from '@repo/ui/buttons';
 import { CollectionCard } from '@repo/ui/cards/CollectionCard';
 import Link from 'components/Wrappers/Link';
 import { Header } from '@repo/ui/headers';
 import { classNames } from '@repo/ui/utils.ts';
-import { CaretRight, CubeTransparent } from '@phosphor-icons/react';
+import { CaretRight, Ruler } from '@phosphor-icons/react';
 
 export default function Page() {
-  const { data, isLoading } = useGetInventories({ userId: 1 });
+  const { data, isLoading } = useGetBOMs({ userId: 1 });
   console.log('DATA', data);
 
   return (
     <div className="flex flex-col gap-4">
       <Header
-        title="Inventories"
+        title="BOM"
         description={[
-          'Ad dolore ea cupidatat labore elit dolor aute.',
-          'Proident anim irure pariatur enim excepteur ea. Ut culpa sit laboris culpa magna officia anim mollit cupidatat veniam. Ad ad non sint ullamco.',
+          'Bill of Materials (BOM) – sometimes called a “recipe” or “kit” – is the list of all the items needed to create a product. It includes all the raw materials, sub-assemblies, intermediate assemblies, sub-components, parts, and the quantities of each needed to manufacture a product.',
+          'A Bill of Materials is essential for creating a detailed and accurate product design. It allows you to easily plan, track, and manage the components and sub-assemblies required to create a product.',
+          'It is essential to keep the Bill of Materials updated and accurate. If a component or sub-component is no longer needed or needs to be replaced, it must be removed from the Bill of Materials and replaced with the new component or sub-component. If a component or sub-component is out of stock, it must be removed from the Bill of Materials.',
         ]}
+        subtitle="Bill of Materials"
         type="page-header"
       />
 
@@ -31,8 +33,6 @@ export default function Page() {
             name={item.name}
             itemCount={`${item.quantity} ${item.unit}`}
             LinkComponent={Link}
-            tags={item.tags.map((tag) => tag.name)}
-            updatedAt={item.updatedAt}
             href={`/dashboard/inventory/${item.id}`}
             type={'secondary'}
           />
@@ -58,21 +58,16 @@ export default function Page() {
                       'inline-flex size-10 items-center justify-center rounded-lg'
                     )}
                   >
-                    <CubeTransparent
-                      className="w-6 h-6 text-white"
-                      aria-hidden="true"
-                    />
+                    <Ruler className="w-6 h-6 text-white" aria-hidden="true" />
                   </span>
                 </div>
                 <Button
                   LinkComponent={Link}
-                  href="/dashboard/inventory/create"
+                  href="/dashboard/bom/create"
                   variant="link"
                   className="flex flex-1"
                 >
-                  <section className="flex flex-1">
-                    Crete new Inventory Item
-                  </section>
+                  <section className="flex flex-1">Crete new BOM</section>
                   <div className="shrink-0 self-center mr-auto">
                     <CaretRight
                       className="w-5 h-5 text-gray-400 group-hover:text-gray-500"
@@ -94,6 +89,13 @@ export default function Page() {
           </div>
         </div>
       )}
+
+      <Header
+        description={[
+          'A Bill of Materials helps you plan, track, and manage the components and sub-assemblies required to create a product, ensuring that you have all the necessary resources and that you are not wasting materials or time.',
+        ]}
+        type="page-header"
+      />
     </div>
   );
 }

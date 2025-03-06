@@ -24,6 +24,7 @@ import {
   ArrowsIn,
   ShoppingCart,
   Tag,
+  Ruler,
   CardsThree,
 } from '@phosphor-icons/react';
 import { classNames } from 'lib/utils';
@@ -361,6 +362,18 @@ function primaryMenu(): NavigationItem[] {
           name: 'Create Product',
           href: '/dashboard/products/create',
           initial: <p>P</p>,
+        },
+      ],
+    },
+    {
+      name: 'BOM',
+      href: '/dashboard/bom',
+      icon: Ruler,
+      navigation: [
+        {
+          name: 'Create BOM',
+          href: '/dashboard/products/create',
+          initial: <p>B</p>,
         },
       ],
     },
