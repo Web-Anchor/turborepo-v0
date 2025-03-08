@@ -8,13 +8,11 @@ import { useRouter } from 'next/navigation';
 import {
   FormWrapper,
   SearchInput,
-  SelectInput,
   TextAreaInput,
   TextInput,
 } from '@repo/ui/forms';
 import { filterFormObject, objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
-import { colorsOptions, inventoryStatusOptions } from 'lib/list-options';
 import { Header } from '@repo/ui/headers';
 import { createDebounce } from 'lib/debounce';
 import { useState } from 'react';
@@ -24,7 +22,7 @@ export default function Page() {
   const [state, setState] = useState<{
     fetching?: string;
     products?: Product[];
-    inventory?: Inventory[];
+    component?: Inventory[];
   }>({});
   const router = useRouter();
 
@@ -120,7 +118,6 @@ export default function Page() {
               console.log('Selected option', value);
               setState((prev) => ({ ...prev, products: undefined }));
             }}
-            optional
             description={
               <>
                 <p>
@@ -139,21 +136,52 @@ export default function Page() {
                 </Button>
               </>
             }
+            notFoundPlaceholder={
+              <section className="flex flex-row items-center gap-4">
+                <p>No products found.</p>
+                <Button
+                  type="button"
+                  variant="link"
+                  className="font-semibold w-fit text-secondary"
+                  LinkComponent={Link}
+                  href="/dashboard/products/create"
+                >
+                  add new product
+                </Button>
+              </section>
+            }
           />
-
-          <SelectInput
-            name="status"
-            optional
-            label="Status"
-            defaultValue="IN_STOCK"
-            options={inventoryStatusOptions}
+          <SearchInput
+            name="component"
+            label="Inventory Component"
+            placeholder="Select a component"
+            options={state.component?.map((inventory) => ({
+              label: inventory.name,
+              value: inventory.id,
+            }))}
+            description={
+              <>
+                <p>
+                  Select inventory item. This will be used to create a BOM (bill
+                  of materials) item.
+                </p>
+                <Button
+                  type="button"
+                  variant="link"
+                  className="font-semibold w-fit text-secondary"
+                  LinkComponent={Link}
+                  href="/dashboard/inventory/create"
+                >
+                  create new inventory
+                </Button>
+              </>
+            }
           />
-          <SelectInput
-            name="colour"
-            label="Colour"
-            placeholder="Select a colour"
-            options={colorsOptions}
-            optional
+          <TextInput
+            name="quantity"
+            label="Quantity"
+            type="number"
+            placeholder="Enter quantity"
           />
         </div>
 

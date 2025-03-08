@@ -11,7 +11,7 @@ import {
   Switch,
 } from '@headlessui/react';
 import { Button } from './buttons';
-import { MagnifyingGlass, Check } from '@phosphor-icons/react';
+import { MagnifyingGlass, Check, Warning } from '@phosphor-icons/react';
 
 type ComponentTypes = {
   className?: string;
@@ -223,6 +223,7 @@ export function SelectInput({ options, ...rest }: SelectInputTypes) {
               />
             </ListboxButton>
             <ListboxOptions className="absolute z-10 mt-4 max-h-60 w-full overflow-auto rounded-md bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+              {options.length === 0 && <NotFoundPlaceholder />}
               {options.map((option) => {
                 return (
                   <ListboxOption
@@ -350,12 +351,14 @@ export function SwitchInput({ name = '', ...rest }: SwitchInputTypes) {
 }
 
 // search with lookup functionality. have dropdown with search results. hoovered item is highlighted. onClick item is selected and input is updated with callBack function
-type SearchInputTypes = Omit<SelectInputTypes, 'onChange'> & {
+type SearchInputTypes = Omit<SelectInputTypes, 'onChange' | 'options'> & {
   options?: Option[];
   type?: 'text' | 'number' | 'email' | 'password';
   onChange?: (value: string) => void;
   onClick?: (value: string) => void;
   onSelect?: (option: Option) => void;
+  notFoundPlaceholder?: string | React.ReactNode;
+  dropdownClassName?: string;
 };
 
 export function SearchInput({
@@ -364,17 +367,18 @@ export function SearchInput({
   type = 'text',
   ...rest
 }: SearchInputTypes) {
-  const [selected, setSelected] = useState<Option>({ label: '', value: '' });
-  console.log('selected', selected);
+  const [state, setState] = useState<{ options?: Option; input?: string }>({
+    options: { label: '', value: '' },
+  });
 
   const handleClick = (value: string) => {
-    setSelected({ label: value, value });
-    rest?.onChange?.(selected?.value);
-    rest?.onClick?.(selected?.value);
+    setState((prev) => ({ ...prev, options: undefined }));
+    rest?.onChange?.(value);
+    rest?.onClick?.(value);
   };
 
   const handleSelect = (option: Option) => {
-    setSelected(option);
+    setState((prev) => ({ ...prev, options: option }));
     rest.onSelect?.(option);
   };
 
@@ -382,15 +386,15 @@ export function SearchInput({
     <div className={classNames('flex flex-1 flex-col', rest.className)}>
       <div className="relative flex flex-col gap-2">
         <Listbox
-          value={selected.value || ''}
+          value={state?.options?.value || ''}
           onChange={(value: string) => {
-            const newOption = options.find(
+            const newOption = options?.find(
               (option) => option.value === value
             ) || {
               label: '',
               value: '',
             };
-            setSelected(newOption);
+            setState((prev) => ({ ...prev, options: newOption }));
             rest.onChange?.(value);
           }}
         >
@@ -422,7 +426,7 @@ export function SearchInput({
             <input
               type="hidden"
               name={name}
-              value={selected.value || ''}
+              value={state?.options?.value || ''}
               aria-describedby={`${name} input`}
             />
             <input
@@ -439,20 +443,37 @@ export function SearchInput({
               )}
               onChange={(e) => {
                 rest.onChange?.(e.target.value);
-                setSelected({ label: e.target.value, value: e.target.value });
+                setState((prev) => ({
+                  ...prev,
+                  input: e.target.value,
+                  options: undefined,
+                }));
               }}
             />
-            <Button type="button" onClick={() => handleClick(selected.value)}>
+            <Button
+              type="button"
+              onClick={() => handleClick(state.input || '')}
+            >
               <MagnifyingGlass className="w-6 h-6 text-white" />
             </Button>
           </section>
           <section
             className={classNames(
-              'absolute z-10 mt-24 max-h-60 w-full overflow-auto rounded-md bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm',
-              mergeIf(options?.length === 0, 'hidden')
+              'absolute z-10 mt-[80px] max-h-60 w-full overflow-auto rounded-md bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm',
+              mergeIf(options?.length === 0 && !state?.input, 'hidden'),
+              rest.dropdownClassName
             )}
           >
-            {options.map((option, key: number) => {
+            {options?.length === 0 && (
+              <NotFoundPlaceholder
+                title={
+                  rest.notFoundPlaceholder ||
+                  'No results found. Try searching for something else.'
+                }
+              />
+            )}
+
+            {options?.map((option, key: number) => {
               return (
                 <section
                   key={key}
@@ -464,8 +485,8 @@ export function SearchInput({
                   <span className={classNames('block truncate')}>
                     {option.label}
                   </span>
-                  {selected && (
-                    <Check className="absolute inset-y-0 right-0 flex items-center pr-4" />
+                  {state.options?.value === option.value && (
+                    <Check className="absolute top-2 right-0 flex items-center pr-4 text-white size-8 shrink-0" />
                   )}
                 </section>
               );
@@ -475,6 +496,27 @@ export function SearchInput({
         {rest.description && (
           <div className="text-sm/6 text-gray-500">{rest.description}</div>
         )}
+      </div>
+    </div>
+  );
+}
+
+function NotFoundPlaceholder({
+  ...rest
+}: {
+  title?: string | React.ReactNode;
+}) {
+  return (
+    <div className="border-l-4 border-yellow-400 bg-yellow-50 px-4 py-2">
+      <div className="flex">
+        <div className="shrink-0">
+          <Warning className="h-5 w-5 text-yellow-700" />
+        </div>
+        <div className="ml-3">
+          <section className="text-sm text-yellow-700">
+            {rest.title || 'No results found!'}
+          </section>
+        </div>
       </div>
     </div>
   );
