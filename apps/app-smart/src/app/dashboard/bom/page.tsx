@@ -50,7 +50,7 @@ export default function Page() {
             className="mt-6 divide-y divide-gray-200 border-b border-t border-gray-200"
           >
             <li>
-              <div className="group relative flex items-start space-x-3 py-4">
+              <div className="group relative flex items-center space-x-3 py-4">
                 <div className="shrink-0">
                   <span
                     className={classNames(

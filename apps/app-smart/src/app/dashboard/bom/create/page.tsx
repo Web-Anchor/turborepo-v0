@@ -28,22 +28,21 @@ export default function Page() {
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
-      return console.log('data', data);
-
-      if (!data.name) {
-        throw new Error('Name is required'); // TODO: Add more validation
-      }
-      const customKeys = ['colour'];
-      const attributes = filterFormObject(data, customKeys);
-      customKeys.forEach((key) => delete data[key]); // delete custom keys from data
-      console.log('data', data);
+      const validations = ['name', 'quantity', 'composite', 'component'];
+      validations.forEach((key) => {
+        if (!data[key]) {
+          throw new Error(`${key} is required.`);
+        }
+      });
 
       await axios.post('/api/v1/boms/create', {
         ...objKeysToNumber(['quantity', 'cost', 'price'], data),
-        attributes,
+        composite: { connect: { id: data.composite as string } },
+        component: { connect: { id: data.component as string } },
+        unit: state?.component?.[0]?.unit, // default to component unit
       });
       toast.success('Your item has been created.');
-      mutate('/api/v1/products/products');
+      mutate('/api/v1/boms/boms');
       router.back();
     } catch (error) {
       toast.error(
