@@ -179,7 +179,7 @@ export function SelectInput({ options, ...rest }: SelectInputTypes) {
                 value: '',
               };
               setSelected(newOption);
-              if (rest.onChange) rest.onChange(newOption);
+              rest.onChange?.(newOption);
             }}
           >
             {rest.label && (
@@ -365,7 +365,7 @@ export function SwitchInput({ name = '', ...rest }: SwitchInputTypes) {
 }
 
 // search with lookup functionality. have dropdown with search results. hoovered item is highlighted. onClick item is selected and input is updated with callBack function
-type SearchInputTypes = SelectInputTypes & {
+type SearchInputTypes = Omit<SelectInputTypes, 'onChange'> & {
   options?: { label: string; value: string }[];
   type?: 'text' | 'number' | 'email' | 'password';
   onChange?: (value: string) => void;
@@ -382,7 +382,7 @@ export function SearchInput({
 
   const handleClick = (value: string) => {
     setSelected({ label: value, value });
-    rest?.onChange?.(selected);
+    rest?.onChange?.(selected?.value);
     rest?.onClick?.(selected?.value);
   };
 
@@ -399,7 +399,7 @@ export function SearchInput({
               value: '',
             };
             setSelected(newOption);
-            if (rest.onChange) rest.onChange(newOption);
+            rest.onChange?.(value);
           }}
         >
           {rest.label && (

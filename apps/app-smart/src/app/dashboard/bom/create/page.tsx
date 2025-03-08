@@ -16,6 +16,7 @@ import { filterFormObject, objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
 import { colorsOptions, inventoryStatusOptions } from 'lib/list-options';
 import { Header } from '@repo/ui/headers';
+import { createDebounce } from 'lib/debounce';
 
 export default function Page() {
   const router = useRouter();
@@ -44,16 +45,24 @@ export default function Page() {
     }
   }
 
-  async function productSearch(input: string): Promise<void> {
+  async function searchWrapper<T>(
+    signal: AbortSignal,
+    input?: string
+  ): Promise<T> {
+    const { data } = await axios.post(`/api/v1/products/products?q=${input}`, {
+      take: 5,
+      input,
+      signal,
+    });
+    return data?.data;
+  }
+  // Create the debounced function instance
+  const debouncedSearch = createDebounce(searchWrapper);
+
+  async function productSearch(input?: string): Promise<void> {
     try {
-      const { data } = await axios.post(
-        `/api/v1/products/products?q=${input}`,
-        {
-          take: 5,
-          input,
-        }
-      );
-      console.log('search response', data?.data);
+      const data = await debouncedSearch(input);
+      console.log('search response', data);
     } catch (error) {
       toast.error(
         (error as Error)?.message || 'An error occurred. Please try again.'
@@ -92,7 +101,7 @@ export default function Page() {
                 { value: 'DEF456', label: 'DEF456' },
                 { value: 'GHI789', label: 'GHI789' },
               ]}
-              onChange={(value) => console.log('change value', value)}
+              onChange={(value) => productSearch(value)}
               onClick={(value) => productSearch(value)}
               optional
               description="Search for a product by SKU, name, or barcode. This will be used to create a composite product. Composite products are used to create a BOM (bill of materials) item."
