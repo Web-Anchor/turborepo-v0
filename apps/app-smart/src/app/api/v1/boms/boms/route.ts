@@ -24,7 +24,7 @@ const handler = async ({
     },
   });
 
-  return Response.json({ data: data?.data?.inventories });
+  return Response.json({ data: data?.data?.bOMS });
 };
 
 export const POST = composeMiddleware([sessionAuth, handler]);
