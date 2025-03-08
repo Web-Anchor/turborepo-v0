@@ -256,7 +256,7 @@ export default function RootLayout({ children }: SidebarTypes) {
       </div>
 
       <MemoWrapper>
-        <main className="py-10 lg:pl-72">
+        <main className={classNames('py-10 lg:pl-72', sm && 'lg:pl-20')}>
           <div className="px-4 sm:px-6 lg:px-8">{children}</div>
         </main>
       </MemoWrapper>
@@ -282,7 +282,13 @@ function MenuWrapper({ path, type }: { path: string; type?: 'sm' }) {
               )}
             >
               {item.icon && (
-                <item.icon aria-hidden="true" className="size-6 shrink-0" />
+                <item.icon
+                  aria-hidden="true"
+                  className={classNames(
+                    'size-6 shrink-0',
+                    mergeIf(sm, 'm-auto')
+                  )}
+                />
               )}
               {!sm && item.name}
             </Link>
@@ -314,7 +320,12 @@ function MenuWrapper({ path, type }: { path: string; type?: 'sm' }) {
                           />
                         )}
                         {subItem.initial && (
-                          <span className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
+                          <span
+                            className={classNames(
+                              'flex size-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white',
+                              subItem.theme
+                            )}
+                          >
                             {subItem.initial}
                           </span>
                         )}
@@ -350,6 +361,7 @@ type NavigationItem = {
   icon?: React.ElementType;
   initial?: React.ReactNode;
   navigation?: NavigationItem[];
+  theme?: string;
 };
 
 function primaryMenu(): NavigationItem[] {
@@ -373,6 +385,7 @@ function primaryMenu(): NavigationItem[] {
           name: 'Add Inventory Item',
           href: '/dashboard/inventory/create',
           initial: <p>I</p>,
+          theme: 'bg-indigo text-green-600',
         },
       ],
     },
