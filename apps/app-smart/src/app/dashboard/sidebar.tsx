@@ -34,6 +34,7 @@ import Link from 'components/Wrappers/Link';
 import { ClerkUser } from 'types/data-types';
 import { useWhoIAm } from 'hooks/users';
 import MemoWrapper from 'components/Wrappers/MemoWrapper';
+import { mergeIf } from '@repo/ui/utils.ts';
 
 export const metadata: Metadata = {
   title: 'Dashboard 📦',
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: SidebarTypes) {
     sidebarOpen: false,
   });
   const path = usePathname();
+  const sm = state?.sidebarWidth;
   const { data: user } = useWhoIAm();
 
   return (
@@ -99,9 +101,11 @@ export default function RootLayout({ children }: SidebarTypes) {
                     </ul>
                   </li>
                   <li>
-                    <div className="text-xs/6 font-semibold text-gray-400">
-                      Your teams
-                    </div>
+                    {!sm && (
+                      <div className="text-xs/6 font-semibold text-gray-400">
+                        Your teams
+                      </div>
+                    )}
                     <ul role="list" className="-mx-2 mt-2 space-y-1">
                       {secondaryMenu().map((team) => (
                         <li key={team.name}>
@@ -117,7 +121,9 @@ export default function RootLayout({ children }: SidebarTypes) {
                             <span className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
                               {team.initial}
                             </span>
-                            <span className="truncate">{team.name}</span>
+                            {!sm && (
+                              <span className="truncate">{team.name}</span>
+                            )}
                           </Link>
                         </li>
                       ))}
@@ -146,19 +152,23 @@ export default function RootLayout({ children }: SidebarTypes) {
               size="xSmall"
               className="h-10 w-10 rounded-md"
             />
-            <p className="text-white text-sm/6 font-semibold">SMART 📦</p>
+            {!sm && (
+              <p className="text-white text-sm/6 font-semibold">SMART 📦</p>
+            )}
           </div>
           <nav className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
-                  <MenuWrapper path={path} />
+                  <MenuWrapper type={sm ? 'sm' : undefined} path={path} />
                 </ul>
               </li>
               <li>
-                <div className="text-xs/6 font-semibold text-gray-400">
-                  Your teams
-                </div>
+                {!sm && (
+                  <div className="text-xs/6 font-semibold text-gray-400">
+                    Your teams
+                  </div>
+                )}
                 <ul role="list" className="-mx-2 mt-2 space-y-1">
                   {secondaryMenu().map((item, index) => (
                     <li key={index}>
@@ -183,20 +193,22 @@ export default function RootLayout({ children }: SidebarTypes) {
               <li className="-mx-6 mt-auto">
                 <section
                   className={classNames(
-                    'flex flex-row items-center gap-x-4',
-                    state?.sidebarWidth && 'flex-col'
+                    'relative flex flex-row items-center gap-x-4',
+                    sm && 'flex-col'
                   )}
                 >
                   <Link
                     href="/dashboard/settings"
-                    className="flex flex-1 gap-x-4 px-4 py-3 text-sm/6 font-semibold"
+                    className="flex flex-1 gap-x-4 px-4 py-3 text-sm/6 font-semibold order-2"
                   >
                     <section className="flex flex-row gap-3 items-center rounded-md px-3 py-2 flex-1 text-white hover:bg-[#33415580] hover:text-slate-400 transition-all duration-300">
                       <UserImageWrapper user={user} />
                       <span className="sr-only">Your profile</span>
-                      <span aria-hidden="true" className="line-clamp-1">
-                        {user?.firstName || user?.lastName || 'Anonymous'}
-                      </span>
+                      {!sm && (
+                        <span aria-hidden="true" className="line-clamp-1">
+                          {user?.firstName || user?.lastName || 'Anonymous'}
+                        </span>
+                      )}
                     </section>
                   </Link>
                   <button
@@ -205,10 +217,13 @@ export default function RootLayout({ children }: SidebarTypes) {
                         ...prev,
                         sidebarWidth: prev?.sidebarWidth
                           ? undefined
-                          : 'lg:w-44',
+                          : 'lg:w-20',
                       }))
                     }
-                    className="flex items-center gap-x-4 px-2 py-2 rounded-md cursor-pointer text-white ml-auto mr-4 hover:bg-gray-800"
+                    className={classNames(
+                      'flex items-center order-3 gap-x-4 p-2 rounded-md cursor-pointer text-white ml-auto mr-4 hover:bg-gray-800',
+                      sm && 'm-auto order-1'
+                    )}
                   >
                     <ArrowsIn
                       aria-hidden="true"
@@ -249,7 +264,9 @@ export default function RootLayout({ children }: SidebarTypes) {
   );
 }
 
-function MenuWrapper({ path }: { path: string }) {
+function MenuWrapper({ path, type }: { path: string; type?: 'sm' }) {
+  const sm = type === 'sm';
+
   return (
     <>
       {primaryMenu().map((item: NavigationItem, key: number) => {
@@ -267,11 +284,17 @@ function MenuWrapper({ path }: { path: string }) {
               {item.icon && (
                 <item.icon aria-hidden="true" className="size-6 shrink-0" />
               )}
-              {item.name}
+              {!sm && item.name}
             </Link>
             {/* Menu sub navigation */}
             {item.navigation && path.includes(item.href) && (
-              <ul role="list" className="ml-4 space-y-1 my-1">
+              <ul
+                role="list"
+                className={classNames(
+                  'ml-4 space-y-1 my-1',
+                  mergeIf(sm, 'ml-0')
+                )}
+              >
                 {item.navigation.map((subItem: NavigationItem, key: number) => {
                   return (
                     <li key={key}>
@@ -296,7 +319,7 @@ function MenuWrapper({ path }: { path: string }) {
                           </span>
                         )}
 
-                        {subItem.name}
+                        {!sm && subItem.name}
                       </Link>
                     </li>
                   );
