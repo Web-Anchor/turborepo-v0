@@ -52,7 +52,7 @@ export default function Page() {
     }
   }
 
-  async function searchWrapper<T>(
+  async function productSearchWrapper<T>(
     signal: AbortSignal,
     input?: string
   ): Promise<T> {
@@ -64,7 +64,24 @@ export default function Page() {
     return data?.data;
   }
   // Create the debounced function instance
-  const debouncedSearch = createDebounce(searchWrapper);
+  const debouncedSearch = createDebounce(productSearchWrapper);
+
+  async function componentSearchWrapper<T>(
+    signal: AbortSignal,
+    input?: string
+  ): Promise<T> {
+    const { data } = await axios.post(
+      `/api/v1/inventories/inventories?q=${input}`,
+      {
+        take: 5,
+        input,
+        signal,
+      }
+    );
+    return data?.data;
+  }
+  // Create the debounced function instance
+  const debouncedComponentSearch = createDebounce(componentSearchWrapper);
 
   async function productSearch(input?: string): Promise<void> {
     try {
@@ -72,6 +89,21 @@ export default function Page() {
       const data: Product[] = await debouncedSearch(input);
       console.log('search response', data);
       setState((prev) => ({ ...prev, products: data }));
+    } catch (error) {
+      toast.error(
+        (error as Error)?.message || 'An error occurred. Please try again.'
+      );
+    } finally {
+      setState((prev) => ({ ...prev, fetching: undefined }));
+    }
+  }
+
+  async function componentSearch(input?: string): Promise<void> {
+    try {
+      setState((prev) => ({ ...prev, fetching: 'components' }));
+      const data: Inventory[] = await debouncedComponentSearch(input);
+      console.log('search response', data);
+      setState((prev) => ({ ...prev, component: data }));
     } catch (error) {
       toast.error(
         (error as Error)?.message || 'An error occurred. Please try again.'
@@ -114,8 +146,7 @@ export default function Page() {
             }
             onChange={(value) => productSearch(value)}
             onClick={(value) => productSearch(value)}
-            onSelect={(value) => {
-              console.log('Selected option', value);
+            onSelect={() => {
               setState((prev) => ({ ...prev, products: undefined }));
             }}
             description={
@@ -153,7 +184,7 @@ export default function Page() {
           />
           <SearchInput
             name="component"
-            label="Inventory Component"
+            label="Inventory Item"
             placeholder="Select a component"
             options={state.component?.map((inventory) => ({
               label: inventory.name,
@@ -162,8 +193,8 @@ export default function Page() {
             description={
               <>
                 <p>
-                  Select inventory item. This will be used to create a BOM (bill
-                  of materials) item.
+                  Search for an inventory item by name, SKU, or batch number.
+                  This will be used to create a BOM (bill of materials) item.
                 </p>
                 <Button
                   type="button"
@@ -175,6 +206,25 @@ export default function Page() {
                   create new inventory
                 </Button>
               </>
+            }
+            onChange={(value) => componentSearch(value)}
+            onClick={(value) => componentSearch(value)}
+            onSelect={() => {
+              setState((prev) => ({ ...prev, component: undefined }));
+            }}
+            notFoundPlaceholder={
+              <section className="flex flex-row items-center gap-4">
+                <p>No inventory found.</p>
+                <Button
+                  type="button"
+                  variant="link"
+                  className="font-semibold w-fit text-secondary"
+                  LinkComponent={Link}
+                  href="/dashboard/inventory/create"
+                >
+                  add new inventory
+                </Button>
+              </section>
             }
           />
           <TextInput

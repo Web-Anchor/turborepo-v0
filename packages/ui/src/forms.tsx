@@ -378,7 +378,7 @@ export function SearchInput({
   };
 
   const handleSelect = (option: Option) => {
-    setState((prev) => ({ ...prev, options: option }));
+    setState((prev) => ({ ...prev, options: option, input: undefined }));
     rest.onSelect?.(option);
   };
 
@@ -431,6 +431,7 @@ export function SearchInput({
             />
             <input
               type={type}
+              value={state?.options?.label || state?.input || ''}
               defaultValue={rest.defaultValue}
               placeholder={rest.placeholder}
               aria-describedby={`${name} input`}
@@ -460,7 +461,10 @@ export function SearchInput({
           <section
             className={classNames(
               'absolute z-10 mt-[80px] max-h-60 w-full overflow-auto rounded-md bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm',
-              mergeIf(options?.length === 0 && !state?.input, 'hidden'),
+              mergeIf(
+                (options?.length === 0 && !state?.input) || !state?.input,
+                'hidden'
+              ),
               rest.dropdownClassName
             )}
           >
