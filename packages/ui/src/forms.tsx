@@ -153,6 +153,7 @@ export interface SelectInputTypes {
   inputClassName?: string;
   onChange?: (option: Option) => void;
   className?: string;
+  description?: string;
 }
 
 export function SelectInput({ options, ...rest }: SelectInputTypes) {
@@ -387,7 +388,7 @@ export function SearchInput({
 
   return (
     <div className={classNames('flex flex-1 flex-col', rest.className)}>
-      <div className="mt-2 relative">
+      <div className="relative flex flex-col gap-2">
         <Listbox
           value={selected.value || ''}
           onChange={(value: string) => {
@@ -402,7 +403,7 @@ export function SearchInput({
           }}
         >
           {rest.label && (
-            <section className="flex flex-row gap-2 justify-between mb-2">
+            <section className="flex flex-row gap-2 justify-between">
               <Label
                 htmlFor={name}
                 className="text-sm/6 font-medium flex self-end"
@@ -497,6 +498,9 @@ export function SearchInput({
             })}
           </ListboxOptions>
         </Listbox>
+        {rest.description && (
+          <div className="text-sm/6 text-gray-500">{rest.description}</div>
+        )}
       </div>
     </div>
   );

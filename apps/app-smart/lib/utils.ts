@@ -133,3 +133,10 @@ export function downloadCSV({
   a.click();
   document.body.removeChild(a);
 }
+
+export function returnIfTruthy(
+  condition: boolean,
+  value: Record<string, any> | any[]
+): Record<string, any> | any[] | undefined {
+  return condition ? value : undefined;
+}
