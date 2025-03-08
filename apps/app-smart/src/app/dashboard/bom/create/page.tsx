@@ -17,12 +17,21 @@ import { mutate } from 'swr';
 import { colorsOptions, inventoryStatusOptions } from 'lib/list-options';
 import { Header } from '@repo/ui/headers';
 import { createDebounce } from 'lib/debounce';
+import { useState } from 'react';
+import { Inventory, Product } from 'types/data-types';
 
 export default function Page() {
+  const [state, setState] = useState<{
+    fetching?: string;
+    products?: Product[];
+    inventory?: Inventory[];
+  }>({});
   const router = useRouter();
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
+      return console.log('data', data);
+
       if (!data.name) {
         throw new Error('Name is required'); // TODO: Add more validation
       }
@@ -61,12 +70,16 @@ export default function Page() {
 
   async function productSearch(input?: string): Promise<void> {
     try {
-      const data = await debouncedSearch(input);
+      setState((prev) => ({ ...prev, fetching: 'products' }));
+      const data: Product[] = await debouncedSearch(input);
       console.log('search response', data);
+      setState((prev) => ({ ...prev, products: data }));
     } catch (error) {
       toast.error(
         (error as Error)?.message || 'An error occurred. Please try again.'
       );
+    } finally {
+      setState((prev) => ({ ...prev, fetching: undefined }));
     }
   }
 
@@ -83,45 +96,65 @@ export default function Page() {
         type="page-header"
       />
       <FormWrapper onSubmit={submit}>
-        <div className="space-y-12">
-          <div className="mt-10 flex flex-col gap-8">
-            <TextInput name="name" label="Name" placeholder="Enter a name" />
-            <TextAreaInput
-              name="description"
-              label="Description"
-              placeholder="Enter a description"
-              optional
-            />
-            <SearchInput
-              name="composite"
-              label="Composite Product"
-              placeholder="Enter a composite"
-              options={[
-                { value: 'ABC123', label: 'ABC123' },
-                { value: 'DEF456', label: 'DEF456' },
-                { value: 'GHI789', label: 'GHI789' },
-              ]}
-              onChange={(value) => productSearch(value)}
-              onClick={(value) => productSearch(value)}
-              optional
-              description="Search for a product by SKU, name, or barcode. This will be used to create a composite product. Composite products are used to create a BOM (bill of materials) item."
-            />
+        <div className="mt-10 flex flex-col gap-8">
+          <TextInput name="name" label="Name" placeholder="Enter a name" />
+          <TextAreaInput
+            name="description"
+            label="Description"
+            placeholder="Enter a description"
+            optional
+          />
+          <SearchInput
+            name="composite"
+            label="Composite Product"
+            placeholder="Enter a composite"
+            options={
+              state.products?.map((product) => ({
+                label: product.name || product.sku || product.barcode,
+                value: product.id,
+              })) || []
+            }
+            onChange={(value) => productSearch(value)}
+            onClick={(value) => productSearch(value)}
+            onSelect={(value) => {
+              console.log('Selected option', value);
+              setState((prev) => ({ ...prev, products: undefined }));
+            }}
+            optional
+            description={
+              <>
+                <p>
+                  Search for a product by SKU, name, or barcode. This will be
+                  used to create a composite product. Composite products are
+                  used to create a BOM (bill of materials) item.
+                </p>
+                <Button
+                  type="button"
+                  variant="link"
+                  className="font-semibold w-fit text-secondary"
+                  LinkComponent={Link}
+                  href="/dashboard/products/create"
+                >
+                  create new product
+                </Button>
+              </>
+            }
+          />
 
-            <SelectInput
-              name="status"
-              optional
-              label="Status"
-              defaultValue="IN_STOCK"
-              options={inventoryStatusOptions}
-            />
-            <SelectInput
-              name="colour"
-              label="Colour"
-              placeholder="Select a colour"
-              options={colorsOptions}
-              optional
-            />
-          </div>
+          <SelectInput
+            name="status"
+            optional
+            label="Status"
+            defaultValue="IN_STOCK"
+            options={inventoryStatusOptions}
+          />
+          <SelectInput
+            name="colour"
+            label="Colour"
+            placeholder="Select a colour"
+            options={colorsOptions}
+            optional
+          />
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-6">

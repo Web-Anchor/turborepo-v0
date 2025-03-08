@@ -11,7 +11,7 @@ import {
   Switch,
 } from '@headlessui/react';
 import { Button } from './buttons';
-import { MagnifyingGlass } from '@phosphor-icons/react';
+import { MagnifyingGlass, Check } from '@phosphor-icons/react';
 
 type ComponentTypes = {
   className?: string;
@@ -153,7 +153,7 @@ export interface SelectInputTypes {
   inputClassName?: string;
   onChange?: (option: Option) => void;
   className?: string;
-  description?: string;
+  description?: string | React.ReactNode;
 }
 
 export function SelectInput({ options, ...rest }: SelectInputTypes) {
@@ -246,22 +246,7 @@ export function SelectInput({ options, ...rest }: SelectInputTypes) {
                             {option.label}
                           </span>
                           {selected && (
-                            <span
-                              className={classNames(
-                                'absolute inset-y-0 right-0 flex items-center pr-4',
-                                mergeIf(selected, 'text-white')
-                              )}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                fill="currentColor"
-                                viewBox="0 0 256 256"
-                              >
-                                <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
-                              </svg>
-                            </span>
+                            <Check className="absolute inset-y-0 right-0 flex items-center pr-4" />
                           )}
                         </>
                       );
@@ -366,24 +351,31 @@ export function SwitchInput({ name = '', ...rest }: SwitchInputTypes) {
 
 // search with lookup functionality. have dropdown with search results. hoovered item is highlighted. onClick item is selected and input is updated with callBack function
 type SearchInputTypes = Omit<SelectInputTypes, 'onChange'> & {
-  options?: { label: string; value: string }[];
+  options?: Option[];
   type?: 'text' | 'number' | 'email' | 'password';
   onChange?: (value: string) => void;
   onClick?: (value: string) => void;
+  onSelect?: (option: Option) => void;
 };
 
 export function SearchInput({
   name = '',
-  options = [],
+  options,
   type = 'text',
   ...rest
 }: SearchInputTypes) {
   const [selected, setSelected] = useState<Option>({ label: '', value: '' });
+  console.log('selected', selected);
 
   const handleClick = (value: string) => {
     setSelected({ label: value, value });
     rest?.onChange?.(selected?.value);
     rest?.onClick?.(selected?.value);
+  };
+
+  const handleSelect = (option: Option) => {
+    setSelected(option);
+    rest.onSelect?.(option);
   };
 
   return (
@@ -426,8 +418,14 @@ export function SearchInput({
               rest.inputClassName
             )}
           >
+            {/* FORM hidden input to store the selected value */}
             <input
+              type="hidden"
               name={name}
+              value={selected.value || ''}
+              aria-describedby={`${name} input`}
+            />
+            <input
               type={type}
               defaultValue={rest.defaultValue}
               placeholder={rest.placeholder}
@@ -448,55 +446,31 @@ export function SearchInput({
               <MagnifyingGlass className="w-6 h-6 text-white" />
             </Button>
           </section>
-          <ListboxOptions className="absolute z-10 mt-4 max-h-60 w-full overflow-auto rounded-md bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-            {options.map((option) => {
+          <section
+            className={classNames(
+              'absolute z-10 mt-24 max-h-60 w-full overflow-auto rounded-md bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm',
+              mergeIf(options?.length === 0, 'hidden')
+            )}
+          >
+            {options.map((option, key: number) => {
               return (
-                <ListboxOption
-                  key={option.value}
-                  value={option.value}
-                  className={() => {
-                    return classNames(
-                      'cursor-pointer select-none relative py-2 pl-3 pr-9'
-                    );
-                  }}
-                  onClick={() => handleClick(option.value)}
+                <section
+                  key={key}
+                  className={classNames(
+                    'cursor-pointer select-none relative py-2 pl-3 pr-9 hover:text-white/6 hover:bg-indigo-300'
+                  )}
+                  onClick={() => handleSelect(option)}
                 >
-                  {({ focus, selected }) => {
-                    return (
-                      <>
-                        <span
-                          className={classNames(
-                            'block truncate',
-                            focus ? 'font-semibold' : 'font-normal'
-                          )}
-                        >
-                          {option.label}
-                        </span>
-                        {selected && (
-                          <span
-                            className={classNames(
-                              'absolute inset-y-0 right-0 flex items-center pr-4',
-                              mergeIf(selected, 'text-white')
-                            )}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              fill="currentColor"
-                              viewBox="0 0 256 256"
-                            >
-                              <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
-                            </svg>
-                          </span>
-                        )}
-                      </>
-                    );
-                  }}
-                </ListboxOption>
+                  <span className={classNames('block truncate')}>
+                    {option.label}
+                  </span>
+                  {selected && (
+                    <Check className="absolute inset-y-0 right-0 flex items-center pr-4" />
+                  )}
+                </section>
               );
             })}
-          </ListboxOptions>
+          </section>
         </Listbox>
         {rest.description && (
           <div className="text-sm/6 text-gray-500">{rest.description}</div>

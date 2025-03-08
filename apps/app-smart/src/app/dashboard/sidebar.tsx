@@ -372,7 +372,7 @@ function primaryMenu(): NavigationItem[] {
       navigation: [
         {
           name: 'Create BOM',
-          href: '/dashboard/products/create',
+          href: '/dashboard/bom/create',
           initial: <p>B</p>,
         },
       ],

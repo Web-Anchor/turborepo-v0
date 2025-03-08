@@ -28,7 +28,7 @@ export function Button({
     secondary:
       'text-gray-800 bg-gray-300 hover:bg-gray-100 focus:ring-gray-500',
     danger: 'text-white bg-red-600 hover:bg-red-700 focus:ring-red-500',
-    link: 'text-blue-600 focus:ring-blue-500 focus:text-blue-500',
+    link: 'text-blue-600 focus:ring-blue-500 focus:text-blue-500 p-0',
   };
 
   const classes = `${baseClasses} ${variantClasses[variant]}`;
