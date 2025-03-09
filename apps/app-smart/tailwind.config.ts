@@ -16,7 +16,6 @@ export default {
         foreground: 'var(--foreground)',
         'dark-gray': '#111827',
         abyss: '#070F2B',
-        indigo: '#1B1A55',
         steel: '#535C91',
         lavender: '#9290C3',
         primary: '#1B1A55',
