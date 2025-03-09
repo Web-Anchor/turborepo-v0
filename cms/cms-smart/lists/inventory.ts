@@ -68,7 +68,7 @@ export const Inventory: any = list({
       },
     }),
     tags: relationship({ ref: 'Tag.inventory', many: true }),
-    bom: relationship({ ref: 'BOM.component', many: false }),
+    bom: relationship({ ref: 'BOM.component', many: true }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     updatedAt: timestamp({ db: { updatedAt: true } }),
   },

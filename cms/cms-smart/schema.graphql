@@ -613,7 +613,8 @@ type Inventory {
   usersCount(where: UserWhereInput! = {}): Int
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
-  bom: BOM
+  bom(where: BOMWhereInput! = {}, orderBy: [BOMOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: BOMWhereUniqueInput): [BOM!]
+  bomCount(where: BOMWhereInput! = {}): Int
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -646,7 +647,7 @@ input InventoryWhereInput {
   isDamaged: BooleanFilter
   users: UserManyRelationFilter
   tags: TagManyRelationFilter
-  bom: BOMWhereInput
+  bom: BOMManyRelationFilter
   createdAt: DateTimeNullableFilter
   updatedAt: DateTimeNullableFilter
 }
@@ -693,15 +694,9 @@ input InventoryUpdateInput {
   isDamaged: Boolean
   users: UserRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
-  bom: BOMRelateToOneForUpdateInput
+  bom: BOMRelateToManyForUpdateInput
   createdAt: DateTime
   updatedAt: DateTime
-}
-
-input BOMRelateToOneForUpdateInput {
-  create: BOMCreateInput
-  connect: BOMWhereUniqueInput
-  disconnect: Boolean
 }
 
 input InventoryUpdateArgs {
@@ -729,14 +724,9 @@ input InventoryCreateInput {
   isDamaged: Boolean
   users: UserRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
-  bom: BOMRelateToOneForCreateInput
+  bom: BOMRelateToManyForCreateInput
   createdAt: DateTime
   updatedAt: DateTime
-}
-
-input BOMRelateToOneForCreateInput {
-  create: BOMCreateInput
-  connect: BOMWhereUniqueInput
 }
 
 type Invitation {

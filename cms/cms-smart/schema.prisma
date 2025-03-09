@@ -111,7 +111,7 @@ model Inventory {
   isDamaged            Boolean   @default(false)
   users                User[]    @relation("Inventory_users")
   tags                 Tag[]     @relation("Inventory_tags")
-  bom                  BOM?      @relation("BOM_component")
+  bom                  BOM[]     @relation("BOM_component")
   createdAt            DateTime? @default(now())
   updatedAt            DateTime? @updatedAt
   from_List_items      List[]    @relation("List_items")
@@ -180,7 +180,7 @@ model BOM {
   composite   Product?   @relation("BOM_composite", fields: [compositeId], references: [id])
   compositeId String?    @map("composite")
   component   Inventory? @relation("BOM_component", fields: [componentId], references: [id])
-  componentId String?    @unique @map("component")
+  componentId String?    @map("component")
   users       User[]     @relation("BOM_users")
   quantity    Int        @default(1)
   unit        String     @default("pcs")
@@ -188,4 +188,5 @@ model BOM {
   createdAt   DateTime?  @default(now())
 
   @@index([compositeId])
+  @@index([componentId])
 }

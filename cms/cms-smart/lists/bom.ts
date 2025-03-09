@@ -29,7 +29,6 @@ export const BOM: any = list({
         labelField: 'name',
         searchFields: ['name'],
       },
-      many: false,
     }), // represents the finished product or assembly product (e.g. bike)
     component: relationship({
       ref: 'Inventory.bom',
