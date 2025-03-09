@@ -30,7 +30,7 @@ export const QUERY = `
       boms {
         id
       }
-      bomCount
+      bomsCount
       createdAt
       updatedAt
     }
