@@ -27,7 +27,7 @@ export const QUERY = `
         id
       }
       tagsCount
-      bom {
+      boms {
         id
       }
       bomCount

@@ -69,7 +69,7 @@ export type Product = {
   isHidden: boolean;
   users: User[];
   tags: Tag[];
-  bom: BOM[];
+  boms: BOM[];
   createdAt?: string;
   updatedAt?: string;
   from_List_products: List[];

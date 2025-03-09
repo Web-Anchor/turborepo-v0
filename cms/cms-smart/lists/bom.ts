@@ -22,13 +22,14 @@ export const BOM: any = list({
     name: text(),
     description: text({ ui: { displayMode: 'textarea' } }),
     composite: relationship({
-      ref: 'Product.bom',
+      ref: 'Product.boms',
       ui: {
         description: 'Composite product (e.g. bike)',
         displayMode: 'select',
         labelField: 'name',
         searchFields: ['name'],
       },
+      many: false,
     }), // represents the finished product or assembly product (e.g. bike)
     component: relationship({
       ref: 'Inventory.bom',

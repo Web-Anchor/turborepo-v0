@@ -11,6 +11,7 @@ import {
   checkbox,
 } from '@keystone-6/core/fields';
 import { inventoryItemStatusOptions } from '../config/options';
+import { safeSubtract, toSafeNumber } from '../config/utils';
 
 export const Product: any = list({
   access: allowAll,
@@ -24,28 +25,127 @@ export const Product: any = list({
   hooks: {
     afterOperation: {
       create: async ({ item, context }) => {
+        // Compute the change (delta) in composite product quantity.
+        const delta = item.quantity as number;
+        console.log('🪝 🚨 delta:', delta);
+        // Only update BOM-related inventory if the product is composite and quantity has changed.
+        if (item.isComposite && delta !== 0) {
+          console.log('��� updating records...');
+          // Fetch all BOM records for this composite product.
+          // Note: We query for the related component's id via the relationship.
+          const boms = await context.query.BOM.findMany({
+            where: { composite: { id: { equals: item.id } } },
+            query: 'id composite { id } component { id } quantity', // 'quantity' is the quantity required per composite unit.
+          });
+          console.log('🪝 fetched BOMs:', boms);
+          // Process each BOM record to adjust the inventory of its component.
+          for (const bom of boms) {
+            // Calculate the total change needed for this component.
+            // For example, if delta = +10 (i.e. composite increased by 10 units)
+            // and bom.quantity = 2 (2 units of the component are required per composite unit),
+            // then the component inventory should be reduced by 10 * 2 = 20.
+            const componentUsageChange = toSafeNumber(bom.quantity) * delta;
+            // Fetch the current inventory record for the component.
+            const inventoryRecord = await context.query.Inventory.findOne({
+              where: { id: bom.component.id },
+              query: 'id quantity',
+            });
+            if (!inventoryRecord) {
+              console.error(
+                `No inventory record found for component id: ${bom.component.id}`
+              );
+              continue;
+            }
+            const currentInventory = toSafeNumber(inventoryRecord.quantity);
+            // Adjust the inventory.
+            // If composite quantity increases (delta positive), subtract the usage from the inventory.
+            // If composite quantity decreases (delta negative), add back the released components.
+            const newInventory = currentInventory - componentUsageChange;
+            console.log(
+              `🪝 BOM ${bom.id}: current inventory = ${currentInventory}, ` +
+                `new inventory = ${newInventory}, component id: ${bom.component.id}`
+            );
+            // Update the Inventory record with the new quantity.
+            const updateResult = await context.query.Inventory.updateOne({
+              where: { id: bom.component.id },
+              data: { quantity: newInventory },
+            });
+            console.log('🪝 updated inventory for component:', updateResult);
+            // If the new inventory is less than 0, log a warning.
+            if (newInventory < 0) {
+              console.warn(
+                `��� Warning: Inventory for component id: ${bom.component.id} is below 0`
+              );
+            }
+          }
+        }
         /* ... */
-        // if (item.isComposite) {
-        //   console.log('🪝 creating new bom record...');
-        //   await context.query.BOM.createOne({
-        //     data: {
-        //       name: `BOM for ${item.name}`,
-        //       composite: { connect: { id: item.id } },
-        //     },
-        //   });
-        // }
       },
-      update: async (args) => {
-        /* ... */
+      update: async ({ item, originalItem, context }) => {
+        // Compute the change (delta) in composite product quantity.
+        const delta = safeSubtract(
+          item.quantity as number,
+          originalItem.quantity as number
+        );
+        console.log('🪝 🚨 delta:', delta);
+
+        // Only update BOM-related inventory if the product is composite and quantity has changed.
+        if (item.isComposite && delta !== 0) {
+          console.log('🪝 updating BOM records...');
+
+          // Fetch all BOM records for this composite product.
+          // Note: We query for the related component's id via the relationship.
+          const boms = await context.query.BOM.findMany({
+            where: { composite: { id: { equals: item.id } } },
+            query: 'id composite { id } component { id } quantity', // 'quantity' is the quantity required per composite unit.
+          });
+          console.log('🪝 fetched BOMs:', boms);
+
+          // Process each BOM record to adjust the inventory of its component.
+          for (const bom of boms) {
+            // Calculate the total change needed for this component.
+            // For example, if delta = +10 (i.e. composite increased by 10 units)
+            // and bom.quantity = 2 (2 units of the component are required per composite unit),
+            // then the component inventory should be reduced by 10 * 2 = 20.
+            const componentUsageChange = toSafeNumber(bom.quantity) * delta;
+
+            // Fetch the current inventory record for the component.
+            const inventoryRecord = await context.query.Inventory.findOne({
+              where: { id: bom.component.id },
+              query: 'id quantity',
+            });
+
+            if (!inventoryRecord) {
+              console.error(
+                `No inventory record found for component id: ${bom.component.id}`
+              );
+              continue;
+            }
+
+            const currentInventory = toSafeNumber(inventoryRecord.quantity);
+
+            // Adjust the inventory.
+            // If composite quantity increases (delta positive), subtract the usage from the inventory.
+            // If composite quantity decreases (delta negative), add back the released components.
+            const newInventory = currentInventory - componentUsageChange;
+            console.log(
+              `🪝 BOM ${bom.id}: current inventory = ${currentInventory}, ` +
+                `componentUsageChange = ${componentUsageChange}, new inventory = ${newInventory}`
+            );
+
+            // Update the Inventory record with the new quantity.
+            const updateResult = await context.query.Inventory.updateOne({
+              where: { id: bom.component.id },
+              data: { quantity: newInventory },
+            });
+            console.log('🪝 updated inventory for component:', updateResult);
+          }
+        }
+        /* ... further processing if needed ... */
       },
-      delete: async ({ originalItem, context }) => {
+      delete: async ({ originalItem }) => {
+        console.log('🪝 deleting product:', originalItem.id);
         /* ... */
-        // console.log('❌ deleting all bom records...');
-        // console.log('❌ originalItem', originalItem);
-        // Alternatively, you can try to delete them in one go:
-        // await context.query.BOM.deleteMany({
-        //   where: { composite: { id: originalItem.id } },
-        // });
       },
     },
   },
@@ -89,7 +189,7 @@ export const Product: any = list({
       },
     }),
     tags: relationship({ ref: 'Tag.products', many: true }),
-    bom: relationship({
+    boms: relationship({
       ref: 'BOM.composite',
       many: true,
       // ui: {

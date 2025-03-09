@@ -34,7 +34,10 @@ export const Inventory: any = list({
     sku: text({ isIndexed: 'unique', validation: { isRequired: false } }), // Optional SKU tracking at the inventory level
 
     // Stock Tracking
-    quantity: integer({ validation: { min: 0 }, defaultValue: 0 }),
+    quantity: integer({
+      defaultValue: 0,
+      // validation: { min: 0 } // Optional SKU tracking at the inventory level
+    }),
     unit: text({ defaultValue: 'pcs' }), // Measurement unit (e.g., kg, liters)
     location: text(), // Warehouse or store location
     expiryDate: timestamp(), // Expiry date for perishable goods

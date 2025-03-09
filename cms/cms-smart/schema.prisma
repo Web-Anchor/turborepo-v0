@@ -83,7 +83,7 @@ model Product {
   isHidden            Boolean   @default(false)
   users               User[]    @relation("Product_users")
   tags                Tag[]     @relation("Product_tags")
-  bom                 BOM[]     @relation("BOM_composite")
+  boms                BOM[]     @relation("BOM_composite")
   createdAt           DateTime? @default(now())
   updatedAt           DateTime? @updatedAt
   from_List_products  List[]    @relation("List_products")

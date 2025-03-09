@@ -430,8 +430,8 @@ type Product {
   usersCount(where: UserWhereInput! = {}): Int
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
-  bom(where: BOMWhereInput! = {}, orderBy: [BOMOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: BOMWhereUniqueInput): [BOM!]
-  bomCount(where: BOMWhereInput! = {}): Int
+  boms(where: BOMWhereInput! = {}, orderBy: [BOMOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: BOMWhereUniqueInput): [BOM!]
+  bomsCount(where: BOMWhereInput! = {}): Int
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -463,7 +463,7 @@ input ProductWhereInput {
   isHidden: BooleanFilter
   users: UserManyRelationFilter
   tags: TagManyRelationFilter
-  bom: BOMManyRelationFilter
+  boms: BOMManyRelationFilter
   createdAt: DateTimeNullableFilter
   updatedAt: DateTimeNullableFilter
 }
@@ -543,7 +543,7 @@ input ProductUpdateInput {
   isHidden: Boolean
   users: UserRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
-  bom: BOMRelateToManyForUpdateInput
+  boms: BOMRelateToManyForUpdateInput
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -580,7 +580,7 @@ input ProductCreateInput {
   isHidden: Boolean
   users: UserRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
-  bom: BOMRelateToManyForCreateInput
+  boms: BOMRelateToManyForCreateInput
   createdAt: DateTime
   updatedAt: DateTime
 }
