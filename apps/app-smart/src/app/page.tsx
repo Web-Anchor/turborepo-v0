@@ -14,6 +14,7 @@ import {
   UsersIcon,
 } from '@heroicons/react/24/outline';
 import Header from 'components/Header';
+import Link from 'components/Wrappers/Link';
 
 const primaryFeatures = [
   {
@@ -239,7 +240,7 @@ export default function Page() {
                 className="h-11 w-11"
               />
               <div className="mt-24 sm:mt-32 lg:mt-16">
-                <a href="#" className="inline-flex space-x-6">
+                <Link href="#" className="inline-flex space-x-6">
                   <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm/6 font-semibold text-indigo-400 ring-1 ring-indigo-500/20 ring-inset">
                     New
                   </span>
@@ -250,7 +251,7 @@ export default function Page() {
                       className="size-5 text-gray-500"
                     />
                   </span>
-                </a>
+                </Link>
               </div>
               <h1 className="mt-10 text-5xl font-semibold tracking-tight text-pretty text-white sm:text-7xl">
                 Deploy to the cloud with confidence
@@ -260,15 +261,15 @@ export default function Page() {
                 lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat.
               </p>
               <div className="mt-10 flex items-center gap-x-6">
-                <a
+                <Link
                   href="#"
                   className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
                 >
                   Get started
-                </a>
-                <a href="#" className="text-sm/6 font-semibold text-white">
+                </Link>
+                <Link href="#" className="text-sm/6 font-semibold text-white">
                   Learn more <span aria-hidden="true">→</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:mt-0 lg:mr-0 lg:ml-10 lg:max-w-none lg:flex-none xl:ml-32">
@@ -348,12 +349,12 @@ export default function Page() {
                   <dd className="mt-1 flex flex-auto flex-col text-base/7 text-gray-300">
                     <p className="flex-auto">{feature.description}</p>
                     <p className="mt-6">
-                      <a
+                      <Link
                         href={feature.href}
                         className="text-sm/6 font-semibold text-indigo-400"
                       >
                         Learn more <span aria-hidden="true">→</span>
-                      </a>
+                      </Link>
                     </p>
                   </dd>
                 </div>
@@ -491,15 +492,15 @@ export default function Page() {
               anim id veniam aliqua proident excepteur commodo do ea.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
+              <Link
                 href="#"
                 className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-xs hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 Get started
-              </a>
-              <a href="#" className="text-sm/6 font-semibold text-white">
+              </Link>
+              <Link href="#" className="text-sm/6 font-semibold text-white">
                 Learn more <span aria-hidden="true">→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -510,14 +511,14 @@ export default function Page() {
         <div className="border-t border-white/10 py-12 md:flex md:items-center md:justify-between">
           <div className="flex justify-center gap-x-6 md:order-2">
             {footerNavigation.social.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
                 className="text-gray-400 hover:text-gray-300"
               >
                 <span className="sr-only">{item.name}</span>
                 <item.icon aria-hidden="true" className="size-6" />
-              </a>
+              </Link>
             ))}
           </div>
           <p className="mt-8 text-center text-sm/6 text-gray-400 md:order-1 md:mt-0">
