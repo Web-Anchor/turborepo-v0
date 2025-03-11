@@ -3,9 +3,10 @@
 import { useGetInventories } from 'hooks/inventories';
 import { Button } from '@repo/ui/buttons';
 import { CollectionCard } from '@repo/ui/cards/CollectionCard';
+import { GenericTable } from '@repo/ui/tables/GenericTable';
 import Link from 'components/Wrappers/Link';
 import { Header } from '@repo/ui/headers';
-import { classNames } from '@repo/ui/utils.ts';
+import { classNames, dateToFormattedString } from '@repo/ui/utils.ts';
 import { CaretRight, CubeTransparent } from '@phosphor-icons/react';
 import { PageWrapper } from '@repo/ui/semantic';
 
@@ -16,12 +17,44 @@ export default function Page() {
   return (
     <PageWrapper>
       <Header
-        title="Inventories"
+        title="Inventory Management"
         description={[
           'Ad dolore ea cupidatat labore elit dolor aute.',
           'Proident anim irure pariatur enim excepteur ea. Ut culpa sit laboris culpa magna officia anim mollit cupidatat veniam. Ad ad non sint ullamco.',
         ]}
         type="page-header"
+      />
+      <GenericTable
+        headers={[
+          { name: 'Name' },
+          { name: 'SKU' },
+          { name: 'Category' },
+          { name: 'Quantity' },
+          { name: 'Cost' },
+          { name: 'Price' },
+          { name: 'Status' },
+          { name: 'Updated At' },
+          { name: '', className: classNames('flex items-center justify-end') },
+        ]}
+        data={data?.map((item) => ({
+          name: item.name,
+          sku: item.sku,
+          category: item.category,
+          quantity: item.quantity,
+          cost: item.cost,
+          price: item.price,
+          status: item.status,
+          updatedAt: dateToFormattedString(item.updatedAt),
+          actions: (
+            <Button
+              variant="link"
+              LinkComponent={Link}
+              href={`/dashboard/inventory/${item.id}`}
+            >
+              View
+            </Button>
+          ),
+        }))}
       />
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

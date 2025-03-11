@@ -88,8 +88,10 @@ export type Inventory = {
   expiryDate?: string;
   receivedDate?: string;
   purchasePrice?: number;
+  category?: string;
   salePrice?: number;
   price?: number;
+  cost?: number;
   status?: string;
   supplier: string;
   attributes?: string;
