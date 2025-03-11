@@ -6,10 +6,10 @@ type Defaults = {
 };
 
 type ComponentTypes = {
-  gridSize?: '6x2' | '4x4' | '3x3' | '2x6' | '6x6' | '8x8' | '6x1';
+  gridSize?: '6x2' | '4x4' | '3x3' | '2x6' | '6x6' | '8x8' | '6x1' | '8x1';
 } & Defaults;
 
-export function BentoGrid({ gridSize = '6x1', ...props }: ComponentTypes) {
+export function BentoGrid({ gridSize = '8x1', ...props }: ComponentTypes) {
   // --------------------------------------------------------------------------------
   // 📌  Children to have class of col-span-X columns
   // example: <div className="flex lg:col-span-2">...</div>
@@ -42,7 +42,7 @@ export function GridCard({ ...props }: GridCardTypes) {
   return (
     <section
       className={classNames(
-        'flex flex-wrap gap-4 p-2 bg-white rounded-xl ring-1 ring-white/15 lg:col-span-6',
+        'flex flex-wrap gap-4 p-2 bg-white rounded-xl ring-1 ring-white/15 lg:col-span-full overflow-hidden',
         props.className
       )}
     >
@@ -53,6 +53,8 @@ export function GridCard({ ...props }: GridCardTypes) {
 
 function gridToClassName(grid?: string): string {
   switch (grid) {
+    case '8x1':
+      return 'lg:grid-cols-8 lg:grid-rows-1';
     case '6x2':
       return 'lg:grid-cols-6 lg:grid-rows-2';
     case '4x4':

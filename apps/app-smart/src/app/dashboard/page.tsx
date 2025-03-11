@@ -6,6 +6,7 @@ import { getGreeting } from 'lib/utils';
 import { Header } from '@repo/ui/headers';
 import { useStatistics } from 'hooks/statistics';
 import { StatisticCard } from '@repo/ui/cards/StatisticCard';
+import { PageWrapper } from '@repo/ui/semantic';
 import { ActivityCard } from '@repo/ui/cards/ActivityCard';
 import { Link } from 'components/Wrappers/Link';
 
@@ -15,7 +16,7 @@ export default function Page() {
   console.log('📊 Statistics:', statistics);
 
   return (
-    <div className="max-w-2xl px-6 lg:max-w-7xl lg:px-8">
+    <PageWrapper>
       <Header
         title="Dashboard"
         subtitle={`${getGreeting()} ${user?.firstName || user?.lastName}`}
@@ -27,7 +28,7 @@ export default function Page() {
         type="page-header"
       />
       <BentoGrid>
-        <GridCard>
+        <GridCard className="lg:col-span-3">
           <StatisticCard
             name="Total Products"
             description="Total products available on the platform"
@@ -37,6 +38,8 @@ export default function Page() {
             type="Products"
             status="Active"
           />
+        </GridCard>
+        <GridCard className="lg:col-span-3">
           <StatisticCard
             name="Total Orders"
             description="Total orders placed on the platform"
@@ -46,7 +49,17 @@ export default function Page() {
             type="Orders"
           />
         </GridCard>
-        <GridCard>
+        <GridCard className="lg:col-span-2">
+          <div className="flex flex-1 justify-center items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
+            Sale Overview Graph
+          </div>
+        </GridCard>
+        <GridCard className="lg:col-span-2">
+          <div className="flex flex-1 justify-center items-center min-h-56 overflow-hidden rounded-lg bg-indigo-300 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
+            Sale Overview Graph
+          </div>
+        </GridCard>
+        <GridCard className="lg:col-span-6">
           <ActivityCard
             activities={[
               {
@@ -75,16 +88,16 @@ export default function Page() {
           />
         </GridCard>
 
-        <GridCard>
-          <div className="flex flex-1 justify-center col-span-6 items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
-            Sale Overview Graph
+        <GridCard className="lg:col-span-8">
+          <div className="flex flex-1 justify-center items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
+            Sales Overview
           </div>
         </GridCard>
-        <GridCard>
+        <GridCard className="lg:col-span-8">
           <div className="flex flex-1 justify-center items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
             Sale Trends graph
           </div>
-          <div className="flex flex-1 justify-center items-center min-h-56 overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
+          <div className="flex flex-1 justify-center items-center min-h-56 overflow-hidden rounded-lg bg-indigo-300 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
             Order Trends graph
           </div>
         </GridCard>
@@ -96,6 +109,6 @@ export default function Page() {
         ]}
         type="page-header"
       />
-    </div>
+    </PageWrapper>
   );
 }

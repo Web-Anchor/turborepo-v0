@@ -63,7 +63,7 @@ export function StatisticCard({
   return (
     <div
       className={classNames(
-        'flex flex-1 flex-col overflow-hidden rounded-xl bg-gray-800 ring-1 ring-white/15 lg:min-w-[320px] min-w-[220px]',
+        'flex flex-1 flex-col overflow-hidden min-w-fit rounded-xl bg-gray-800 ring-1 ring-white/15',
         rest.className
       )}
     >

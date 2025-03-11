@@ -16,7 +16,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import {
-  SelectionBackground,
+  HouseSimple,
   Cube,
   RowsPlusBottom,
   CalendarDots,
@@ -369,7 +369,7 @@ function primaryMenu(): NavigationItem[] {
     {
       name: 'Dashboard',
       href: '/dashboard',
-      icon: SelectionBackground,
+      icon: HouseSimple,
     },
     {
       name: 'Orders',
