@@ -372,11 +372,6 @@ function primaryMenu(): NavigationItem[] {
       icon: HouseSimple,
     },
     {
-      name: 'Orders',
-      href: '/dashboard/orders',
-      icon: ShoppingCart,
-    },
-    {
       name: 'Inventory',
       href: '/dashboard/inventory',
       icon: Cube,
@@ -388,6 +383,11 @@ function primaryMenu(): NavigationItem[] {
           theme: 'bg-indigo text-green-600',
         },
       ],
+    },
+    {
+      name: 'Orders',
+      href: '/dashboard/orders',
+      icon: ShoppingCart,
     },
     {
       name: 'Products',

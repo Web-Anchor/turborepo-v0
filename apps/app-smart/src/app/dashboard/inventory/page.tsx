@@ -7,13 +7,14 @@ import Link from 'components/Wrappers/Link';
 import { Header } from '@repo/ui/headers';
 import { classNames } from '@repo/ui/utils.ts';
 import { CaretRight, CubeTransparent } from '@phosphor-icons/react';
+import { PageWrapper } from '@repo/ui/semantic';
 
 export default function Page() {
   const { data, isLoading } = useGetInventories({ userId: 1 });
   console.log('DATA', data);
 
   return (
-    <div className="flex flex-col gap-4">
+    <PageWrapper>
       <Header
         title="Inventories"
         description={[
@@ -94,6 +95,6 @@ export default function Page() {
           </div>
         </div>
       )}
-    </div>
+    </PageWrapper>
   );
 }

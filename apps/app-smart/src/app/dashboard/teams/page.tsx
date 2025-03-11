@@ -1,4 +1,4 @@
-import { UserTable } from '@repo/ui/tables';
+import { UserTable } from '@repo/ui/tables/UserTable';
 import { Filler } from '@repo/ui/fillers';
 import { PageTitle, Paragraph } from '@repo/ui/documents';
 import { BentoGrid } from '@repo/ui/grids';

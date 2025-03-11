@@ -11,7 +11,7 @@ import {
   TextAreaInput,
   TextInput,
 } from '@repo/ui/forms';
-import { filterFormObject, objKeysToNumber } from 'lib/utils';
+import { objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
 import { Header } from '@repo/ui/headers';
 import { createDebounce } from 'lib/debounce';

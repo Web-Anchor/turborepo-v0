@@ -4,7 +4,7 @@ import { useGetProducts } from 'hooks/products';
 import { PageTitle, Paragraph } from '@repo/ui/documents';
 import { Button } from '@repo/ui/buttons';
 import Link from 'components/Wrappers/Link';
-import ItemTable from '@repo/ui/tables';
+import { ProductTable } from '@repo/ui/tables/ProductTable';
 import { useRef } from 'react';
 import { toast } from 'sonner';
 import axios from 'lib/axios';
@@ -149,7 +149,7 @@ export default function Page() {
         LinkComponent={Link}
       />
 
-      <ItemTable
+      <ProductTable
         headers={headers()}
         items={data?.map((item) => ({
           name: item.name,
