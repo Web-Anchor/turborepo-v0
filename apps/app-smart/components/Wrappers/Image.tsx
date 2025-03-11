@@ -28,12 +28,11 @@ const imageSize = {
 };
 
 export function Image({
-  src,
   alt = 'EUH Portal',
-  className,
   fallback = 'profile-icon',
   imageFit = 'object-contain',
   size = 'medium',
+  ...rest
 }: ImageProps) {
   const [hasError, setHasError] = useState(false);
 
@@ -45,25 +44,25 @@ export function Image({
   }, [hasError]);
 
   // If there's no source or an error occurred, render a fallback icon.
-  if (hasError || !src) {
+  if (hasError || !rest.src) {
     return (
       <section
         className={classNames(
           'flex items-center bg-gray-100',
           imageSize[size],
-          className
+          rest.className
         )}
       >
         {fallback === 'profile-icon' && (
           <User
             weight="duotone"
-            className={classNames(imageSize[size], className)}
+            className={classNames(imageSize[size], rest.className)}
           />
         )}
         {fallback === 'error' && (
           <ImageBroken
             weight="duotone"
-            className={classNames(imageSize[size], className)}
+            className={classNames(imageSize[size], rest.className)}
           />
         )}
       </section>
@@ -75,11 +74,11 @@ export function Image({
       className={classNames(
         'relative overflow-hidden',
         imageSize[size],
-        className
+        rest.className
       )}
     >
       <NextImage
-        src={src}
+        src={rest.src}
         alt={alt}
         fill
         sizes="(max-width: 768px) 100vw, 33vw"
