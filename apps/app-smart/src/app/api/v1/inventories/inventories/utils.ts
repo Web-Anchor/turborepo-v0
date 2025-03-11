@@ -12,8 +12,11 @@ export const QUERY = `
       expiryDate
       receivedDate
       purchasePrice
+      category
       salePrice
       status
+      cost
+      price
       supplier
       isReserved
       isDamaged
