@@ -1,4 +1,4 @@
-import { classNames, mergeIf } from '../dist/utils';
+import { classNames, mergeIf } from '../../dist/utils';
 
 type ThemeOptions = 'light' | 'dark' | 'primary' | 'secondary';
 

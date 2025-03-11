@@ -14,7 +14,7 @@ import {
 import { filterFormObject, objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
 import { colorsOptions, inventoryStatusOptions } from 'lib/list-options';
-import { Header } from '@repo/ui/headers';
+import { Header } from '@repo/ui/headings/header';
 
 export default function Page() {
   const router = useRouter();

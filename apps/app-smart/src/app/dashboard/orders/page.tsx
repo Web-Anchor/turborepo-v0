@@ -5,7 +5,7 @@ import { ActivityCard } from '@repo/ui/cards/ActivityCard';
 import { ListPlus } from '@phosphor-icons/react';
 import { dateToFormattedString } from '@repo/ui/utils.ts';
 import { Link } from 'components/Wrappers/Link';
-import { Header } from '@repo/ui/headers';
+import { Header } from '@repo/ui/headings/header';
 
 export default function Page() {
   // const { data } = useGetOrders({});

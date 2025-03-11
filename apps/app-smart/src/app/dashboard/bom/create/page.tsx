@@ -13,7 +13,7 @@ import {
 } from '@repo/ui/forms';
 import { objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
-import { Header } from '@repo/ui/headers';
+import { Header } from '@repo/ui/headings/header';
 import { createDebounce } from 'lib/debounce';
 import { useState } from 'react';
 import { Inventory, Product } from 'types/data-types';

@@ -5,7 +5,7 @@ import { Button } from '@repo/ui/buttons';
 import { CollectionCard } from '@repo/ui/cards/CollectionCard';
 import { GenericTable } from '@repo/ui/tables/GenericTable';
 import Link from 'components/Wrappers/Link';
-import { Header } from '@repo/ui/headers';
+import { Header } from '@repo/ui/headings/header';
 import { classNames, dateToFormattedString } from '@repo/ui/utils.ts';
 import { CaretRight, CubeTransparent } from '@phosphor-icons/react';
 import { PageWrapper } from '@repo/ui/semantic';

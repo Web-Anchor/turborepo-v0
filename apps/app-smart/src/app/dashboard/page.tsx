@@ -3,7 +3,7 @@
 import { BentoGrid, GridCard } from '@repo/ui/grids';
 import { useWhoIAm } from 'hooks/users';
 import { getGreeting } from 'lib/utils';
-import { Header } from '@repo/ui/headers';
+import { Header } from '@repo/ui/headings/header';
 import { useStatistics } from 'hooks/statistics';
 import { StatisticCard } from '@repo/ui/cards/StatisticCard';
 import { PageWrapper } from '@repo/ui/semantic';

@@ -385,11 +385,6 @@ function primaryMenu(): NavigationItem[] {
       ],
     },
     {
-      name: 'Orders',
-      href: '/dashboard/orders',
-      icon: ShoppingCart,
-    },
-    {
       name: 'Products',
       href: '/dashboard/products',
       icon: Tag,
@@ -400,6 +395,11 @@ function primaryMenu(): NavigationItem[] {
           initial: <p>P</p>,
         },
       ],
+    },
+    {
+      name: 'Orders',
+      href: '/dashboard/orders',
+      icon: ShoppingCart,
     },
     {
       name: 'BOM',
