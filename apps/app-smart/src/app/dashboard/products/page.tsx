@@ -1,20 +1,30 @@
 'use client';
 
 import { useGetProducts } from 'hooks/products';
-import { PageTitle, Paragraph } from '@repo/ui/documents';
+import { Paragraph } from '@repo/ui/documents';
 import { Button } from '@repo/ui/buttons';
 import Link from 'components/Wrappers/Link';
-import { ProductTable } from '@repo/ui/tables/ProductTable';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import axios from 'lib/axios';
 import { downloadCSV } from 'lib/utils';
 import { Product } from 'types/data-types';
 import { ActivityCard } from '@repo/ui/cards/ActivityCard';
 import { Warning } from '@phosphor-icons/react';
-import { dateToFormattedString } from '@repo/ui/utils.ts';
+import { classNames, dateToFormattedString } from '@repo/ui/utils.ts';
+import { PageWrapper } from '@repo/ui/semantic';
+import { HeaderTabs } from '@repo/ui/headings/headings';
+import { usePathname } from 'next/navigation';
+import { Drawer } from '@repo/ui/drawers/drawer';
+import { GenericTable } from '@repo/ui/tables/GenericTable';
+
+type ComponentState = {
+  drawer?: boolean;
+};
 
 export default function Page() {
+  const path = usePathname();
+  const [state, setState] = useState<ComponentState>({});
   const { data, mutate } = useGetProducts({});
   const csvRef = useRef<HTMLInputElement>(null);
 
@@ -110,22 +120,53 @@ export default function Page() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <section className="flex items-center justify-between gap-4">
-        <PageTitle text="Inventory Lists" />
-        <section className="flex gap-4">
-          <Button variant="primary" onClick={sample}>
-            CSV Sample
-          </Button>
-          <Button variant="primary" onClick={() => csvRef.current?.click()}>
-            CSV Uploads
-          </Button>
-          <Button variant="primary" onClick={downloadAsCsv}>
-            Download as CSV
-          </Button>
-        </section>
-      </section>
-      <Paragraph text="Id ex dolor nostrud amet qui officia reprehenderit nulla sint nulla incididunt labore." />
+    <PageWrapper>
+      <Drawer
+        open={state.drawer}
+        onClose={() => setState((s) => ({ ...s, drawer: false }))}
+      />
+      <HeaderTabs
+        LinkComponent={Link}
+        title="Product Lists"
+        description={[
+          'Ad dolore ea cupidatat labore elit dolor aute.',
+          'Proident anim irure pariatur enim excepteur ea. Ut culpa sit laboris culpa magna officia anim mollit cupidatat veniam. Ad ad non sint ullamco.',
+        ]}
+        headings={[
+          {
+            name: 'All',
+            active: path === '/dashboard/products',
+            href: '/dashboard/products',
+          },
+          {
+            action: (
+              <Button
+                variant="link"
+                onClick={() => setState((s) => ({ ...s, drawer: true }))}
+                className={classNames(
+                  'border-transparent text-gray-200 hover:text-indigo-300'
+                )}
+              >
+                Create
+              </Button>
+            ),
+          },
+        ]}
+        actions={
+          <div className="flex gap-4">
+            <Button variant="primary" onClick={sample}>
+              CSV Sample
+            </Button>
+            <Button variant="primary" onClick={() => csvRef.current?.click()}>
+              CSV Uploads
+            </Button>
+            <Button variant="primary" onClick={downloadAsCsv}>
+              Download as CSV
+            </Button>
+          </div>
+        }
+      />
+
       {/* hidden input for csv from uploads */}
       <input type="file" className="hidden" ref={csvRef} onChange={csvUpload} />
 
@@ -149,24 +190,50 @@ export default function Page() {
         LinkComponent={Link}
       />
 
-      <ProductTable
-        headers={headers()}
-        items={data?.map((item) => ({
+      <GenericTable
+        headers={[
+          { name: 'Name' },
+          { name: 'SKU' },
+          { name: 'Category' },
+          { name: 'Quantity' },
+          { name: 'Cost' },
+          { name: 'Price' },
+          { name: 'Status' },
+          { name: 'Updated At' },
+          { name: '', className: classNames('flex items-center justify-end') },
+        ]}
+        data={data?.map((item) => ({
           name: item.name,
-          description: item.description,
+          sku: item.sku,
           category: item.category,
           quantity: item.quantity,
+          cost: item.cost,
           price: item.price,
-          status: item.status,
-          reorderLevel: item.reorderLevel,
-          updatedAt: item.updatedAt,
-          action: (
-            <Button
-              LinkComponent={Link}
-              href={`/dashboard/products/${item.id}`}
-              variant="link"
+          // status: item.status,
+          status: (
+            <span
+              className={classNames(
+                'inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20',
+                themeStatus(
+                  isLowOnStock(item.quantity, item.reorderLevel)
+                    ? 'INACTIVE'
+                    : 'ACTIVE'
+                )
+              )}
             >
-              Edit
+              {isLowOnStock(item.quantity, item.reorderLevel)
+                ? 'Low Stock'
+                : 'Good Levels'}
+            </span>
+          ),
+          updatedAt: dateToFormattedString(item.updatedAt),
+          actions: (
+            <Button
+              variant="link"
+              LinkComponent={Link}
+              href={`/dashboard/inventory/${item.id}`}
+            >
+              View
             </Button>
           ),
         }))}
@@ -184,7 +251,7 @@ export default function Page() {
         aliqua nulla in dolore officia ut laboris eiusmod in. Exercitation
         voluptate sit non ullamco excepteur ex.
       </Paragraph>
-    </div>
+    </PageWrapper>
   );
 }
 
@@ -227,5 +294,22 @@ function isLowOnStock(quantity: number = 0, reorderLevel?: number) {
     return reorderLevel && quantity <= reorderLevel;
   } catch {
     return false;
+  }
+}
+
+function themeStatus(status?: string): string {
+  switch (status) {
+    case 'ACTIVE':
+      return 'bg-green-100 text-green-800';
+    case 'INACTIVE':
+      return 'bg-red-100 text-red-800';
+    case 'DAMAGED':
+      return 'bg-yellow-100 text-yellow-800';
+    case 'UNDER_MAINTENANCE':
+      return 'bg-blue-100 text-blue-800';
+    case 'DISCONTINUED':
+      return 'bg-gray-100 text-gray-800';
+    default:
+      return 'bg-gray-100 text-gray-800';
   }
 }

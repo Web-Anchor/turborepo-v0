@@ -2,10 +2,11 @@ import { classNames } from '../../dist/utils';
 import { ChevronDownIcon } from '@heroicons/react/16/solid';
 
 export interface Heading {
-  name: string;
+  name?: string;
   active?: boolean;
   className?: string;
   href?: string;
+  action?: React.ReactNode;
 }
 
 interface HeaderTabsProps {
@@ -70,22 +71,41 @@ export function HeaderTabs({
         {/* Desktop: tabs */}
         <div className="hidden sm:block">
           <nav className="-mb-px flex space-x-4">
-            {headings.map((heading) => (
-              <LinkComponent
-                key={heading.name}
-                href={heading.href || '#'}
-                aria-current={heading.active ? 'page' : undefined}
-                className={classNames(
-                  heading.active
-                    ? 'border-indigo-400 text-indigo-400'
-                    : 'border-transparent text-gray-200 hover:border-indigo-300 hover:text-indigo-300',
-                  'border-b-2 px-1 pb-4 text-sm font-medium whitespace-nowrap',
-                  heading.className
-                )}
-              >
-                {heading.name}
-              </LinkComponent>
-            ))}
+            {headings.map((heading) => {
+              if (heading.action) {
+                return (
+                  <div
+                    key={heading.name}
+                    className={classNames(
+                      heading.active
+                        ? 'border-indigo-400 text-indigo-400'
+                        : 'border-transparent text-gray-200 hover:border-indigo-300 hover:text-indigo-300',
+                      'border-b-2 px-1 pb-4 text-sm font-medium whitespace-nowrap cursor-pointer',
+                      heading.className
+                    )}
+                  >
+                    {heading.action}
+                  </div>
+                );
+              }
+
+              return (
+                <LinkComponent
+                  key={heading.name}
+                  href={heading.href || '#'}
+                  aria-current={heading.active ? 'page' : undefined}
+                  className={classNames(
+                    heading.active
+                      ? 'border-indigo-400 text-indigo-400'
+                      : 'border-transparent text-gray-200 hover:border-indigo-300 hover:text-indigo-300',
+                    'border-b-2 px-1 pb-4 text-sm font-medium whitespace-nowrap',
+                    heading.className
+                  )}
+                >
+                  {heading.name}
+                </LinkComponent>
+              );
+            })}
           </nav>
         </div>
       </div>
