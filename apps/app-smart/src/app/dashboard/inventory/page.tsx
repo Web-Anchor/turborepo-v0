@@ -1,24 +1,32 @@
 'use client';
 
+import { useState } from 'react';
 import { useGetInventories } from 'hooks/inventories';
 import { Button } from '@repo/ui/buttons';
-import { CollectionCard } from '@repo/ui/cards/CollectionCard';
+import { Drawer } from '@repo/ui/drawers/drawer';
 import { GenericTable } from '@repo/ui/tables/GenericTable';
 import Link from 'components/Wrappers/Link';
-import { Header } from '@repo/ui/headings/header';
 import { classNames, dateToFormattedString } from '@repo/ui/utils.ts';
 import { CaretRight, CubeTransparent } from '@phosphor-icons/react';
 import { PageWrapper } from '@repo/ui/semantic';
 import { HeaderTabs } from '@repo/ui/headings/headings';
 import { usePathname } from 'next/navigation';
 
+type ComponentState = {
+  drawer?: boolean;
+};
 export default function Page() {
   const path = usePathname();
+  const [state, setState] = useState<ComponentState>({});
   const { data, isLoading } = useGetInventories({ userId: 1 });
   console.log('DATA', data);
 
   return (
     <PageWrapper>
+      <Drawer
+        open={state.drawer}
+        onClose={() => setState((s) => ({ ...s, drawer: false }))}
+      />
       <HeaderTabs
         LinkComponent={Link}
         title="Inventory Management"
@@ -38,16 +46,14 @@ export default function Page() {
             href: '/dashboard/inventory/create',
           },
         ]}
-        actions={[
+        actions={
           <Button
             variant="link"
-            LinkComponent={Link}
-            href="/dashboard/inventory/create"
-            key="/dashboard/inventory/create"
+            onClick={() => setState((s) => ({ ...s, drawer: true }))}
           >
-            Action
-          </Button>,
-        ]}
+            Add
+          </Button>
+        }
       />
 
       <GenericTable
@@ -82,22 +88,6 @@ export default function Page() {
           ),
         }))}
       />
-
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {data?.map((item, index) => (
-          <CollectionCard
-            key={index}
-            description={item.description}
-            name={item.name}
-            itemCount={`${item.quantity} ${item.unit}`}
-            LinkComponent={Link}
-            tags={item.tags.map((tag) => tag.name)}
-            updatedAt={item.updatedAt}
-            href={`/dashboard/inventory/${item.id}`}
-            type={'secondary'}
-          />
-        ))}
-      </section>
 
       {!isLoading && !data?.length && (
         <div className="max-w-lg">

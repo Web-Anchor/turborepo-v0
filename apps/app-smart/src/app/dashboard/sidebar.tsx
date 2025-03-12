@@ -139,7 +139,7 @@ export default function RootLayout({ children }: SidebarTypes) {
       {/* ✅ Static sidebar for desktop */}
       <div
         className={classNames(
-          'hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col border-r border-tertiary',
+          'hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col border-r border-gray-200',
           state?.sidebarWidth
         )}
       >
@@ -375,14 +375,6 @@ function primaryMenu(): NavigationItem[] {
       name: 'Inventory',
       href: '/dashboard/inventory',
       icon: Cube,
-      navigation: [
-        {
-          name: 'Add Inventory Item',
-          href: '/dashboard/inventory/create',
-          initial: <p>I</p>,
-          theme: 'bg-indigo text-green-600',
-        },
-      ],
     },
     {
       name: 'Products',

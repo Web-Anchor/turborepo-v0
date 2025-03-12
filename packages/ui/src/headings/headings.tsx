@@ -12,7 +12,7 @@ interface HeaderTabsProps {
   title?: string;
   description?: string[];
   headings: Heading[];
-  actions?: React.ReactNode[];
+  actions?: React.ReactNode;
   LinkComponent?: React.ElementType;
 }
 
@@ -42,13 +42,9 @@ export function HeaderTabs({
             </p>
           ))}
         </div>
-        {!!actions?.length && (
+        {actions && (
           <div className="mt-3 flex md:absolute md:top-3 md:right-0 md:mt-0">
-            {actions.map((action, index) => (
-              <span key={index} className="inline-flex items-center gap-2">
-                {action}
-              </span>
-            ))}
+            {actions}
           </div>
         )}
       </div>
