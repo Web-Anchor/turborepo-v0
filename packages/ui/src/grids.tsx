@@ -18,7 +18,7 @@ export function BentoGrid({ gridSize = '8x1', ...props }: ComponentTypes) {
   return (
     <section
       className={classNames(
-        'grid grid-cols-1 gap-4 max-w-4xl my-8 lg:my-16',
+        'grid grid-cols-1 gap-4 max-w-4xl',
         gridToClassName(gridSize),
         props.className
       )}

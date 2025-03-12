@@ -9,21 +9,47 @@ import { Header } from '@repo/ui/headings/header';
 import { classNames, dateToFormattedString } from '@repo/ui/utils.ts';
 import { CaretRight, CubeTransparent } from '@phosphor-icons/react';
 import { PageWrapper } from '@repo/ui/semantic';
+import { HeaderTabs } from '@repo/ui/headings/headings';
+import { usePathname } from 'next/navigation';
 
 export default function Page() {
+  const path = usePathname();
   const { data, isLoading } = useGetInventories({ userId: 1 });
   console.log('DATA', data);
 
   return (
     <PageWrapper>
-      <Header
+      <HeaderTabs
+        LinkComponent={Link}
         title="Inventory Management"
         description={[
           'Ad dolore ea cupidatat labore elit dolor aute.',
           'Proident anim irure pariatur enim excepteur ea. Ut culpa sit laboris culpa magna officia anim mollit cupidatat veniam. Ad ad non sint ullamco.',
         ]}
-        type="page-header"
+        headings={[
+          {
+            name: 'All',
+            active: path === '/dashboard/inventory',
+            href: '/dashboard/inventory',
+          },
+          {
+            name: 'Create',
+            active: path === '/dashboard/inventory/create',
+            href: '/dashboard/inventory/create',
+          },
+        ]}
+        actions={[
+          <Button
+            variant="link"
+            LinkComponent={Link}
+            href="/dashboard/inventory/create"
+            key="/dashboard/inventory/create"
+          >
+            Action
+          </Button>,
+        ]}
       />
+
       <GenericTable
         headers={[
           { name: 'Name' },

@@ -11,13 +11,13 @@ export function PageWrapper({ ...props }: ComponentTypes) {
   // --------------------------------------------------------------------------------
 
   return (
-    <main
+    <div
       className={classNames(
         'flex flex-col gap-8 flex-1 min-w-0 min-h-0 overflow-auto max-w-screen-2xl px-6 py-8',
         props.className
       )}
     >
       {props.children}
-    </main>
+    </div>
   );
 }
