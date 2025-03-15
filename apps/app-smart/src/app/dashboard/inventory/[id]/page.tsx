@@ -12,6 +12,7 @@ import { PageWrapper } from '@repo/ui/semantic';
 import { DetailCard } from '@repo/ui/cards/DetailCard';
 import { Header } from '@repo/ui/headings/header';
 import { useState } from 'react';
+import { HeaderTabs } from '@repo/ui/headings/headings';
 
 type ComponentState = {
   fetching?: boolean;
@@ -47,7 +48,25 @@ export default function Page() {
 
   return (
     <PageWrapper>
-      <Header title={data?.name || 'Inventory Item'} type="page-header" />
+      <HeaderTabs
+        LinkComponent={Link}
+        title={data?.name || 'Inventory Item'}
+        description={[
+          'Ad dolore ea cupidatat labore elit dolor aute.',
+          'Proident anim irure pariatur enim excepteur ea. Ut culpa sit laboris culpa magna officia anim mollit cupidatat veniam. Ad ad non sint ullamco.',
+        ]}
+        headings={[
+          {
+            name: 'All',
+            href: '/dashboard/inventory',
+          },
+          {
+            name: data.name || 'Inventory Item',
+            active: true,
+            href: `/dashboard/inventory/${params?.id}`,
+          },
+        ]}
+      />
       <FormWrapper onSubmit={submit}>
         <DetailCard
           title={data?.name || 'Inventory Item'}
