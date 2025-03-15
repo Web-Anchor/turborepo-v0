@@ -255,22 +255,6 @@ export default function Page() {
   );
 }
 
-function headers() {
-  const defaultHeaders = [
-    { name: 'Name', className: '' },
-    { name: 'Category', className: 'hidden sm:table-cell' },
-    { name: 'Quantity', className: '' },
-    { name: 'Price', className: '' },
-    { name: 'Status', className: 'hidden sm:table-cell' },
-    { name: 'Reorder level', className: 'hidden sm:table-cell' },
-    { name: 'Stock Levels', className: 'hidden sm:table-cell' },
-    { name: 'Last Updated', className: 'hidden lg:table-cell' },
-    { name: 'Actions', className: '' },
-  ];
-
-  return defaultHeaders;
-}
-
 function csvHeaders() {
   const defaults = [
     'Name',

@@ -18,6 +18,7 @@ type ImageProps = {
   fallback?: 'profile-icon' | 'error';
   imageFit?: 'object-contain' | 'cover';
   size?: 'small' | 'medium' | 'large' | 'xSmall';
+  errorToast?: boolean;
 };
 
 const imageSize = {
@@ -37,11 +38,11 @@ export function Image({
   const [hasError, setHasError] = useState(false);
 
   const handleError = useCallback(() => {
-    if (!hasError) {
+    if (!hasError && rest.errorToast) {
       setHasError(true);
       toast.error('Image not found or format not supported!');
     }
-  }, [hasError]);
+  }, [hasError, rest.errorToast]);
 
   // If there's no source or an error occurred, render a fallback icon.
   if (hasError || !rest.src) {
