@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useGetInventories } from 'hooks/inventories';
 import { Button } from '@repo/ui/buttons';
 import { Drawer } from '@repo/ui/drawers/drawer';
@@ -12,7 +12,10 @@ import { PageWrapper } from '@repo/ui/semantic';
 import { HeaderTabs } from '@repo/ui/headings/headings';
 import { usePathname } from 'next/navigation';
 import { CreateForm } from './CreateForm';
-import { stringCleaner } from 'lib/utils';
+import { downloadCSV, stringCleaner } from 'lib/utils';
+import axios from 'axios';
+import { toast } from 'sonner';
+import { Inventory } from 'types/data-types';
 
 type ComponentState = {
   drawer?: boolean;
@@ -20,8 +23,98 @@ type ComponentState = {
 export default function Page() {
   const path = usePathname();
   const [state, setState] = useState<ComponentState>({});
-  const { data, isLoading } = useGetInventories({ userId: 1 });
+  const { data, isLoading, mutate } = useGetInventories({ userId: 1 });
+  const csvRef = useRef<HTMLInputElement>(null);
   console.log('DATA', data);
+
+  async function csvUpload() {
+    try {
+      if (!csvRef?.current?.files) {
+        throw new Error('No file selected');
+      }
+      const file = csvRef.current.files[0];
+      const form = new FormData();
+      form.append('file', file);
+
+      const { data } = await axios.post('/api/v1/files/csv-upload', form);
+      console.log('res data', data);
+
+      mutate();
+      toast.success(data?.message || 'CSV uploaded successfully');
+      if (data?.errors) {
+        toast.error(data?.errors);
+      }
+    } catch (error) {
+      toast.error((error as Error).message || 'Error uploading CSV');
+    } finally {
+      if (csvRef.current) {
+        csvRef.current.value = '';
+      }
+    }
+  }
+
+  async function downloadAsCsv() {
+    try {
+      const { data } = await axios.post('/api/v1/inventory/all-inventory', {});
+      const items: Inventory[] = data?.data;
+      const csvData = items.map((item) => ({
+        name: item.name,
+        description: item.description,
+        category: item.category,
+        quantity: item.quantity,
+        price: item.price,
+        status: item.status,
+        unit: item.unit,
+        sku: item.sku,
+        location: item.location,
+        supplier: item.supplier,
+      }));
+      downloadCSV({
+        headers: csvHeaders(),
+        data: csvData,
+        filename: `items-${new Date().toISOString()}.csv`,
+      });
+      toast.success(`Downloaded ${data.total} items as CSV`);
+    } catch (error) {
+      toast.error((error as Error).message || 'Error downloading CSV');
+    }
+  }
+
+  function sample() {
+    /**
+     * @description Sample CSV data for products
+     * @date 2025-03-01
+     * @author Ed Ancerys
+     */
+
+    // sample data
+    const data = [
+      {
+        name: 'Sample Product 1 (Required)',
+        description: 'Sample Product 1 Description (Optional)',
+        category: 'Sample Product 1 Category (Optional)',
+        quantity:
+          'Sample Product 1 Quantity (Required) - Enter a numeric value representing the stock quantity.',
+        price:
+          'Sample Product 1 Price (Required) - Enter the price in USD, e.g., 19.99.',
+        status:
+          'Sample Product 1 Status (Required) - Valid options: ACTIVE, INACTIVE, DAMAGED, DISCONTINUED.',
+        reorderLevel:
+          'Sample Product 1 Reorder Level (Optional) - Enter the stock level at which reordering is triggered.',
+        unit: "Sample Product 1 Unit (Optional) - Specify the unit of measurement, e.g., 'kg', 'liters'.",
+        sku: 'Sample Product 1 SKU (Optional) - Stock Keeping Unit, a unique identifier for the product.',
+        barcode:
+          "Sample Product 1 Barcode (Optional) - Enter the product's barcode number.",
+        supplier:
+          'Sample Product 1 Supplier (Optional) - Name of the supplier or vendor.',
+        leadTime:
+          'Sample Product 1 Lead Time (Optional) - Time (in days) it takes to restock the product.',
+      },
+      // Add more product objects as needed
+    ];
+
+    downloadCSV({ headers: csvHeaders(), data, filename: 'sample.csv' });
+  }
 
   return (
     <PageWrapper>
@@ -33,6 +126,10 @@ export default function Page() {
           onSuccess={() => setState((s) => ({ ...s, drawer: false }))}
         />
       </Drawer>
+
+      {/* hidden input for csv from uploads */}
+      <input type="file" className="hidden" ref={csvRef} onChange={csvUpload} />
+
       <HeaderTabs
         LinkComponent={Link}
         title="Inventory Management"
@@ -48,10 +145,25 @@ export default function Page() {
           },
         ]}
         actions={
-          <Button onClick={() => setState((s) => ({ ...s, drawer: true }))}>
-            Add New
-          </Button>
+          <div className="flex sm:flex-row flex-wrap gap-4 mt-auto">
+            <Button variant="primary" onClick={sample}>
+              CSV Sample
+            </Button>
+            <Button variant="primary" onClick={() => csvRef.current?.click()}>
+              CSV Uploads
+            </Button>
+            <Button variant="primary" onClick={downloadAsCsv}>
+              Download as CSV
+            </Button>
+            <Button
+              onClick={() => setState((s) => ({ ...s, drawer: true }))}
+              variant="secondary"
+            >
+              Add New
+            </Button>
+          </div>
         }
+        actionClassName="bottom-4"
       />
 
       <GenericTable
@@ -171,4 +283,21 @@ function themeStatus(status?: string): string {
     default:
       return 'bg-gray-100 text-gray-800';
   }
+}
+
+function csvHeaders() {
+  const defaults = [
+    'Name',
+    'SKU',
+    'Category',
+    'Quantity',
+    'Cost',
+    'Price',
+    'Status',
+    'Unit',
+    'SKU',
+    'Location',
+    'Supplier',
+  ];
+  return defaults;
 }
