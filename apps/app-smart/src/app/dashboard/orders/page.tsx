@@ -7,11 +7,13 @@ import { Link } from 'components/Wrappers/Link';
 import { Header } from '@repo/ui/headings/header';
 import { PageWrapper } from '@repo/ui/semantic';
 import { HeaderTabs } from '@repo/ui/headings/headings';
-import { usePathname } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@repo/ui/buttons';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ArrowsClockwise } from '@phosphor-icons/react';
 import { toast } from 'sonner';
+import { Drawer } from '@repo/ui/drawers/drawer';
+import { CreateForm } from './CreateForm';
 // import { useGetOrders } from 'hooks/orders';
 
 type ComponentState = {
@@ -21,9 +23,37 @@ type ComponentState = {
 };
 
 export default function Page() {
-  const path = usePathname();
+  const params = useSearchParams();
   const [state, setState] = useState<ComponentState>({});
   // const { data } = useGetOrders({});
+  const csvRef = useRef<HTMLInputElement>(null);
+
+  async function csvUpload() {
+    try {
+      if (!csvRef?.current?.files) {
+        throw new Error('No file selected');
+      }
+      const file = csvRef.current.files[0];
+      const form = new FormData();
+      form.append('file', file);
+
+      // const { data } = await axios.post('/api/v1/files/csv-upload', form);
+      // console.log('res data', data);
+
+      // mutate();
+      // toast.success(data?.message || 'CSV uploaded successfully');
+      // if (data?.errors) {
+      //   toast.error(data?.errors);
+      // }
+      toast.success('CSV uploaded successfully');
+    } catch (error) {
+      toast.error((error as Error).message || 'Error uploading CSV');
+    } finally {
+      if (csvRef.current) {
+        csvRef.current.value = '';
+      }
+    }
+  }
   const data = [
     {
       id: '1',
@@ -52,6 +82,7 @@ export default function Page() {
       updatedAt: '2025-02-28T17:19:18',
     },
   ];
+  console.log('path', params);
 
   async function syncOrders() {
     try {
@@ -68,6 +99,14 @@ export default function Page() {
 
   return (
     <PageWrapper>
+      <Drawer
+        open={state.drawer}
+        onClose={() => setState((s) => ({ ...s, drawer: false }))}
+      >
+        <CreateForm
+          onSuccess={() => setState((s) => ({ ...s, drawer: false }))}
+        />
+      </Drawer>
       <HeaderTabs
         LinkComponent={Link}
         title="Orders"
@@ -78,27 +117,27 @@ export default function Page() {
         headings={[
           {
             name: 'All',
-            active: path === '/dashboard/orders',
+            active: params.has('type') === false,
             href: '/dashboard/orders',
           },
           {
             name: 'Etsy',
-            active: path === '/dashboard/orders?type=etsy',
+            active: params.get('type') === 'etsy',
             href: `/dashboard/orders?type=etsy`,
           },
           {
             name: 'Shopify',
-            active: path === '/dashboard/orders?type=shopify',
+            active: params.get('type') === 'shopify',
             href: `/dashboard/orders?type=shopify`,
           },
           {
             name: 'WooCommerce',
-            active: path === '/dashboard/orders?type=woocommerce',
+            active: params.get('type') === 'woocommerce',
             href: `/dashboard/orders?type=woocommerce`,
           },
           {
             name: 'Manual',
-            active: path === '/dashboard/orders?type=manual',
+            active: params.get('type') === 'manual',
             href: `/dashboard/orders?type=manual`,
           },
         ]}
@@ -117,17 +156,22 @@ export default function Page() {
               />
               {state.synced ? 'Synced' : 'Sync'}
             </Button>
-
             <Button
               onClick={() => setState((s) => ({ ...s, drawer: true }))}
               variant="secondary"
             >
               Create Manual Order
             </Button>
+            <Button variant="primary" onClick={() => csvRef.current?.click()}>
+              Import Orders
+            </Button>
           </div>
         }
         actionClassName="bottom-4"
       />
+
+      {/* hidden input for csv from uploads */}
+      <input type="file" className="hidden" ref={csvRef} onChange={csvUpload} />
 
       <ActivityCard
         activities={data?.map((item) => ({
