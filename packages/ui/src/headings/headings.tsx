@@ -15,37 +15,37 @@ interface HeaderTabsProps {
   headings: Heading[];
   actions?: React.ReactNode;
   LinkComponent?: React.ElementType;
+  actionClassName?: string;
 }
 
-export function HeaderTabs({
-  title,
-  description,
-  headings,
-  actions,
-  LinkComponent = 'a',
-}: HeaderTabsProps) {
+export function HeaderTabs({ LinkComponent = 'a', ...rest }: HeaderTabsProps) {
   // Get the active heading, or default to the first one.
   const currentHeading =
-    headings.find((heading) => heading.active) || headings[0];
+    rest.headings.find((heading) => heading.active) || rest.headings[0];
 
   return (
     <div className="relative border-b border-gray-200 pb-5 sm:pb-0">
       <div className="md:flex gap-4 md:items-center md:justify-between">
         <div>
-          {title && (
+          {rest.title && (
             <h3 className="text-base lg:text-4xl font-semibold light:text-gray-900 lg:mb-6">
-              {title}
+              {rest.title}
             </h3>
           )}
-          {description?.map((paragraph, index) => (
+          {rest.description?.map((paragraph, index) => (
             <p key={index} className="mt-1 text-sm light:text-gray-500">
               {paragraph}
             </p>
           ))}
         </div>
-        {actions && (
-          <div className="mt-3 flex md:absolute md:top-3 md:right-0 md:mt-0">
-            {actions}
+        {rest.actions && (
+          <div
+            className={classNames(
+              'mt-3 flex md:absolute md:top-3 md:right-0 md:mt-0',
+              rest.actionClassName
+            )}
+          >
+            {rest.actions}
           </div>
         )}
       </div>
@@ -57,8 +57,8 @@ export function HeaderTabs({
             aria-label="Select a tab"
             className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 outline outline-1 outline-offset-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600"
           >
-            {headings.map((heading) => (
-              <option key={heading.name} value={heading.name}>
+            {rest.headings.map((heading, key: number) => (
+              <option key={key} value={heading.name}>
                 {heading.name}
               </option>
             ))}
@@ -71,11 +71,11 @@ export function HeaderTabs({
         {/* Desktop: tabs */}
         <div className="hidden sm:block">
           <nav className="-mb-px flex space-x-4">
-            {headings.map((heading) => {
+            {rest.headings.map((heading, key: number) => {
               if (heading.action) {
                 return (
                   <div
-                    key={heading.name}
+                    key={key}
                     className={classNames(
                       heading.active
                         ? 'border-indigo-400 text-indigo-400'

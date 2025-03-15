@@ -138,22 +138,9 @@ export default function Page() {
             active: path === '/dashboard/products',
             href: '/dashboard/products',
           },
-          {
-            action: (
-              <Button
-                variant="link"
-                onClick={() => setState((s) => ({ ...s, drawer: true }))}
-                className={classNames(
-                  'border-transparent text-gray-200 hover:text-indigo-300'
-                )}
-              >
-                Create
-              </Button>
-            ),
-          },
         ]}
         actions={
-          <div className="flex gap-4">
+          <div className="flex sm:flex-row flex-wrap gap-4 mt-auto">
             <Button variant="primary" onClick={sample}>
               CSV Sample
             </Button>
@@ -163,8 +150,15 @@ export default function Page() {
             <Button variant="primary" onClick={downloadAsCsv}>
               Download as CSV
             </Button>
+            <Button
+              onClick={() => setState((s) => ({ ...s, drawer: true }))}
+              variant="secondary"
+            >
+              Add New
+            </Button>
           </div>
         }
+        actionClassName="bottom-4"
       />
 
       {/* hidden input for csv from uploads */}
