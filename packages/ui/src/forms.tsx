@@ -145,7 +145,7 @@ export interface Option {
 
 export interface SelectInputTypes {
   name: string;
-  label: string;
+  label?: string;
   placeholder?: string;
   optional?: boolean;
   defaultValue?: string;

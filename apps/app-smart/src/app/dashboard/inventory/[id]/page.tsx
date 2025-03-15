@@ -61,7 +61,7 @@ export default function Page() {
             href: '/dashboard/inventory',
           },
           {
-            name: data.name || 'Inventory Item',
+            name: data?.name || 'Inventory Item',
             active: true,
             href: `/dashboard/inventory/${params?.id}`,
           },

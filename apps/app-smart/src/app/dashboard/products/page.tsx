@@ -1,7 +1,6 @@
 'use client';
 
 import { useGetProducts } from 'hooks/products';
-import { Paragraph } from '@repo/ui/documents';
 import { Button } from '@repo/ui/buttons';
 import Link from 'components/Wrappers/Link';
 import { useRef, useState } from 'react';
@@ -18,6 +17,7 @@ import { usePathname } from 'next/navigation';
 import { Drawer } from '@repo/ui/drawers/drawer';
 import { GenericTable } from '@repo/ui/tables/GenericTable';
 import { CreateForm } from './CreateForm';
+import { Header } from '@repo/ui/headings/header';
 
 type ComponentState = {
   drawer?: boolean;
@@ -231,7 +231,7 @@ export default function Page() {
             <Button
               variant="link"
               LinkComponent={Link}
-              href={`/dashboard/inventory/${item.id}`}
+              href={`/dashboard/products/${item.id}`}
             >
               View
             </Button>
@@ -239,18 +239,13 @@ export default function Page() {
         }))}
       />
 
-      <Paragraph>
-        Tempor sit aliqua qui ipsum nisi commodo et adipisicing mollit
-        reprehenderit sint cillum eiusmod. Nostrud ea sunt qui officia officia
-        magna qui laborum. Culpa velit exercitation velit do incididunt velit
-        sit nostrud nostrud ea cillum commodo et ad. Aliqua enim id nulla
-        laboris Lorem laboris commodo ut cupidatat. Ad dolore eu excepteur
-        proident sunt est cupidatat irure amet id consequat exercitation
-        consectetur. Anim ea pariatur dolor nisi veniam. Consequat et dolore
-        fugiat reprehenderit officia sint aliquip qui laborum. Ullamco enim
-        aliqua nulla in dolore officia ut laboris eiusmod in. Exercitation
-        voluptate sit non ullamco excepteur ex.
-      </Paragraph>
+      <Header
+        subtitle="Aliquip aliquip non veniam sit reprehenderit cillum proident."
+        description={[
+          'Anim occaecat adipisicing ipsum magna quis. Amet et id voluptate occaecat dolor adipisicing aute commodo ex commodo. Pariatur nisi ad pariatur minim. Commodo consequat velit labore in nulla ullamco ipsum. Dolore anim adipisicing incididunt irure aute esse irure ullamco amet laboris aliquip. Ea anim anim sunt veniam ipsum tempor proident eu duis proident magna. Ea dolor id Lorem amet amet laboris aliquip magna. Eu ea ut consequat magna sunt enim ad nulla qui labore ea. Occaecat ullamco reprehenderit tempor est velit aliqua sit sint et nisi sit. Esse anim ad id commodo ea esse cillum laboris magna aliqua proident aute incididunt. Ullamco tempor Lorem id consectetur aliqua. Deserunt do enim officia occaecat occaecat eiusmod commodo nisi minim cupidatat sint mollit do reprehenderit. Ea est occaecat do amet culpa eu irure est enim excepteur duis ipsum.',
+        ]}
+        type="page-header"
+      />
     </PageWrapper>
   );
 }
