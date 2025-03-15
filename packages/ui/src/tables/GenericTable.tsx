@@ -27,9 +27,9 @@ export function GenericTable({ headers, data }: GenericTableProps) {
       <table className="min-w-full divide-y divide-gray-700">
         <thead>
           <tr>
-            {headers.map((header) => (
+            {headers.map((header, key: number) => (
               <th
-                key={header.key}
+                key={key}
                 scope="col"
                 className={classNames(
                   'py-3.5 px-3 text-left text-sm font-semibold text-white',
