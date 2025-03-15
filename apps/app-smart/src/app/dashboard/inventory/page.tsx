@@ -11,6 +11,7 @@ import { CaretRight, CubeTransparent } from '@phosphor-icons/react';
 import { PageWrapper } from '@repo/ui/semantic';
 import { HeaderTabs } from '@repo/ui/headings/headings';
 import { usePathname } from 'next/navigation';
+import { CreateForm } from './CreateForm';
 
 type ComponentState = {
   drawer?: boolean;
@@ -26,7 +27,11 @@ export default function Page() {
       <Drawer
         open={state.drawer}
         onClose={() => setState((s) => ({ ...s, drawer: false }))}
-      />
+      >
+        <CreateForm
+          onSuccess={() => setState((s) => ({ ...s, drawer: false }))}
+        />
+      </Drawer>
       <HeaderTabs
         LinkComponent={Link}
         title="Inventory Management"
@@ -40,18 +45,10 @@ export default function Page() {
             active: path === '/dashboard/inventory',
             href: '/dashboard/inventory',
           },
-          {
-            name: 'Create',
-            active: path === '/dashboard/inventory/create',
-            href: '/dashboard/inventory/create',
-          },
         ]}
         actions={
-          <Button
-            variant="link"
-            onClick={() => setState((s) => ({ ...s, drawer: true }))}
-          >
-            Add
+          <Button onClick={() => setState((s) => ({ ...s, drawer: true }))}>
+            Add New
           </Button>
         }
       />

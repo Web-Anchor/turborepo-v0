@@ -1,10 +1,8 @@
 'use client';
 
-import Link from 'components/Wrappers/Link';
 import { Button } from '@repo/ui/buttons';
 import { toast } from 'sonner';
 import axios from 'lib/axios';
-import { useRouter } from 'next/navigation';
 import {
   FormWrapper,
   SelectInput,
@@ -15,15 +13,24 @@ import { filterFormObject, objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
 import { colorsOptions, inventoryStatusOptions } from 'lib/list-options';
 import { Header } from '@repo/ui/headings/header';
+import { useState } from 'react';
 
-export default function Page() {
-  const router = useRouter();
+type ComponentState = {
+  fetching?: boolean;
+};
+type FromTypes = {
+  onSuccess?: () => void;
+};
+
+export function CreateForm({ ...rest }: FromTypes) {
+  const [state, setState] = useState<ComponentState>({});
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
       if (!data.name) {
         throw new Error('Name is required'); // TODO: Add more validation
       }
+      setState((s) => ({ ...s, fetching: true }));
       const customKeys = ['colour'];
       const attributes = filterFormObject(data, customKeys);
       customKeys.forEach((key) => delete data[key]); // delete custom keys from data
@@ -34,27 +41,26 @@ export default function Page() {
         attributes,
       });
       toast.success('Your item has been created.');
-      mutate('/api/v1/products/products');
-      router.back();
+      mutate('/api/v1/inventories/inventories');
+      rest.onSuccess?.();
     } catch (error) {
       toast.error(
         (error as Error)?.message || 'An error occurred. Please try again.'
       );
+    } finally {
+      setState((s) => ({ ...s, fetching: false }));
     }
   }
 
   return (
-    <section className="max-w-3xl mx-auto px-6 py-12 space-y-12">
+    <div className="flex flex-col gap-4 px-10 py-12">
       <Header
-        title="Create Inventory Item"
-        subtitle="Add a new inventory item to your store"
-        description={[
-          'Ad dolore ea cupidatat labore elit dolor aute.',
-          'Proident anim irure pariatur enim excepteur ea. Ut culpa sit laboris culpa magna officia anim mollit cupidatat veniam. Ad ad non sint ullamco.',
-          'This is a description',
-        ]}
+        title="Create New Inventory Item"
+        subtitle="Aliquip aliquip non veniam sit reprehenderit cillum proident."
+        description={['Anim occaecat adipisicing ipsum magna quis.']}
         type="page-header"
       />
+
       <FormWrapper onSubmit={submit}>
         <div className="space-y-12">
           <div className="mt-10 flex flex-col gap-8">
@@ -113,16 +119,15 @@ export default function Page() {
             type="button"
             variant="link"
             className="text-sm/6 font-semibold text-white"
-            LinkComponent={Link}
-            href="/dashboard/products"
+            onClick={rest.onSuccess}
           >
             Cancel
           </Button>
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" isLoading={state.fetching}>
             Create
           </Button>
         </div>
       </FormWrapper>
-    </section>
+    </div>
   );
 }
