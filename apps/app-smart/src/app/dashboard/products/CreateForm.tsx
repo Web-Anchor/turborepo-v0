@@ -1,5 +1,3 @@
-'use client';
-
 import { Button } from '@repo/ui/buttons';
 import { toast } from 'sonner';
 import axios from 'lib/axios';
@@ -11,9 +9,9 @@ import {
 } from '@repo/ui/forms';
 import { filterFormObject, objKeysToNumber } from 'lib/utils';
 import { mutate } from 'swr';
-import { colorsOptions, inventoryStatusOptions } from 'lib/list-options';
-import { Header } from '@repo/ui/headings/header';
+import { colorsOptions, statusListOptions } from 'lib/list-options';
 import { useState } from 'react';
+import { Header } from '@repo/ui/headings/header';
 
 type ComponentState = {
   fetching?: boolean;
@@ -34,14 +32,13 @@ export function CreateForm({ ...rest }: FromTypes) {
       const customKeys = ['colour'];
       const attributes = filterFormObject(data, customKeys);
       customKeys.forEach((key) => delete data[key]); // delete custom keys from data
-      console.log('data', data);
 
-      await axios.post('/api/v1/inventories/create', {
-        ...objKeysToNumber(['quantity', 'cost', 'price'], data),
+      await axios.post('/api/v1/products/create', {
+        ...objKeysToNumber(['quantity', 'cost', 'price', 'reorderLevel'], data),
         attributes,
       });
       toast.success('Your item has been created.');
-      mutate('/api/v1/inventories/inventories');
+      mutate('/api/v1/products/products');
       rest.onSuccess?.();
     } catch (error) {
       toast.error(
@@ -55,12 +52,11 @@ export function CreateForm({ ...rest }: FromTypes) {
   return (
     <div className="flex flex-col gap-4 px-10 py-12">
       <Header
-        title="Create New Inventory Item"
+        title="Create New Product"
         subtitle="Aliquip aliquip non veniam sit reprehenderit cillum proident."
         description={['Anim occaecat adipisicing ipsum magna quis.']}
         type="page-header"
       />
-
       <FormWrapper onSubmit={submit}>
         <div className="mt-10 flex flex-col gap-8">
           <TextInput name="name" label="Name" placeholder="Enter a name" />
@@ -71,9 +67,9 @@ export function CreateForm({ ...rest }: FromTypes) {
             optional
           />
           <TextInput
-            name="batchNumber"
-            label="Batch Number"
-            placeholder="Enter a batch number"
+            name="category"
+            label="Category"
+            placeholder="Enter a category"
             optional
           />
           <TextInput
@@ -96,12 +92,19 @@ export function CreateForm({ ...rest }: FromTypes) {
             type="number"
             optional
           />
+          <TextInput
+            name="reorderLevel"
+            label="Reorder Level"
+            placeholder="Enter a reorder level"
+            type="number"
+            optional
+          />
           <SelectInput
             name="status"
             optional
             label="Status"
-            defaultValue="IN_STOCK"
-            options={inventoryStatusOptions}
+            defaultValue="ACTIVE"
+            options={statusListOptions}
           />
           <SelectInput
             name="colour"

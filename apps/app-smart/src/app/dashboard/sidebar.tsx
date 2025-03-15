@@ -380,13 +380,6 @@ function primaryMenu(): NavigationItem[] {
       name: 'Products',
       href: '/dashboard/products',
       icon: Tag,
-      navigation: [
-        {
-          name: 'Create Product',
-          href: '/dashboard/products/create',
-          initial: <p>P</p>,
-        },
-      ],
     },
     {
       name: 'Orders',

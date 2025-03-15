@@ -17,6 +17,7 @@ import { HeaderTabs } from '@repo/ui/headings/headings';
 import { usePathname } from 'next/navigation';
 import { Drawer } from '@repo/ui/drawers/drawer';
 import { GenericTable } from '@repo/ui/tables/GenericTable';
+import { CreateForm } from './CreateForm';
 
 type ComponentState = {
   drawer?: boolean;
@@ -124,7 +125,12 @@ export default function Page() {
       <Drawer
         open={state.drawer}
         onClose={() => setState((s) => ({ ...s, drawer: false }))}
-      />
+      >
+        {' '}
+        <CreateForm
+          onSuccess={() => setState((s) => ({ ...s, drawer: false }))}
+        />
+      </Drawer>
       <HeaderTabs
         LinkComponent={Link}
         title="Product Lists"
