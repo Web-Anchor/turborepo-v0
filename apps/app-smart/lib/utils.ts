@@ -140,3 +140,11 @@ export function returnIfTruthy(
 ): Record<string, any> | any[] | undefined {
   return condition ? value : undefined;
 }
+
+export function stringCleaner(str?: string): string | undefined {
+  try {
+    return str?.replace(/_/g, ' ');
+  } catch {
+    return str;
+  }
+}

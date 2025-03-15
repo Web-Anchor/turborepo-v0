@@ -12,6 +12,7 @@ import { PageWrapper } from '@repo/ui/semantic';
 import { HeaderTabs } from '@repo/ui/headings/headings';
 import { usePathname } from 'next/navigation';
 import { CreateForm } from './CreateForm';
+import { stringCleaner } from 'lib/utils';
 
 type ComponentState = {
   drawer?: boolean;
@@ -72,7 +73,17 @@ export default function Page() {
           quantity: item.quantity,
           cost: item.cost,
           price: item.price,
-          status: item.status,
+          // status: item.status,
+          status: (
+            <span
+              className={classNames(
+                'inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20',
+                themeStatus(item.status)
+              )}
+            >
+              {stringCleaner(item.status)}
+            </span>
+          ),
           updatedAt: dateToFormattedString(item.updatedAt),
           actions: (
             <Button
@@ -143,4 +154,21 @@ export default function Page() {
       )}
     </PageWrapper>
   );
+}
+
+function themeStatus(status?: string): string {
+  switch (status) {
+    case 'IN_STOCK':
+      return 'bg-green-100 text-green-800';
+    case 'SOLD':
+      return 'bg-red-100 text-red-800';
+    case 'DAMAGED':
+      return 'bg-yellow-100 text-yellow-800';
+    case 'EXPIRED':
+      return 'bg-blue-100 text-blue-800';
+    case 'DISCONTINUED':
+      return 'bg-gray-100 text-gray-800';
+    default:
+      return 'bg-gray-100 text-gray-800';
+  }
 }

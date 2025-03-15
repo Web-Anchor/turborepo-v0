@@ -126,7 +126,6 @@ export default function Page() {
         open={state.drawer}
         onClose={() => setState((s) => ({ ...s, drawer: false }))}
       >
-        {' '}
         <CreateForm
           onSuccess={() => setState((s) => ({ ...s, drawer: false }))}
         />
@@ -209,7 +208,6 @@ export default function Page() {
           quantity: item.quantity,
           cost: item.cost,
           price: item.price,
-          // status: item.status,
           status: (
             <span
               className={classNames(
