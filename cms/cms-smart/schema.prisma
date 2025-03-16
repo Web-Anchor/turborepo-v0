@@ -144,6 +144,8 @@ model Order {
   inventory   Inventory[] @relation("Order_inventory")
   source      String      @default("")
   quantity    Int?        @default(0)
+  price       Int?        @default(0)
+  taxRate     Int?        @default(0)
   unit        String      @default("pcs")
   currency    String      @default("")
   createdAt   DateTime?   @default(now())

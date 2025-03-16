@@ -128,6 +128,8 @@ export type Order = {
   inventory: Inventory[];
   source: string;
   quantity?: number;
+  price?: number;
+  taxRate?: number;
   unit: string;
   currency: string;
   createdAt?: string;

@@ -41,6 +41,8 @@ export const Order: any = list({
     inventory: relationship({ ref: 'Inventory', many: true }),
     source: text(),
     quantity: integer({ defaultValue: 0, validation: { min: 0 } }), // Total number of items
+    price: integer({ defaultValue: 0, validation: { min: 0 } }), // Total price
+    taxRate: integer({ defaultValue: 0, validation: { min: 0 } }), // Tax rate
     unit: text({ defaultValue: 'pcs' }), // Measurement unit (e.g., kg, liters)
     currency: text(),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),

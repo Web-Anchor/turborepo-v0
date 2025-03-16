@@ -30,3 +30,12 @@ export const inventoryStatusOptions = [
   { label: 'Damaged', value: 'DAMAGED' },
   { label: 'Expired', value: 'EXPIRED' },
 ];
+
+export const orderStatusOptions = [
+  { label: 'Pending', value: 'PENDING' },
+  { label: 'Processing', value: 'PROCESSING' },
+  { label: 'Shipped', value: 'SHIPPED' },
+  { label: 'Delivered', value: 'DELIVERED' },
+  { label: 'Cancelled', value: 'CANCELLED' },
+  { label: 'Returned', value: 'RETURNED' },
+];

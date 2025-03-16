@@ -1,15 +1,9 @@
 import { Button } from '@repo/ui/buttons';
 import { toast } from 'sonner';
 import axios from 'lib/axios';
-import {
-  FormWrapper,
-  SelectInput,
-  TextAreaInput,
-  TextInput,
-} from '@repo/ui/forms';
-import { filterFormObject, objKeysToNumber } from 'lib/utils';
-import { mutate } from 'swr';
-import { colorsOptions, statusListOptions } from 'lib/list-options';
+import { FormWrapper, SelectInput, TextInput } from '@repo/ui/forms';
+import { objKeysToNumber } from 'lib/utils';
+import { orderStatusOptions } from 'lib/list-options';
 import { useState } from 'react';
 import { Header } from '@repo/ui/headings/header';
 
@@ -18,6 +12,7 @@ type ComponentState = {
 };
 type FromTypes = {
   onSuccess?: () => void;
+  mutate?: () => void;
 };
 
 export function CreateForm({ ...rest }: FromTypes) {
@@ -25,20 +20,23 @@ export function CreateForm({ ...rest }: FromTypes) {
 
   async function submit(data: { [k: string]: FormDataEntryValue }) {
     try {
-      if (!data.name) {
-        throw new Error('Name is required'); // TODO: Add more validation
+      if (!data.orderNumber) {
+        throw new Error('Order number is required'); // TODO: Add more validation
       }
       setState((s) => ({ ...s, fetching: true }));
-      const customKeys = ['colour'];
-      const attributes = filterFormObject(data, customKeys);
-      customKeys.forEach((key) => delete data[key]); // delete custom keys from data
+      console.log(data);
+      if (data.products) {
+        data.products = `${{ connect: { id: data.products } }}`;
+      } else {
+        delete data.products;
+      }
 
-      await axios.post('/api/v1/products/create', {
-        ...objKeysToNumber(['quantity', 'cost', 'price', 'reorderLevel'], data),
-        attributes,
+      await axios.post('/api/v1/orders', {
+        source: 'manual',
+        ...objKeysToNumber(['quantity', 'taxRate', 'price'], data),
       });
-      toast.success('Your item has been created.');
-      mutate('/api/v1/products/products');
+      toast.success('Your order has been created.');
+      rest.mutate?.();
       rest.onSuccess?.();
     } catch (error) {
       toast.error(
@@ -59,17 +57,28 @@ export function CreateForm({ ...rest }: FromTypes) {
       />
       <FormWrapper onSubmit={submit}>
         <div className="mt-10 flex flex-col gap-8">
-          <TextInput name="name" label="Name" placeholder="Enter a name" />
-          <TextAreaInput
-            name="description"
-            label="Description"
-            placeholder="Enter a description"
+          <TextInput
+            name="orderNumber"
+            label="Order Number"
+            placeholder="Enter an order number"
+          />
+          <SelectInput
+            name="status"
+            label="Status"
+            options={orderStatusOptions}
+            placeholder="Enter a status"
             optional
           />
           <TextInput
-            name="category"
-            label="Category"
-            placeholder="Enter a category"
+            name="products"
+            label="Products"
+            placeholder="Enter a product"
+            disabled
+          />
+          <TextInput
+            name="source"
+            label="Source"
+            placeholder="Enter a source"
             optional
           />
           <TextInput
@@ -80,12 +89,6 @@ export function CreateForm({ ...rest }: FromTypes) {
             optional
           />
           <TextInput
-            name="sku"
-            label="SKU"
-            placeholder="Enter a SKU"
-            optional
-          />
-          <TextInput
             name="price"
             label="Price"
             placeholder="Enter a price"
@@ -93,24 +96,22 @@ export function CreateForm({ ...rest }: FromTypes) {
             optional
           />
           <TextInput
-            name="reorderLevel"
-            label="Reorder Level"
-            placeholder="Enter a reorder level"
+            name="taxRate"
+            label="Tax Rate"
+            placeholder="Enter a tax rate"
             type="number"
             optional
           />
-          <SelectInput
-            name="status"
+          <TextInput
+            name="unit"
+            label="Unit"
+            placeholder="Enter a unit"
             optional
-            label="Status"
-            defaultValue="ACTIVE"
-            options={statusListOptions}
           />
-          <SelectInput
-            name="colour"
-            label="Colour"
-            placeholder="Select a colour"
-            options={colorsOptions}
+          <TextInput
+            name="currency"
+            label="Currency"
+            placeholder="Enter a currency"
             optional
           />
         </div>

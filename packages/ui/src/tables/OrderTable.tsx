@@ -6,15 +6,15 @@ import { Badge } from '../badges';
 
 /** Individual order properties */
 export type OrderItemProps = {
-  name: string;
+  name?: string;
   /** Your internal order ID, e.g. "ORD-001" */
-  orderId: string;
+  orderId?: string;
   /** Display name of the customer, e.g. "John Doe" */
-  customerName: string;
+  customerName?: string;
   /** Date string for the order, e.g. "2025-01-03" */
-  orderDate: string;
+  orderDate?: string;
   /** Platform of the order, e.g. "etsy", "shopify", "woocommerce", or "manual" */
-  platform: string;
+  platform?: string;
   /**
    * The platform-specific ID, e.g. "#12345678"
    * (Optional if you want to display the store’s own order reference)
@@ -31,11 +31,11 @@ export type OrderItemProps = {
    */
   status?: keyof typeof statuses;
   /** The total price (numeric or string) */
-  price: number | string;
+  price?: number | string;
   /** Currency symbol or code to prepend, e.g. "$" or "USD" */
-  currency: string;
+  currency?: string;
   /** Number of items in the order */
-  itemCount: number;
+  itemCount?: number;
   actions?: React.ReactNode;
   /**
    * Callback for when "View Details" is clicked.

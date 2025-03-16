@@ -25,3 +25,11 @@ export const QUERY = `
     }
   }
 `;
+
+export const MUTATION = `
+  mutation CreateOrder($data: OrderCreateInput!) {
+    createOrder(data: $data) {
+      id
+    }
+  }
+`;

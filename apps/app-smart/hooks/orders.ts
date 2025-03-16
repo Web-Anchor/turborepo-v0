@@ -8,7 +8,7 @@ type HookTypes = {
 };
 
 export function useGetOrders(props: HookTypes) {
-  const url = '/api/v1/orders?type=hello';
+  const url = '/api/v1/orders';
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
     data: { ...props },

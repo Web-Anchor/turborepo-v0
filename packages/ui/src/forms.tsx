@@ -52,11 +52,18 @@ type InputTypes = {
   defaultValue?: string;
   // onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
   optional?: boolean;
+  disabled?: boolean;
 };
 
 export function TextInput({ type = 'text', ...rest }: InputTypes) {
   return (
-    <div className={classNames('flex flex-1 flex-col', rest.className)}>
+    <div
+      className={classNames(
+        'flex flex-1 flex-col',
+        mergeIf(!!rest.disabled, 'opacity-25'),
+        rest.className
+      )}
+    >
       <div className="flex flex-row gap-2">
         <label
           htmlFor={rest.name}
@@ -90,6 +97,7 @@ export function TextInput({ type = 'text', ...rest }: InputTypes) {
             mergeIf(type === 'number', 'appearance-none'), // Remove number input arrows
             rest.inputClassName
           )}
+          disabled={rest.disabled}
         />
       </div>
     </div>

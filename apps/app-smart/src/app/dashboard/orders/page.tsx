@@ -21,10 +21,52 @@ type ComponentState = {
   fetching?: string;
 };
 
+const dummy = [
+  {
+    name: 'Candle Large',
+    orderId: '12345678',
+    platform: 'Etsy',
+    platformOrderId: '12345678',
+    platformOrderLink: 'https://etsy.com/orders/12345678',
+    customerName: 'Jane Doe',
+    orderDate: dateToFormattedString(new Date().toISOString()),
+    status: 'Pending' as const,
+    currency: '$',
+    price: 123.45,
+    itemCount: 3,
+  },
+  {
+    name: 'Candle Small',
+    orderId: '12345679',
+    platform: 'Shopify',
+    platformOrderId: '12345679',
+    platformOrderLink: 'https://shopify.com/orders/12345679',
+    customerName: 'John Doe',
+    orderDate: dateToFormattedString(new Date().toISOString()),
+    status: 'Shipped' as const,
+    currency: '$',
+    price: 234.56,
+    itemCount: 2,
+  },
+  {
+    name: 'Candle Medium',
+    orderId: '12345680',
+    platform: 'WooCommerce',
+    platformOrderId: '12345680',
+    platformOrderLink: 'https://woocommerce.com/orders/12345680',
+    customerName: 'Emily Johnson',
+    orderDate: dateToFormattedString(new Date().toISOString()),
+    status: 'Cancelled' as const,
+    currency: '$',
+    price: 345.67,
+    itemCount: 1,
+  },
+];
+
 export default function Page() {
   const params = useSearchParams();
   const [state, setState] = useState<ComponentState>({});
-  const { data } = useGetOrders({});
+  const { data, mutate } = useGetOrders({});
   const csvRef = useRef<HTMLInputElement>(null);
 
   async function csvUpload() {
@@ -76,6 +118,7 @@ export default function Page() {
       >
         <CreateForm
           onSuccess={() => setState((s) => ({ ...s, drawer: false }))}
+          mutate={mutate}
         />
       </Drawer>
       <HeaderTabs
@@ -146,63 +189,29 @@ export default function Page() {
 
       <OrderTable
         orders={[
-          {
-            name: 'Candle Large',
-            orderId: '12345678',
-            platform: 'Etsy',
-            platformOrderId: '12345678',
-            platformOrderLink: 'https://etsy.com/orders/12345678',
-            customerName: 'Jane Doe',
-            orderDate: dateToFormattedString(new Date().toISOString()),
-            status: 'Pending',
-            currency: '$',
-            price: 123.45,
-            itemCount: 3,
+          ...(data?.map((order) => ({
+            name: order?.products?.[0]?.name || order?.id,
+            orderId: order?.id,
+            platform: order?.source,
+            platformOrderId: order?.orderNumber,
+            platformOrderLink: `https://${order.source}.com/orders/${order.orderNumber}`,
+            customerName: order?.users?.[0]?.firstName,
+            orderDate: dateToFormattedString(order?.createdAt),
+            // status: order.status ,
+            currency: order?.currency,
+            price: order?.products?.[0]?.price,
+            itemCount: order?.quantity,
             actions: (
               <Button
                 variant="link"
                 LinkComponent={Link}
-                href="/dashboard/orders/12345678"
+                href={`/dashboard/orders/${order.id}`}
               >
                 View
               </Button>
             ),
-          },
-          {
-            name: 'Candle Small',
-            orderId: '12345679',
-            platform: 'Shopify',
-            platformOrderId: '12345679',
-            platformOrderLink: 'https://shopify.com/orders/12345679',
-            customerName: 'John Doe',
-            orderDate: dateToFormattedString(new Date().toISOString()),
-            status: 'Shipped',
-            currency: '$',
-            price: 234.56,
-            itemCount: 2,
-            actions: (
-              <Button
-                variant="link"
-                LinkComponent={Link}
-                href="/dashboard/orders/12345679"
-              >
-                View
-              </Button>
-            ),
-          },
-          {
-            name: 'Candle Medium',
-            orderId: '12345680',
-            platform: 'WooCommerce',
-            platformOrderId: '12345680',
-            platformOrderLink: 'https://woocommerce.com/orders/12345680',
-            customerName: 'Emily Johnson',
-            orderDate: dateToFormattedString(new Date().toISOString()),
-            status: 'Cancelled',
-            currency: '$',
-            price: 345.67,
-            itemCount: 1,
-          },
+          })) || []),
+          ...dummy, // dummy data. Remove this line when using real data
         ]}
       />
 

@@ -832,6 +832,8 @@ type Order {
   inventoryCount(where: InventoryWhereInput! = {}): Int
   source: String
   quantity: Int
+  price: Int
+  taxRate: Int
   unit: String
   currency: String
   createdAt: DateTime
@@ -854,6 +856,8 @@ input OrderWhereInput {
   inventory: InventoryManyRelationFilter
   source: StringFilter
   quantity: IntNullableFilter
+  price: IntNullableFilter
+  taxRate: IntNullableFilter
   unit: StringFilter
   currency: StringFilter
   createdAt: DateTimeNullableFilter
@@ -866,6 +870,8 @@ input OrderOrderByInput {
   status: OrderDirection
   source: OrderDirection
   quantity: OrderDirection
+  price: OrderDirection
+  taxRate: OrderDirection
   unit: OrderDirection
   currency: OrderDirection
   createdAt: OrderDirection
@@ -880,6 +886,8 @@ input OrderUpdateInput {
   inventory: InventoryRelateToManyForUpdateInput
   source: String
   quantity: Int
+  price: Int
+  taxRate: Int
   unit: String
   currency: String
   createdAt: DateTime
@@ -899,6 +907,8 @@ input OrderCreateInput {
   inventory: InventoryRelateToManyForCreateInput
   source: String
   quantity: Int
+  price: Int
+  taxRate: Int
   unit: String
   currency: String
   createdAt: DateTime
