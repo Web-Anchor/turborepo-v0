@@ -10,4 +10,4 @@ const handler = async ({ context }: MiddlewareTypes): Promise<Response> => {
   return Response.json({ data: context?.user });
 };
 
-export const POST = composeMiddleware([sessionAuth, handler]);
+export const GET = composeMiddleware([sessionAuth, handler]);

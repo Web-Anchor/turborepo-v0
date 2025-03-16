@@ -1,18 +1,33 @@
 import axios from 'lib/axios';
+import { AxiosRequestConfig } from 'axios';
 import useSWR from 'swr';
 
 // --------------------------------------------------------------------------------
 // 📌  SWR fetchers
 // --------------------------------------------------------------------------------
-export function fetcher(url?: string, body?: object) {
+export function fetcher(
+  url?: string,
+  body?: object,
+  options?: AxiosRequestConfig
+) {
   if (!url) {
     return Promise.reject(new Error('Missing URL'));
   }
-  return axios
-    .post(url, body, {
-      method: 'POST',
-    })
-    .catch((error) => ({ error }));
+  const method = options?.method || 'GET';
+
+  const config = {
+    url,
+    method,
+    ...options,
+  };
+
+  if (method.toUpperCase() === 'GET') {
+    config.params = body; // Attach query parameters for GET requests
+  } else {
+    config.data = body; // Attach body for non-GET requests
+  }
+
+  return axios(config).catch((error) => ({ error }));
 }
 
 const defaultOptions = {

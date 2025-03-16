@@ -4,13 +4,15 @@ import { Order } from 'types/data-types';
 
 type HookTypes = {
   id?: string | number;
+  type?: 'etsy' | 'shopify' | 'woocommerce' | 'manual';
 };
 
 export function useGetOrders(props: HookTypes) {
-  const url = '/api/v1/orders/orders';
+  const url = '/api/v1/orders?type=hello';
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
     data: { ...props },
+    options: { method: 'GET' },
   });
 
   return {

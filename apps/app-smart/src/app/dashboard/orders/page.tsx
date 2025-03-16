@@ -14,7 +14,7 @@ import { ArrowsClockwise } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 import { Drawer } from '@repo/ui/drawers/drawer';
 import { CreateForm } from './CreateForm';
-// import { useGetOrders } from 'hooks/orders';
+import { useGetOrders } from 'hooks/orders';
 
 type ComponentState = {
   drawer?: boolean;
@@ -25,7 +25,7 @@ type ComponentState = {
 export default function Page() {
   const params = useSearchParams();
   const [state, setState] = useState<ComponentState>({});
-  // const { data } = useGetOrders({});
+  const { data } = useGetOrders({});
   const csvRef = useRef<HTMLInputElement>(null);
 
   async function csvUpload() {
@@ -54,35 +54,7 @@ export default function Page() {
       }
     }
   }
-  const data = [
-    {
-      id: '1',
-      amount: 2,
-      items: [
-        {
-          name: 'Product 1',
-          quantity: 1,
-        },
-        {
-          name: 'Product 2',
-          quantity: 1,
-        },
-      ],
-      updatedAt: '2025-02-28T17:39:18',
-    },
-    {
-      id: '2',
-      amount: 1,
-      items: [
-        {
-          name: 'Product 1',
-          quantity: 1,
-        },
-      ],
-      updatedAt: '2025-02-28T17:19:18',
-    },
-  ];
-  console.log('path', params);
+  console.log('data', data);
 
   async function syncOrders() {
     try {
@@ -156,14 +128,14 @@ export default function Page() {
               />
               {state.synced ? 'Synced' : 'Sync'}
             </Button>
+            <Button variant="primary" onClick={() => csvRef.current?.click()}>
+              Import Orders
+            </Button>
             <Button
               onClick={() => setState((s) => ({ ...s, drawer: true }))}
               variant="secondary"
             >
               Create Manual Order
-            </Button>
-            <Button variant="primary" onClick={() => csvRef.current?.click()}>
-              Import Orders
             </Button>
           </div>
         }
@@ -175,7 +147,7 @@ export default function Page() {
 
       <ActivityCard
         activities={data?.map((item) => ({
-          message: `${item.amount} ${item.amount > 1 ? 'items' : 'item'} ordered`,
+          message: `${item.quantity} ${(item.quantity ?? 0) > 1 ? 'items' : 'item'} ordered`,
           description: `Order ID: ${item.id}`,
           updatedAt: dateToFormattedString(item.updatedAt),
           type: 'Products',
