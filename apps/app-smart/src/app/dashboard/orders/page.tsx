@@ -199,7 +199,7 @@ export default function Page() {
             orderDate: dateToFormattedString(order?.createdAt),
             // status: order.status ,
             currency: order?.currency,
-            price: order?.products?.[0]?.price,
+            price: order?.price,
             itemCount: order?.quantity,
             actions: (
               <Button

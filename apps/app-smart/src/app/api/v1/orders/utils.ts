@@ -18,6 +18,8 @@ export const QUERY = `
       inventoryCount
       source
       quantity
+      price
+      taxRate
       unit
       currency
       createdAt

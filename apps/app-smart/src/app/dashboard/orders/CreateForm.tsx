@@ -67,6 +67,7 @@ export function CreateForm({ ...rest }: FromTypes) {
             label="Status"
             options={orderStatusOptions}
             placeholder="Enter a status"
+            defaultValue="PENDING"
             optional
           />
           <TextInput

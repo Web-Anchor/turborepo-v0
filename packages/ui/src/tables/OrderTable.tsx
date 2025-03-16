@@ -84,7 +84,9 @@ export function OrderTable({
             </div>
             <div className="flex flex-row flex-1 gap-2 min-w-0">
               <div className="flex flex-col gap-1 min-w-[25%]">
-                <p className="text-sm text-gray-100">{order.name}</p>
+                <p className="text-sm text-gray-100 truncate max-w-44">
+                  {order.name}
+                </p>
                 <div className="flex flex-row gap-1">
                   <p className="text-[12px] text-gray-400 line-clamp-2">
                     {order.customerName}
@@ -102,9 +104,9 @@ export function OrderTable({
             </div>
             <div className="flex flex-row gap-4">
               <div className="flex flex-col">
-                <p className="text-sm text-gray-100">
+                <p className="text-sm text-gray-100 truncate max-w-28">
+                  <span>{order.price} </span>
                   {order.currency}
-                  {order.price}
                 </p>
                 <p className="text-xs text-gray-400">{order.itemCount} items</p>
               </div>
