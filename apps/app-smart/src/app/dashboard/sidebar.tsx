@@ -8,24 +8,15 @@ import {
   DialogPanel,
   TransitionChild,
 } from '@headlessui/react';
-import {
-  Bars3Icon,
-  ChartPieIcon,
-  Bars3BottomLeftIcon,
-  UserGroupIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import {
   HouseSimple,
   Cube,
-  RowsPlusBottom,
-  CalendarDots,
-  CloudArrowUp,
   ArrowsIn,
   ShoppingCart,
   Tag,
-  Ruler,
-  CardsThree,
+  ChartLineUp,
+  Invoice,
 } from '@phosphor-icons/react';
 import { classNames } from 'lib/utils';
 import { usePathname } from 'next/navigation';
@@ -389,49 +380,12 @@ function primaryMenu(): NavigationItem[] {
     {
       name: 'BOM',
       href: '/dashboard/bom',
-      icon: Ruler,
-      navigation: [
-        {
-          name: 'Create BOM',
-          href: '/dashboard/bom/create',
-          initial: <p>B</p>,
-        },
-      ],
+      icon: Invoice,
     },
     {
-      name: 'Clusters',
-      href: '/dashboard/clusters',
-      icon: CardsThree,
-    },
-    {
-      name: 'Teams',
-      href: '/dashboard/teams',
-      icon: UserGroupIcon,
-    },
-    {
-      name: 'List Groups',
-      href: '/dashboard/groups',
-      icon: RowsPlusBottom,
-    },
-    {
-      name: 'Lists',
-      href: '/dashboard/lists',
-      icon: Bars3BottomLeftIcon,
-    },
-    {
-      name: 'Maintenance',
-      href: '/dashboard/maintenance',
-      icon: CalendarDots,
-    },
-    {
-      name: 'Documents',
-      href: '/dashboard/documents',
-      icon: CloudArrowUp,
-    },
-    {
-      name: 'Reports',
-      href: 'dashboard/reports',
-      icon: ChartPieIcon,
+      name: 'Analytics',
+      href: '/dashboard/analytics',
+      icon: ChartLineUp,
     },
   ];
 
@@ -450,6 +404,12 @@ function secondaryMenu() {
       name: 'Integrations',
       href: '/dashboard/integrations',
       initial: 'I',
+      current: false,
+    },
+    {
+      name: 'Teams',
+      href: '/dashboard/teams',
+      initial: 'T',
       current: false,
     },
     {
