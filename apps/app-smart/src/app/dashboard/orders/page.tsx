@@ -66,7 +66,9 @@ const dummy = [
 export default function Page() {
   const params = useSearchParams();
   const [state, setState] = useState<ComponentState>({});
-  const { data, mutate } = useGetOrders({});
+  const { data, mutate } = useGetOrders({
+    type: params.get('type') as 'etsy' | 'shopify' | 'woocommerce' | 'manual',
+  });
   const csvRef = useRef<HTMLInputElement>(null);
 
   async function csvUpload() {

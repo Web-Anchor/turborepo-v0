@@ -17,6 +17,7 @@ const getHandler = async ({
     variables: {
       where: {
         users: { some: { id: { equals: context?.user?.id } } }, // User ID owning items
+        source: { equals: params.get('type') || undefined },
       },
       take: params.get('take') || undefined, // take: number of items to fetch per page
       skip: params.get('skip') || undefined, // skip: 0,
