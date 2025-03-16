@@ -4,7 +4,7 @@ import { statuses } from './cards/ActivityCard';
 type ComponentTypes = {
   title?: string | React.ReactNode;
   className?: string;
-  status?: keyof typeof statuses;
+  status?: string;
 };
 
 export function Badge({ status = 'Inactive', ...props }: ComponentTypes) {
@@ -16,7 +16,7 @@ export function Badge({ status = 'Inactive', ...props }: ComponentTypes) {
     <span
       className={classNames(
         'h-fit inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600',
-        statuses[status],
+        statuses[status as keyof typeof statuses],
         props.className
       )}
     >

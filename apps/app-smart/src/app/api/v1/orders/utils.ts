@@ -28,9 +28,17 @@ export const QUERY = `
   }
 `;
 
-export const MUTATION = `
+export const MUTATION_CREATE = `
   mutation CreateOrder($data: OrderCreateInput!) {
     createOrder(data: $data) {
+      id
+    }
+  }
+`;
+
+export const MUTATION_UPDATE = `
+  mutation UpdateOrder($where: OrderWhereUniqueInput!, $data: OrderUpdateInput!) {
+    updateOrder(where: $where, data: $data) {
       id
     }
   }

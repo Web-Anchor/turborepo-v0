@@ -27,10 +27,10 @@ export function useGetOrders(props: HookTypes) {
 }
 
 export function useGetOrder(props: HookTypes) {
-  const url = `/api/v1/orders/list?id=${props.id}`;
+  const url = `/api/v1/orders/${props.id}`;
   const { data, isLoading, error, isValidating } = useSWRWrapper({
     url,
-    data: { ...props },
+    options: { method: 'GET' },
   });
 
   return {

@@ -199,7 +199,7 @@ export default function Page() {
             platformOrderLink: `https://${order.source}.com/orders/${order.orderNumber}`,
             customerName: order?.users?.[0]?.firstName,
             orderDate: dateToFormattedString(order?.createdAt),
-            // status: order.status ,
+            status: order.status,
             currency: order?.currency,
             price: order?.price,
             itemCount: order?.quantity,

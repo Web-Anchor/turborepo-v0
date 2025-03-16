@@ -4,7 +4,7 @@ import {
   sessionAuth,
 } from 'lib/middleware';
 import axios from 'lib/axios';
-import { QUERY, MUTATION } from './utils';
+import { QUERY, MUTATION_CREATE, MUTATION_UPDATE } from './utils';
 
 const getHandler = async ({
   req,
@@ -37,7 +37,7 @@ const postHandler = async ({
   const body = await req.json();
 
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
-    query: MUTATION,
+    query: MUTATION_CREATE,
     variables: {
       data: {
         ...body,
@@ -50,3 +50,20 @@ const postHandler = async ({
 };
 
 export const POST = composeMiddleware([sessionAuth, postHandler]);
+
+const putHandler = async ({ req }: MiddlewareTypes): Promise<Response> => {
+  const { id, ...body } = await req.json();
+  console.log('✅ body', body);
+
+  const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
+    query: MUTATION_UPDATE,
+    variables: {
+      where: { id },
+      data: body,
+    },
+  });
+
+  return Response.json({ data: data?.data?.updateProduct });
+};
+
+export const PUT = composeMiddleware([sessionAuth, putHandler]);

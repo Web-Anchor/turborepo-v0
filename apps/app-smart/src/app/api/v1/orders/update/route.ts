@@ -26,4 +26,4 @@ const handler = async ({ req }: MiddlewareTypes): Promise<Response> => {
   return Response.json({ data: data?.data?.updateProduct });
 };
 
-export const POST = composeMiddleware([sessionAuth, handler]);
+export const PUT = composeMiddleware([sessionAuth, handler]);

@@ -29,7 +29,7 @@ export type OrderItemProps = {
    * Order status text, e.g. "shipped", "processing", "delivered", etc.
    * Adjust styling as needed to match your color system.
    */
-  status?: keyof typeof statuses;
+  status?: string;
   /** The total price (numeric or string) */
   price?: number | string;
   /** Currency symbol or code to prepend, e.g. "$" or "USD" */

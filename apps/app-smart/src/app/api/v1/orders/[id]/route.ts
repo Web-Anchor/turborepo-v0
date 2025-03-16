@@ -10,7 +10,8 @@ const handler = async ({
   req,
   context,
 }: MiddlewareTypes): Promise<Response> => {
-  const { id } = await req.json();
+  const id = req.url.split('/').pop();
+
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: QUERY,
     variables: {
@@ -33,7 +34,7 @@ const handler = async ({
     },
   });
 
-  return Response.json({ data: data?.data?.inventories?.[0] });
+  return Response.json({ data: data?.data?.orders?.[0] });
 };
 
-export const POST = composeMiddleware([sessionAuth, handler]);
+export const GET = composeMiddleware([sessionAuth, handler]);
