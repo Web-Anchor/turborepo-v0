@@ -1,6 +1,6 @@
 export const QUERY = `
-  query Orders($take: Int, $skip: Int, $orderBy: [OrderOrderByInput!]) {
-    orders(take: $take, skip: $skip, orderBy: $orderBy) {
+  query Orders($take: Int, $skip: Int, $orderBy: [OrderOrderByInput!], $where: OrderWhereInput) {
+    orders(take: $take, skip: $skip, orderBy: $orderBy, where: $where) {
       id
       orderNumber
       status
