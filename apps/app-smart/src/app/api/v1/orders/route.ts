@@ -53,7 +53,6 @@ export const POST = composeMiddleware([sessionAuth, postHandler]);
 
 const putHandler = async ({ req }: MiddlewareTypes): Promise<Response> => {
   const { id, ...body } = await req.json();
-  console.log('✅ body', body);
 
   const { data } = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
     query: MUTATION_UPDATE,

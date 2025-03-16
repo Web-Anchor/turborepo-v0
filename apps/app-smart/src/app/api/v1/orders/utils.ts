@@ -43,3 +43,11 @@ export const MUTATION_UPDATE = `
     }
   }
 `;
+
+export const MUTATION_DELETE = `
+  mutation DeleteOrder($where: OrderWhereUniqueInput!) {
+    deleteOrder(where: $where) {
+      id
+    }
+  }
+`;

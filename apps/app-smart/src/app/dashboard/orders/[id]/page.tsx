@@ -4,9 +4,9 @@ import Link from 'components/Wrappers/Link';
 import { Button } from '@repo/ui/buttons';
 import { toast } from 'sonner';
 import axios from 'lib/axios';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { FormWrapper, SelectInput, TextInput } from '@repo/ui/forms';
-import { useGetOrder } from 'hooks/orders';
+import { useGetOrder, useGetOrders } from 'hooks/orders';
 import { orderStatusOptions } from 'lib/list-options';
 import { objKeysToNumber } from 'lib/utils';
 import { PageWrapper } from '@repo/ui/semantic';
@@ -21,10 +21,18 @@ type ComponentState = {
 
 export default function Page() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const params = useParams<{ id: string }>();
   const [state, setState] = useState<ComponentState>({});
-  const { data, mutate } = useGetOrder({
+  const { data } = useGetOrder({
     id: params?.id,
+  });
+  const { mutate } = useGetOrders({
+    type: searchParams.get('type') as
+      | 'etsy'
+      | 'shopify'
+      | 'woocommerce'
+      | 'manual',
   });
   console.log(data);
 
@@ -54,8 +62,9 @@ export default function Page() {
         throw new Error('Order ID is required');
       }
       setState((s) => ({ ...s, fetching: true }));
-      await axios.delete(`/api/v1/orders?id=${data?.id}`);
+      await axios.delete(`/api/v1/orders/${data?.id}`);
       toast.success('You have successfully deleted the list.');
+      mutate();
       router.back();
     } catch (error) {
       toast.error(
@@ -81,7 +90,7 @@ export default function Page() {
             href: '/dashboard/inventory',
           },
           {
-            name: data?.id || 'Inventory Item',
+            name: data?.id || 'Order',
             active: true,
             href: `/dashboard/inventory/${params?.id}`,
           },
@@ -140,7 +149,7 @@ export default function Page() {
                 variant="link"
                 className="text-sm/6 font-semibold text-white"
                 LinkComponent={Link}
-                href="/dashboard/lists"
+                href="/dashboard/orders"
               >
                 Cancel
               </Button>
