@@ -61,7 +61,7 @@ type BaseCardProps = {
 };
 
 // Status styles (same as original)
-const statuses = {
+export const statuses = {
   Paid: 'text-green-700 bg-green-50 ring-green-600/20',
   Withdraw: 'text-gray-600 bg-gray-50 ring-gray-500/10',
   Overdue: 'text-red-700 bg-red-50 ring-red-600/10',
@@ -77,6 +77,7 @@ const statuses = {
   Delivered: 'text-green-700 bg-green-50 ring-green-600/20',
   Returned: 'text-red-700 bg-red-50 ring-red-600/10',
   LowStock: 'text-red-700 bg-red-50 ring-red-600/10',
+  Cancelled: 'text-red-700 bg-red-50 ring-red-600/10',
 };
 
 const icon = {
@@ -99,7 +100,7 @@ const cardIcons = {
 };
 
 // Base card component for both activity and updates
-function BaseCard({
+export function BaseCard({
   title,
   icon,
   children,

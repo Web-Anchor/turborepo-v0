@@ -1,10 +1,8 @@
 'use client';
 
-import { ActivityCard } from '@repo/ui/cards/ActivityCard';
-import { ListPlus } from '@phosphor-icons/react';
 import { classNames, dateToFormattedString } from '@repo/ui/utils.ts';
 import { Link } from 'components/Wrappers/Link';
-import { Header } from '@repo/ui/headings/header';
+import { OrderTable } from '@repo/ui/tables/OrderTable';
 import { PageWrapper } from '@repo/ui/semantic';
 import { HeaderTabs } from '@repo/ui/headings/headings';
 import { useSearchParams } from 'next/navigation';
@@ -15,6 +13,7 @@ import { toast } from 'sonner';
 import { Drawer } from '@repo/ui/drawers/drawer';
 import { CreateForm } from './CreateForm';
 import { useGetOrders } from 'hooks/orders';
+import { Header } from '@repo/ui/headings/header';
 
 type ComponentState = {
   drawer?: boolean;
@@ -145,17 +144,66 @@ export default function Page() {
       {/* hidden input for csv from uploads */}
       <input type="file" className="hidden" ref={csvRef} onChange={csvUpload} />
 
-      <ActivityCard
-        activities={data?.map((item) => ({
-          message: `${item.quantity} ${(item.quantity ?? 0) > 1 ? 'items' : 'item'} ordered`,
-          description: `Order ID: ${item.id}`,
-          updatedAt: dateToFormattedString(item.updatedAt),
-          type: 'Products',
-          status: 'Pending',
-        }))}
-        title="Recent Orders"
-        icon={<ListPlus className="text-indigo-500" size={24} />}
-        LinkComponent={Link}
+      <OrderTable
+        orders={[
+          {
+            name: 'Candle Large',
+            orderId: '12345678',
+            platform: 'Etsy',
+            platformOrderId: '12345678',
+            platformOrderLink: 'https://etsy.com/orders/12345678',
+            customerName: 'Jane Doe',
+            orderDate: dateToFormattedString(new Date().toISOString()),
+            status: 'Pending',
+            currency: '$',
+            price: 123.45,
+            itemCount: 3,
+            actions: (
+              <Button
+                variant="link"
+                LinkComponent={Link}
+                href="/dashboard/orders/12345678"
+              >
+                View
+              </Button>
+            ),
+          },
+          {
+            name: 'Candle Small',
+            orderId: '12345679',
+            platform: 'Shopify',
+            platformOrderId: '12345679',
+            platformOrderLink: 'https://shopify.com/orders/12345679',
+            customerName: 'John Doe',
+            orderDate: dateToFormattedString(new Date().toISOString()),
+            status: 'Shipped',
+            currency: '$',
+            price: 234.56,
+            itemCount: 2,
+            actions: (
+              <Button
+                variant="link"
+                LinkComponent={Link}
+                href="/dashboard/orders/12345679"
+              >
+                View
+              </Button>
+            ),
+          },
+          {
+            name: 'Candle Medium',
+            orderId: '12345680',
+            platform: 'WooCommerce',
+            platformOrderId: '12345680',
+            platformOrderLink: 'https://woocommerce.com/orders/12345680',
+            customerName: 'Emily Johnson',
+            orderDate: dateToFormattedString(new Date().toISOString()),
+            status: 'Cancelled',
+            currency: '$',
+            price: 345.67,
+            itemCount: 1,
+          },
+        ]}
       />
 
       <Header
