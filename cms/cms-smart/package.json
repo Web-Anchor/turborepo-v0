@@ -9,7 +9,8 @@
     "db:reset": "npx prisma db push --force-reset",
     "db:migrate": "keystone prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
-    "start": "keystone start --with-migrations",
+    "start": "keystone start",
+    "start:new": "keystone start --with-migrations",
     "lint": "eslint . --ext .ts,.tsx",
     "check-types": "tsc --noEmit"
   },
