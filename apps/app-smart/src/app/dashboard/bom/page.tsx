@@ -5,7 +5,7 @@ import { Button } from '@repo/ui/buttons';
 import { CollectionCard } from '@repo/ui/cards/CollectionCard';
 import Link from 'components/Wrappers/Link';
 import { Header } from '@repo/ui/headings/header';
-import { classNames } from '@repo/ui/utils.ts';
+import { classNames } from 'lib/utils';
 import { CaretRight, Ruler } from '@phosphor-icons/react';
 
 export default function Page() {

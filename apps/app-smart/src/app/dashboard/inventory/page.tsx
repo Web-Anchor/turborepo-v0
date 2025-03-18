@@ -6,7 +6,7 @@ import { Button } from '@repo/ui/buttons';
 import { Drawer } from '@repo/ui/drawers/drawer';
 import { GenericTable } from '@repo/ui/tables/GenericTable';
 import Link from 'components/Wrappers/Link';
-import { classNames, dateToFormattedString } from '@repo/ui/utils.ts';
+import { classNames, dateToFormattedString } from 'lib/utils';
 import { CaretRight, CubeTransparent } from '@phosphor-icons/react';
 import { PageWrapper } from '@repo/ui/semantic';
 import { HeaderTabs } from '@repo/ui/headings/headings';

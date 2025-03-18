@@ -25,7 +25,7 @@ import Link from 'components/Wrappers/Link';
 import { ClerkUser } from 'types/data-types';
 import { useWhoIAm } from 'hooks/users';
 import MemoWrapper from 'components/Wrappers/MemoWrapper';
-import { mergeIf } from '@repo/ui/utils.ts';
+import { mergeIf } from 'lib/utils';
 
 export const metadata: Metadata = {
   title: 'Dashboard 📦',

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import Sidebar from './sidebar';
 
 export const metadata: Metadata = {
@@ -10,5 +11,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <Sidebar>{children}</Sidebar>;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Sidebar>{children}</Sidebar>
+    </Suspense>
+  );
 }

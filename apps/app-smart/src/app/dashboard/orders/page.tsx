@@ -1,6 +1,6 @@
 'use client';
 
-import { classNames, dateToFormattedString } from '@repo/ui/utils.ts';
+import { classNames, dateToFormattedString } from 'lib/utils';
 import { Link } from 'components/Wrappers/Link';
 import { OrderTable } from '@repo/ui/tables/OrderTable';
 import { PageWrapper } from '@repo/ui/semantic';

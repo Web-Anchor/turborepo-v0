@@ -10,7 +10,7 @@ import { downloadCSV } from 'lib/utils';
 import { Product } from 'types/data-types';
 import { ActivityCard } from '@repo/ui/cards/ActivityCard';
 import { Warning } from '@phosphor-icons/react';
-import { classNames, dateToFormattedString } from '@repo/ui/utils.ts';
+import { classNames, dateToFormattedString } from 'lib/utils';
 import { PageWrapper } from '@repo/ui/semantic';
 import { HeaderTabs } from '@repo/ui/headings/headings';
 import { usePathname } from 'next/navigation';
