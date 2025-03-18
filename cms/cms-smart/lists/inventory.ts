@@ -23,8 +23,8 @@ export const Inventory: any = list({
   access: allowAll,
 
   ui: {
-    labelField: 'batchNumber',
-    searchFields: ['batchNumber', 'product.name', 'location'],
+    labelField: 'name',
+    searchFields: ['name'],
   },
 
   fields: {
