@@ -1,4 +1,4 @@
-import { classNames } from '../../dist/utils';
+import { classNames } from '../../lib/utils';
 import { Dialog, DialogPanel } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 

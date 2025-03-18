@@ -1,4 +1,4 @@
-import { classNames, mergeIf } from '../dist/utils';
+import { classNames, mergeIf } from '../lib/utils';
 
 type ButtonProps = {
   variant?: 'primary' | 'secondary' | 'danger' | 'link';

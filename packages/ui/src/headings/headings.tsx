@@ -1,4 +1,4 @@
-import { classNames } from '../../dist/utils';
+import { classNames } from '../../lib/utils';
 import { ChevronDownIcon } from '@heroicons/react/16/solid';
 
 export interface Heading {

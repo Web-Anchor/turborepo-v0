@@ -1,6 +1,6 @@
 'use client';
 
-import { classNames, mergeIf } from '../dist/utils';
+import { classNames, mergeIf } from '../lib/utils';
 import { useState } from 'react';
 import {
   Label,

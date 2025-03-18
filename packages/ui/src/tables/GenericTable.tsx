@@ -1,4 +1,4 @@
-import { classNames } from '../../dist/utils';
+import { classNames } from '../../lib/utils';
 
 export interface TableHeader {
   /** Unique key corresponding to a field in the data row */

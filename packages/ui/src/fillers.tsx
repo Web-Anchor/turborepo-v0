@@ -1,4 +1,4 @@
-import { classNames } from '../dist/utils';
+import { classNames } from '../lib/utils';
 
 type ComponentTypes = {
   className?: string;

@@ -1,4 +1,4 @@
-import { classNames, dateToFormattedString } from '../../dist/utils';
+import { classNames, dateToFormattedString } from '../../lib/utils';
 import {
   User,
   Package,

@@ -1,4 +1,4 @@
-import { classNames } from '../dist/utils';
+import { classNames } from '../lib/utils';
 import { statuses } from './cards/ActivityCard';
 
 type ComponentTypes = {

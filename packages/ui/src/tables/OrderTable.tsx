@@ -1,5 +1,5 @@
 import React from 'react';
-import { classNames, dateToFormattedString } from '../../dist/utils';
+import { classNames, dateToFormattedString } from '../../lib/utils';
 import { BaseCard, statuses } from '../cards/ActivityCard';
 import { BoxArrowDown, ShoppingCart } from '@phosphor-icons/react';
 import { Badge } from '../badges';
