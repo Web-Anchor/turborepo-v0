@@ -3,15 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev --turbopack --port=4321",
+    "lint": "next lint",
+    "keystone:dev": "keystone dev",
+    "keystone:build": "keystone build",
+    "keystone:start": "keystone start",
+    "next:dev": "next dev -p 4321",
+    "next:build": "next build",
+    "build": "pnpm keystone build --no-ui && pnpm next build",
+    "postinstall": "keystone postinstall",
+    "start": "next start"
   },
   "dependencies": {
+    "@keystone-6/core": "^6.4.0",
+    "graphql-yoga": "^5.13.2",
+    "next": "15.2.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.2.3"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "typescript": "^5",
