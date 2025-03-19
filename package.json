@@ -9,7 +9,7 @@
     "dev:docs": "turbo run dev --filter=docs",
     "dev:web": "turbo run dev --filter=web",
     "dev:app": "turbo run dev --filter=app-smart -- --port=8080",
-    "dev:cms": "turbo run dev --filter=cms-smart -- --port=4321 --no-cache",
+    "dev:cms": "turbo run dev --filter=smart-cms --no-cache",
     "dev:smart": "turbo run dev --filter=app-smart --filter=cms-smart",
     "render:build:cms": "cd cms/cms-smart && bun run build",
     "render:start:cms": "cd cms/cms-smart && bun run start",
