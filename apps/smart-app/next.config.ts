@@ -3,7 +3,17 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ['picsum.photos', 'img.clerk.com', 'tailwindcss.com'],
+    remotePatterns: [
+      {
+        hostname: 'picsum.photos',
+      },
+      {
+        hostname: 'img.clerk.com',
+      },
+      {
+        hostname: 'tailwindcss.com',
+      },
+    ],
   },
 };
 
