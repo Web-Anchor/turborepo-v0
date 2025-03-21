@@ -24,29 +24,41 @@ __export(keystone_exports, {
 });
 module.exports = __toCommonJS(keystone_exports);
 var import_core2 = require("@keystone-6/core");
+var import_session = require("@keystone-6/core/session");
+var import_auth = require("@keystone-6/auth");
 
 // src/keystone/schema.ts
 var import_core = require("@keystone-6/core");
 var import_access = require("@keystone-6/core/access");
 var import_fields = require("@keystone-6/core/fields");
-var import_fields_document = require("@keystone-6/fields-document");
 var lists = {
   User: (0, import_core.list)({
-    // WARNING
-    //   for this example, anyone can create, query, update and delete anything
-    //   if you want to prevent random people on the internet from accessing your data,
-    //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
     access: import_access.allowAll,
     fields: {
       name: (0, import_fields.text)({ validation: { isRequired: true } }),
-      about: (0, import_fields_document.document)({
-        formatting: true,
-        dividers: true,
-        links: true,
-        layouts: [
-          [1, 1],
-          [1, 1, 1]
-        ]
+      email: (0, import_fields.text)({
+        validation: { isRequired: true },
+        isIndexed: "unique"
+      }),
+      password: (0, import_fields.password)({ validation: { isRequired: true } }),
+      posts: (0, import_fields.relationship)({ ref: "Post.author", many: true }),
+      createdAt: (0, import_fields.timestamp)({
+        defaultValue: { kind: "now" }
+      })
+    }
+  }),
+  Post: (0, import_core.list)({
+    access: import_access.allowAll,
+    fields: {
+      title: (0, import_fields.text)({ validation: { isRequired: true } }),
+      content: (0, import_fields.text)({
+        ui: {
+          displayMode: "textarea"
+        }
+      }),
+      author: (0, import_fields.relationship)({
+        ref: "User.posts",
+        many: false
       }),
       createdAt: (0, import_fields.timestamp)({
         defaultValue: { kind: "now" }
@@ -55,34 +67,44 @@ var lists = {
   })
 };
 
-// src/keystone/seed.ts
-async function seedDemoData(context) {
-  if (await context.db.User.count() > 0) return;
-  for (const user of [
-    {
-      name: "Clark"
-    },
-    {
-      name: "Bruce"
-    },
-    {
-      name: "Diana"
-    }
-  ]) {
-    await context.db.User.createOne({ data: user });
-  }
-}
-
 // keystone.ts
-var keystone_default = (0, import_core2.config)({
-  db: {
-    provider: "sqlite",
-    url: `file:${process.cwd()}/keystone.db`,
-    // next.js requires an absolute path for sqlite
-    onConnect: async (context) => {
-      await seedDemoData(context);
-    }
-  },
-  lists
+var { withAuth } = (0, import_auth.createAuth)({
+  listKey: "User",
+  identityField: "email",
+  secretField: "password",
+  sessionData: "id name",
+  initFirstItem: {
+    fields: ["name", "email", "password"]
+  }
 });
+var sessionSecret = process.env.SESSION_SECRET || Math.pow(32, 2).toString(36).substring(2, 34);
+var session = (0, import_session.statelessSessions)({
+  secret: sessionSecret,
+  maxAge: 60 * 60 * 24 * 30
+  // 30 days
+});
+var keystone_default = withAuth(
+  (0, import_core2.config)({
+    db: {
+      provider: "sqlite",
+      url: `file:${process.cwd()}/keystone.db`
+    },
+    lists,
+    session,
+    // Optional: Set to false to disable Admin UI
+    ui: {
+      // basePath: '/admin',
+      isDisabled: true
+      // Disable Admin UI. Next JS do not support it
+    },
+    // Server configuration
+    server: {
+      cors: {
+        origin: ["http://localhost:3000"],
+        credentials: true
+      },
+      port: 3001
+    }
+  })
+);
 //# sourceMappingURL=config.js.map
