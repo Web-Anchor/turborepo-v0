@@ -2,6 +2,7 @@ import { config } from '@keystone-6/core';
 import { statelessSessions } from '@keystone-6/core/session';
 import { createAuth } from '@keystone-6/auth';
 import { lists } from './src/keystone/schema';
+import { DatabaseProvider } from '@keystone-6/core/types';
 
 // Authentication configuration
 const { withAuth } = createAuth({
@@ -28,13 +29,13 @@ const session = statelessSessions({
 export default withAuth(
   config({
     db: {
-      provider: 'sqlite',
-      url: `file:${process.cwd()}/keystone.db`,
+      provider: (process.env.DATABASE_PROVIDER || 'sqlite') as DatabaseProvider, // or 'postgresql' or 'mysql'
+      url: process.env.DATABASE_URL || `file:${process.cwd()}/keystone.db`,
     },
     lists,
     session,
-    // Optional: Set to false to disable Admin UI
     ui: {
+      // Optional: Set to false to disable Admin UI
       // basePath: '/admin',
       isDisabled: true, // Disable Admin UI. Next JS do not support it
     },
@@ -44,7 +45,21 @@ export default withAuth(
         origin: ['http://localhost:3000'],
         credentials: true,
       },
-      port: 3001,
+      port: getPrtNumber(),
     },
   })
 );
+
+function getPrtNumber(): number {
+  /**
+   * @description Get the port number from the environment variable or return 3001 if not set
+   * @returns {number} The port number
+   * @date 2025-03-22
+   * @author Ed Ancerys
+   */
+  const port = process.env.PORT;
+  if (Number.isNaN(Number(port))) {
+    return 3001;
+  }
+  return Number(port);
+}

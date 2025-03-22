@@ -86,13 +86,14 @@ var session = (0, import_session.statelessSessions)({
 var keystone_default = withAuth(
   (0, import_core2.config)({
     db: {
-      provider: "sqlite",
-      url: `file:${process.cwd()}/keystone.db`
+      provider: process.env.DATABASE_PROVIDER || "sqlite",
+      // or 'postgresql' or 'mysql'
+      url: process.env.DATABASE_URL || `file:${process.cwd()}/keystone.db`
     },
     lists,
     session,
-    // Optional: Set to false to disable Admin UI
     ui: {
+      // Optional: Set to false to disable Admin UI
       // basePath: '/admin',
       isDisabled: true
       // Disable Admin UI. Next JS do not support it
@@ -103,8 +104,15 @@ var keystone_default = withAuth(
         origin: ["http://localhost:3000"],
         credentials: true
       },
-      port: 3001
+      port: getPrtNumber()
     }
   })
 );
+function getPrtNumber() {
+  const port = process.env.PORT;
+  if (Number.isNaN(Number(port))) {
+    return 3001;
+  }
+  return Number(port);
+}
 //# sourceMappingURL=config.js.map
